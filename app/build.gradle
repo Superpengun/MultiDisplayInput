@@ -33,7 +33,7 @@ android {
 }
 
 preBuild {
-
+    //此处配置目的是让编译时先解析含隐藏api的jar
     doLast {
         def imlFile = file( "../.idea/modules/app/"+getRootProject().name + ".app.iml")
         println 'Change ' +"../.idea/modules/app/"+ getRootProject().name + '.app.iml order'
