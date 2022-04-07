@@ -20,15 +20,15 @@ allprojects {
         mavenCentral()
     }
 
-//    gradle.projectsEvaluated {
-//        tasks.withType(JavaCompile) {
-//            Set<File> fileSet = options.bootstrapClasspath.getFiles()
-//            List<File> newFileList = new ArrayList<>();
-//            newFileList.add(new File('./app/libs/ZQYAndroidClass.jar'))
-//            newFileList.addAll(fileSet)
-//            options.bootstrapClasspath = files(newFileList.toArray())
-//        }
-//    }
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            Set<File> fileSet = options.bootstrapClasspath.getFiles()
+            List<File> newFileList = new ArrayList<>();
+            newFileList.add(new File('./app/libs/ZQYAndroidClass.jar'))
+            newFileList.addAll(fileSet)
+            options.bootstrapClasspath = files(newFileList.toArray())
+        }
+    }
 }
 
 task clean(type: Delete) {

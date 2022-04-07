@@ -4,12 +4,28 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file("demo.jks")
+            storePassword '123456'
+            keyAlias 'demo'
+            keyPassword '123456'
+        }
+
+        debug {
+            storeFile file("demo.jks")
+            storePassword '123456'
+            keyAlias 'demo'
+            keyPassword '123456'
+        }
+    }
+
     compileSdkVersion 31
 
     defaultConfig {
         applicationId "com.zqy.multidisplayinput"
-        minSdk 29
-        targetSdk 30
+        minSdk 31
+        targetSdk 31
         versionCode 1
         versionName "1.0"
 
@@ -17,9 +33,15 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
