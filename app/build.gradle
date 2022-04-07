@@ -32,23 +32,37 @@ android {
     buildToolsVersion '29.0.3'
 }
 
-preBuild {
-    //此处配置目的是让编译时先解析含隐藏api的jar
-    doLast {
-        def imlFile = file( "../.idea/modules/app/"+getRootProject().name + ".app.iml")
-        println 'Change ' +"../.idea/modules/app/"+ getRootProject().name + '.app.iml order'
-        try {
-            def parsedXml = (new XmlParser()).parse(imlFile)
-            def jdkNode = parsedXml.component[1].orderEntry.find { it.'@type' == 'jdk' }
-            parsedXml.component[1].remove(jdkNode)
-            def sdkString = "Android API " + android.compileSdkVersion + " Platform"
-            println 'what' + sdkString
-            new Node(parsedXml.component[1], 'orderEntry', ['type': 'jdk', 'jdkName': sdkString, 'jdkType': 'Android SDK'])
-            groovy.xml.XmlUtil.serialize(parsedXml, new FileOutputStream(imlFile))
-        } catch (FileNotFoundException e) {
-            // nop, iml not found
-            println "no iml found"
-        }
+//preBuild {
+//    //此处配置目的是让编译时先解析含隐藏api的jar
+//    doLast {
+//        def imlFile = file( "../.idea/modules/app/"+getRootProject().name + ".app.iml")
+//        println 'Change ' +"../.idea/modules/app/"+ getRootProject().name + '.app.iml order'
+//        try {
+//            def parsedXml = (new XmlParser()).parse(imlFile)
+//            def jdkNode = parsedXml.component[1].orderEntry.find { it.'@type' == 'jdk' }
+//            parsedXml.component[1].remove(jdkNode)
+//            def sdkString = "Android API " + android.compileSdkVersion + " Platform"
+//            println 'what' + sdkString
+//            new Node(parsedXml.component[1], 'orderEntry', ['type': 'jdk', 'jdkName': sdkString, 'jdkType': 'Android SDK'])
+//            groovy.xml.XmlUtil.serialize(parsedXml, new FileOutputStream(imlFile))
+//        } catch (FileNotFoundException e) {
+//            // nop, iml not found
+//            println "no iml found"
+//        }
+//    }
+//}
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        Set<File> fileSet = options.bootstrapClasspath.getFiles()
+        List<File> newFileList = new ArrayList<>();
+        //JAVA语法，可连续调用，输入参数建议为相对路径
+        newFileList.add(new File("libs/ZQYAndroidClass.jar"))
+        //最后将原始参数添加
+        newFileList.addAll(fileSet)
+        options.bootstrapClasspath = files(
+                newFileList.toArray()
+        )
     }
 }
 
