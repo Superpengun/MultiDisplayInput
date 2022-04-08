@@ -13,44 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.zqy.multidisplayinput
 
-package com.zqy.multidisplayinput;
-
-import android.inputmethodservice.KeyboardView;
+import android.inputmethodservice.KeyboardView
+import com.zqy.multidisplayinput.MultiClientInputMethod
+import android.inputmethodservice.MultiClientInputMethodServiceDelegate
+import com.zqy.multidisplayinput.SoftInputWindowManager
+import android.inputmethodservice.MultiClientInputMethodServiceDelegate.ClientCallback
+import com.zqy.multidisplayinput.ClientCallbackImpl
+import com.android.internal.inputmethod.StartInputFlags
+import com.zqy.multidisplayinput.NoopKeyboardActionListener
 
 /**
- * Provides the no-op implementation of {@link KeyboardView.OnKeyboardActionListener}
+ * Provides the no-op implementation of [KeyboardView.OnKeyboardActionListener]
  */
-class NoopKeyboardActionListener implements KeyboardView.OnKeyboardActionListener {
-    @Override
-    public void onPress(int primaryCode) {
-    }
-
-    @Override
-    public void onRelease(int primaryCode) {
-    }
-
-    @Override
-    public void onKey(int primaryCode, int[] keyCodes) {
-    }
-
-    @Override
-    public void onText(CharSequence text) {
-    }
-
-    @Override
-    public void swipeLeft() {
-    }
-
-    @Override
-    public void swipeRight() {
-    }
-
-    @Override
-    public void swipeDown() {
-    }
-
-    @Override
-    public void swipeUp() {
-    }
+internal open class NoopKeyboardActionListener : KeyboardView.OnKeyboardActionListener {
+    override fun onPress(primaryCode: Int) {}
+    override fun onRelease(primaryCode: Int) {}
+    override fun onKey(primaryCode: Int, keyCodes: IntArray) {}
+    override fun onText(text: CharSequence) {}
+    override fun swipeLeft() {}
+    override fun swipeRight() {}
+    override fun swipeDown() {}
+    override fun swipeUp() {}
 }

@@ -13,158 +13,153 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.zqy.multidisplayinput
 
-package com.zqy.multidisplayinput;
-
-import android.annotation.NonNull;
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
-import android.hardware.display.DisplayManager;
-import android.hardware.display.DisplayManager.DisplayListener;
-import android.inputmethodservice.MultiClientInputMethodServiceDelegate;
-import android.os.IBinder;
-import android.util.Log;
-import android.util.SparseIntArray;
-import android.view.Display;
+import android.app.Service
+import android.content.Intent
+import android.hardware.display.DisplayManager
+import android.inputmethodservice.MultiClientInputMethodServiceDelegate
+import android.inputmethodservice.MultiClientInputMethodServiceDelegate.ServiceCallback
+import android.os.IBinder
+import android.util.Log
+import android.util.SparseIntArray
+import android.view.Display
 
 /**
- * A {@link Service} that implements multi-client IME protocol.
+ * A [Service] that implements multi-client IME protocol.
  */
-public final class MultiClientInputMethod extends Service implements DisplayListener {
-    private static final String TAG = "MultiClientInputMethod";
-    private static final boolean DEBUG = false;
-
+class MultiClientInputMethod : Service(), DisplayManager.DisplayListener {
     // last client that had active InputConnection for a given displayId.
-    final SparseIntArray mDisplayToLastClientId = new SparseIntArray();
+    @JvmField
+    val mDisplayToLastClientId = SparseIntArray()
+
     // Mapping table from the display where IME is attached to the display where IME window will be
     // shown.  Assumes that missing display will use the same display for the IME window.
-    SparseIntArray mInputDisplayToImeDisplay;
-    SoftInputWindowManager mSoftInputWindowManager;
-    MultiClientInputMethodServiceDelegate mDelegate;
-
-    private DisplayManager mDisplayManager;
-
-    @Override
-    public void onCreate() {
+    var mInputDisplayToImeDisplay: SparseIntArray? = null
+    internal lateinit var mSoftInputWindowManager: SoftInputWindowManager
+    lateinit var mDelegate: MultiClientInputMethodServiceDelegate
+    private lateinit var mDisplayManager: DisplayManager
+    override fun onCreate() {
         if (DEBUG) {
-            Log.v(TAG, "onCreate");
+            Log.v(TAG, "onCreate")
         }
-        mInputDisplayToImeDisplay = buildInputDisplayToImeDisplay();
+        mInputDisplayToImeDisplay = buildInputDisplayToImeDisplay()
         mDelegate = MultiClientInputMethodServiceDelegate.create(this,
-                new MultiClientInputMethodServiceDelegate.ServiceCallback() {
-                    @Override
-                    public void initialized() {
-                        if (DEBUG) {
-                            Log.i(TAG, "initialized");
-                        }
+            object : ServiceCallback {
+                override fun initialized() {
+                    if (DEBUG) {
+                        Log.i(TAG, "initialized")
                     }
+                }
 
-                    @Override
-                    public void addClient(int clientId, int uid, int pid,
-                            int selfReportedDisplayId) {
-                        int imeDisplayId = mInputDisplayToImeDisplay.get(selfReportedDisplayId,
-                                selfReportedDisplayId);
-                        final ClientCallbackImpl callback = new ClientCallbackImpl(
-                                MultiClientInputMethod.this, mDelegate,
-                                mSoftInputWindowManager, clientId, uid, pid, imeDisplayId);
-                        if (DEBUG) {
-                            Log.v(TAG, "addClient clientId=" + clientId + " uid=" + uid
+                override fun addClient(
+                    clientId: Int, uid: Int, pid: Int,
+                    selfReportedDisplayId: Int
+                ) {
+                    val imeDisplayId =
+                        mInputDisplayToImeDisplay!![selfReportedDisplayId, selfReportedDisplayId]
+                    val callback = ClientCallbackImpl(
+                        this@MultiClientInputMethod, mDelegate,
+                        mSoftInputWindowManager, clientId, uid, pid, imeDisplayId
+                    )
+                    if (DEBUG) {
+                        Log.v(
+                            TAG, "addClient clientId=" + clientId + " uid=" + uid
                                     + " pid=" + pid + " displayId=" + selfReportedDisplayId
-                                    + " imeDisplayId=" + imeDisplayId);
-                        }
-
-                        mDelegate.acceptClient(clientId, callback, callback.getDispatcherState(),
-                                callback.getLooper());
+                                    + " imeDisplayId=" + imeDisplayId
+                        )
                     }
+                    mDelegate!!.acceptClient(
+                        clientId, callback, callback.dispatcherState,
+                        callback.looper
+                    )
+                }
 
-                    @Override
-                    public void removeClient(int clientId) {
-                        if (DEBUG) {
-                            Log.v(TAG, "removeClient clientId=" + clientId);
-                        }
+                override fun removeClient(clientId: Int) {
+                    if (DEBUG) {
+                        Log.v(TAG, "removeClient clientId=$clientId")
                     }
-                });
-        mSoftInputWindowManager = new SoftInputWindowManager(this, mDelegate);
+                }
+            })
+        mSoftInputWindowManager = SoftInputWindowManager(this, mDelegate)
     }
 
-    @Override
-    public void onDisplayAdded(int displayId) {
-        mInputDisplayToImeDisplay = buildInputDisplayToImeDisplay();
+    override fun onDisplayAdded(displayId: Int) {
+        mInputDisplayToImeDisplay = buildInputDisplayToImeDisplay()
     }
 
-    @Override
-    public void onDisplayRemoved(int displayId) {
-        mDisplayToLastClientId.delete(displayId);
+    override fun onDisplayRemoved(displayId: Int) {
+        mDisplayToLastClientId.delete(displayId)
     }
 
-    @Override
-    public void onDisplayChanged(int displayId) {
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
+    override fun onDisplayChanged(displayId: Int) {}
+    override fun onBind(intent: Intent): IBinder? {
         if (DEBUG) {
-            Log.v(TAG, "onBind intent=" + intent);
+            Log.v(TAG, "onBind intent=$intent")
         }
-        mDisplayManager = getApplicationContext().getSystemService(DisplayManager.class);
-        mDisplayManager.registerDisplayListener(this, getMainThreadHandler());
-        return mDelegate.onBind(intent);
+        mDisplayManager = applicationContext.getSystemService(
+            DisplayManager::class.java
+        )
+        mDisplayManager.registerDisplayListener(this, getMainThreadHandler())
+        return mDelegate!!.onBind(intent)
     }
 
-    @Override
-    public boolean onUnbind(Intent intent) {
+    override fun onUnbind(intent: Intent): Boolean {
         if (DEBUG) {
-            Log.v(TAG, "onUnbind intent=" + intent);
+            Log.v(TAG, "onUnbind intent=$intent")
         }
         if (mDisplayManager != null) {
-            mDisplayManager.unregisterDisplayListener(this);
+            mDisplayManager!!.unregisterDisplayListener(this)
         }
-        return mDelegate.onUnbind(intent);
+        return mDelegate!!.onUnbind(intent)
     }
 
-    @Override
-    public void onDestroy() {
+    override fun onDestroy() {
         if (DEBUG) {
-            Log.v(TAG, "onDestroy");
+            Log.v(TAG, "onDestroy")
         }
-        mDelegate.onDestroy();
+        mDelegate!!.onDestroy()
     }
 
-    @NonNull
-    private SparseIntArray buildInputDisplayToImeDisplay() {
-        Context context = getApplicationContext();
-        String config[] = context.getResources().getStringArray(
-                R.array.config_inputDisplayToImeDisplay);
-
-        SparseIntArray inputDisplayToImeDisplay = new SparseIntArray();
-        Display[] displays = context.getSystemService(DisplayManager.class).getDisplays();
-        for (String item: config) {
-            String[] pair = item.split("/");
-            if (pair.length != 2) {
-                Log.w(TAG, "Skip illegal config: " + item);
-                continue;
+    private fun buildInputDisplayToImeDisplay(): SparseIntArray {
+        val context = applicationContext
+        val config = context.resources.getStringArray(
+            R.array.config_inputDisplayToImeDisplay
+        )
+        val inputDisplayToImeDisplay = SparseIntArray()
+        val displays = context.getSystemService(
+            DisplayManager::class.java
+        ).displays
+        for (item in config) {
+            val pair = item.split("/").toTypedArray()
+            if (pair.size != 2) {
+                Log.w(TAG, "Skip illegal config: $item")
+                continue
             }
-            int inputDisplay = findDisplayId(displays, pair[0]);
-            int imeDisplay = findDisplayId(displays, pair[1]);
+            val inputDisplay = findDisplayId(displays, pair[0])
+            val imeDisplay = findDisplayId(displays, pair[1])
             if (inputDisplay != Display.INVALID_DISPLAY && imeDisplay != Display.INVALID_DISPLAY) {
-                inputDisplayToImeDisplay.put(inputDisplay, imeDisplay);
+                inputDisplayToImeDisplay.put(inputDisplay, imeDisplay)
             }
         }
-        return inputDisplayToImeDisplay;
+        return inputDisplayToImeDisplay
     }
 
-    private static int findDisplayId(Display displays[], String regexp) {
-        for (Display display: displays) {
-            if (display.getUniqueId().matches(regexp)) {
-                int displayId = display.getDisplayId();
-                if (DEBUG) {
-                    Log.v(TAG, regexp + " matches displayId=" + displayId);
+    companion object {
+        private const val TAG = "MultiClientInputMethod"
+        private const val DEBUG = false
+        private fun findDisplayId(displays: Array<Display>, regexp: String): Int {
+            for (display in displays) {
+                if (display.getUniqueId().matches(regexp.toRegex())) {
+                    val displayId = display.displayId
+                    if (DEBUG) {
+                        Log.v(TAG, "$regexp matches displayId=$displayId")
+                    }
+                    return displayId
                 }
-                return displayId;
             }
+            Log.w(TAG, "Can't find the display of $regexp")
+            return Display.INVALID_DISPLAY
         }
-        Log.w(TAG, "Can't find the display of " + regexp);
-        return Display.INVALID_DISPLAY;
     }
 }

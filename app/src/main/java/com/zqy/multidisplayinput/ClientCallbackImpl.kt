@@ -13,250 +13,203 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.zqy.multidisplayinput
 
-package com.zqy.multidisplayinput;
+import com.zqy.multidisplayinput.MultiClientInputMethod
+import android.inputmethodservice.MultiClientInputMethodServiceDelegate
+import com.zqy.multidisplayinput.SoftInputWindowManager
+import android.inputmethodservice.MultiClientInputMethodServiceDelegate.ClientCallback
+import android.os.Bundle
+import android.os.Looper
+import android.os.ResultReceiver
+import android.util.Log
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.WindowManager
+import android.view.inputmethod.CompletionInfo
+import android.view.inputmethod.CursorAnchorInfo
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputConnection
+import com.zqy.multidisplayinput.ClientCallbackImpl
+import com.android.internal.inputmethod.StartInputFlags
+import com.zqy.multidisplayinput.NoopKeyboardActionListener
 
-import android.inputmethodservice.MultiClientInputMethodServiceDelegate;
-import android.os.Bundle;
-import android.os.Looper;
-import android.os.ResultReceiver;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.WindowManager;
-import android.view.inputmethod.CompletionInfo;
-import android.view.inputmethod.CursorAnchorInfo;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputConnection;
-
-final class ClientCallbackImpl implements MultiClientInputMethodServiceDelegate.ClientCallback {
-    private static final String TAG = "ClientCallbackImpl";
-    private static final boolean DEBUG = false;
-
-    private final MultiClientInputMethodServiceDelegate mDelegate;
-    private final SoftInputWindowManager mSoftInputWindowManager;
-    private final int mClientId;
-    private final int mUid;
-    private final int mPid;
-    private final int mSelfReportedDisplayId;
-    private final KeyEvent.DispatcherState mDispatcherState;
-    private final Looper mLooper;
-    private final MultiClientInputMethod mInputMethod;
-
-    ClientCallbackImpl(MultiClientInputMethod inputMethod,
-            MultiClientInputMethodServiceDelegate delegate,
-            SoftInputWindowManager softInputWindowManager, int clientId, int uid, int pid,
-            int selfReportedDisplayId) {
-        mInputMethod = inputMethod;
-        mDelegate = delegate;
-        mSoftInputWindowManager = softInputWindowManager;
-        mClientId = clientId;
-        mUid = uid;
-        mPid = pid;
-        mSelfReportedDisplayId = selfReportedDisplayId;
-        mDispatcherState = new KeyEvent.DispatcherState();
-        // For simplicity, we use the main looper for this sample.
-        // To use other looper thread, make sure that the IME Window also runs on the same looper
-        // and introduce an appropriate synchronization mechanism instead of directly accessing
-        // MultiClientInputMethod#mDisplayToLastClientId.
-        mLooper = Looper.getMainLooper();
-    }
-
-    KeyEvent.DispatcherState getDispatcherState() {
-        return mDispatcherState;
-    }
-
-    Looper getLooper() {
-        return mLooper;
-    }
-
-    @Override
-    public void onAppPrivateCommand(String action, Bundle data) {
-    }
-
-    @Override
-    public void onDisplayCompletions(CompletionInfo[] completions) {
-    }
-
-    @Override
-    public void onFinishSession() {
+internal class ClientCallbackImpl(
+    private val mInputMethod: MultiClientInputMethod,
+    private val mDelegate: MultiClientInputMethodServiceDelegate,
+    private val mSoftInputWindowManager: SoftInputWindowManager,
+    private val mClientId: Int,
+    private val mUid: Int,
+    private val mPid: Int,
+    private val mSelfReportedDisplayId: Int
+) : ClientCallback {
+    val dispatcherState: KeyEvent.DispatcherState
+    val looper: Looper
+    override fun onAppPrivateCommand(action: String, data: Bundle) {}
+    override fun onDisplayCompletions(completions: Array<CompletionInfo>) {}
+    override fun onFinishSession() {
         if (DEBUG) {
-            Log.v(TAG, "onFinishSession clientId=" + mClientId);
+            Log.v(TAG, "onFinishSession clientId=$mClientId")
         }
-        final SoftInputWindow window =
-                mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId);
-        if (window == null) {
-            return;
-        }
+        val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId) ?: return
         // SoftInputWindow also needs to be cleaned up when this IME client is still associated with
         // it.
-        if (mClientId == window.getClientId()) {
-            window.onFinishClient();
+        if (mClientId == window.clientId) {
+            window.onFinishClient()
         }
     }
 
-    @Override
-    public void onHideSoftInput(int flags, ResultReceiver resultReceiver) {
+    override fun onHideSoftInput(flags: Int, resultReceiver: ResultReceiver) {
         if (DEBUG) {
-            Log.v(TAG, "onHideSoftInput clientId=" + mClientId + " flags=" + flags);
+            Log.v(TAG, "onHideSoftInput clientId=$mClientId flags=$flags")
         }
-        final SoftInputWindow window =
-                mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId);
-        if (window == null) {
-            return;
-        }
+        val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId) ?: return
         // Seems that the Launcher3 has a bug to call onHideSoftInput() too early so we cannot
         // enforce clientId check yet.
         // TODO: Check clientId like we do so for onShowSoftInput().
-        window.hide();
+        window.hide()
     }
 
-    @Override
-    public void onShowSoftInput(int flags, ResultReceiver resultReceiver) {
+    override fun onShowSoftInput(flags: Int, resultReceiver: ResultReceiver) {
         if (DEBUG) {
-            Log.v(TAG, "onShowSoftInput clientId=" + mClientId + " flags=" + flags);
+            Log.v(TAG, "onShowSoftInput clientId=$mClientId flags=$flags")
         }
-        final SoftInputWindow window =
-                mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId);
-        if (window == null) {
-            return;
+        val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId)
+        if (mClientId != window.clientId) {
+            Log.w(
+                TAG, "onShowSoftInput() from a background client is ignored."
+                        + " windowClientId=" + window.clientId
+                        + " clientId=" + mClientId
+            )
+            return
         }
-        if (mClientId != window.getClientId()) {
-            Log.w(TAG, "onShowSoftInput() from a background client is ignored."
-                    + " windowClientId=" + window.getClientId()
-                    + " clientId=" + mClientId);
-            return;
-        }
-        window.show();
+        window.show()
     }
 
-    @Override
-    public void onStartInputOrWindowGainedFocus(InputConnection inputConnection,
-            EditorInfo editorInfo, int startInputFlags, int softInputMode, int targetWindowHandle) {
+    override fun onStartInputOrWindowGainedFocus(
+        inputConnection: InputConnection,
+        editorInfo: EditorInfo, startInputFlags: Int, softInputMode: Int, targetWindowHandle: Int
+    ) {
         if (DEBUG) {
-            Log.v(TAG, "onStartInputOrWindowGainedFocus clientId=" + mClientId
-                    + " editorInfo=" + editorInfo
-                    + " startInputFlags="
-                    + InputMethodDebug.startInputFlagsToString(startInputFlags)
-                    + " softInputMode=" + InputMethodDebug.softInputModeToString(softInputMode)
-                    + " targetWindowHandle=" + targetWindowHandle);
+            Log.v(
+                TAG, "onStartInputOrWindowGainedFocus clientId=" + mClientId
+                        + " editorInfo=" + editorInfo
+                        + " startInputFlags="
+                        + InputMethodDebug.startInputFlagsToString(startInputFlags)
+                        + " softInputMode=" + InputMethodDebug.softInputModeToString(softInputMode)
+                        + " targetWindowHandle=" + targetWindowHandle
+            )
         }
-
-        final int state = softInputMode & WindowManager.LayoutParams.SOFT_INPUT_MASK_STATE;
-        final boolean forwardNavigation =
-                (softInputMode & WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION) != 0;
-
-        final SoftInputWindow window =
-                mSoftInputWindowManager.getOrCreateSoftInputWindow(mSelfReportedDisplayId);
-        if (window == null) {
-            return;
-        }
-
-        if (window.getTargetWindowHandle() != targetWindowHandle) {
+        val state = softInputMode and WindowManager.LayoutParams.SOFT_INPUT_MASK_STATE
+        val forwardNavigation =
+            softInputMode and WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION != 0
+        val window =
+            mSoftInputWindowManager.getOrCreateSoftInputWindow(mSelfReportedDisplayId) ?: return
+        if (window.targetWindowHandle != targetWindowHandle) {
             // Target window has changed.  Report new IME target window to the system.
             mDelegate.reportImeWindowTarget(
-                    mClientId, targetWindowHandle, window.getWindow().getAttributes().token);
+                mClientId, targetWindowHandle, window.window!!.attributes.token
+            )
         }
-        final int lastClientId = mInputMethod.mDisplayToLastClientId.get(mSelfReportedDisplayId);
+        val lastClientId = mInputMethod.mDisplayToLastClientId[mSelfReportedDisplayId]
         if (lastClientId != mClientId) {
             // deactivate previous client and activate current.
-            mDelegate.setActive(lastClientId, false /* active */);
-            mDelegate.setActive(mClientId, true /* active */);
+            mDelegate.setActive(lastClientId, false /* active */)
+            mDelegate.setActive(mClientId, true /* active */)
         }
         if (inputConnection == null || editorInfo == null) {
             // Placeholder InputConnection case.
-            if (window.getClientId() == mClientId) {
+            if (window.clientId == mClientId) {
                 // Special hack for temporary focus changes (e.g. notification shade).
                 // If we have already established a connection to this client, and if a placeholder
                 // InputConnection is notified, just ignore this event.
             } else {
-                window.onDummyStartInput(mClientId, targetWindowHandle);
+                window.onDummyStartInput(mClientId, targetWindowHandle)
             }
         } else {
-            window.onStartInput(mClientId, targetWindowHandle, inputConnection);
+            window.onStartInput(mClientId, targetWindowHandle, inputConnection)
         }
-
-        switch (state) {
-            case WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE:
-                if (forwardNavigation) {
-                    window.show();
-                }
-                break;
-            case WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE:
-                window.show();
-                break;
-            case WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN:
-                if (forwardNavigation) {
-                    window.hide();
-                }
-                break;
-            case WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN:
-                window.hide();
-                break;
+        when (state) {
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE -> if (forwardNavigation) {
+                window.show()
+            }
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE -> window.show()
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN -> if (forwardNavigation) {
+                window.hide()
+            }
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN -> window.hide()
         }
-        mInputMethod.mDisplayToLastClientId.put(mSelfReportedDisplayId, mClientId);
+        mInputMethod.mDisplayToLastClientId.put(mSelfReportedDisplayId, mClientId)
     }
 
-    @Override
-    public void onUpdateCursorAnchorInfo(CursorAnchorInfo info) {
+    override fun onUpdateCursorAnchorInfo(info: CursorAnchorInfo) {}
+    override fun onUpdateSelection(
+        oldSelStart: Int, oldSelEnd: Int, newSelStart: Int, newSelEnd: Int,
+        candidatesStart: Int, candidatesEnd: Int
+    ) {
     }
 
-    @Override
-    public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd,
-            int candidatesStart, int candidatesEnd) {
+    override fun onGenericMotionEvent(event: MotionEvent): Boolean {
+        return false
     }
 
-    @Override
-    public boolean onGenericMotionEvent(MotionEvent event) {
-        return false;
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (DEBUG) {
-            Log.v(TAG, "onKeyDown clientId=" + mClientId + " keyCode=" + keyCode
-                    + " event=" + event);
+            Log.v(
+                TAG, "onKeyDown clientId=" + mClientId + " keyCode=" + keyCode
+                        + " event=" + event
+            )
         }
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            final SoftInputWindow window =
-                    mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId);
-            if (window != null && window.isShowing()) {
-                event.startTracking();
-                return true;
+            val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId)
+            if (window != null && window.isShowing) {
+                event.startTracking()
+                return true
             }
         }
-        return false;
+        return false
     }
 
-    @Override
-    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-        return false;
+    override fun onKeyLongPress(keyCode: Int, event: KeyEvent): Boolean {
+        return false
     }
 
-    @Override
-    public boolean onKeyMultiple(int keyCode, KeyEvent event) {
-        return false;
+    override fun onKeyMultiple(keyCode: Int, event: KeyEvent): Boolean {
+        return false
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
+    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
         if (DEBUG) {
-            Log.v(TAG, "onKeyUp clientId=" + mClientId + "keyCode=" + keyCode
-                    + " event=" + event);
+            Log.v(
+                TAG, "onKeyUp clientId=" + mClientId + "keyCode=" + keyCode
+                        + " event=" + event
+            )
         }
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.isTracking() && !event.isCanceled()) {
-            final SoftInputWindow window =
-                    mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId);
-            if (window != null && window.isShowing()) {
-                window.hide();
-                return true;
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.isTracking && !event.isCanceled) {
+            val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId)
+            if (window != null && window.isShowing) {
+                window.hide()
+                return true
             }
         }
-        return false;
+        return false
     }
 
-    @Override
-    public boolean onTrackballEvent(MotionEvent event) {
-        return false;
+    override fun onTrackballEvent(event: MotionEvent): Boolean {
+        return false
+    }
+
+    companion object {
+        private const val TAG = "ClientCallbackImpl"
+        private const val DEBUG = false
+    }
+
+    init {
+        dispatcherState = KeyEvent.DispatcherState()
+        // For simplicity, we use the main looper for this sample.
+        // To use other looper thread, make sure that the IME Window also runs on the same looper
+        // and introduce an appropriate synchronization mechanism instead of directly accessing
+        // MultiClientInputMethod#mDisplayToLastClientId.
+        looper = Looper.getMainLooper()
     }
 }
