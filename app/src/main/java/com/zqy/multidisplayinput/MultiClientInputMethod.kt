@@ -101,7 +101,7 @@ class MultiClientInputMethod : Service(), DisplayManager.DisplayListener {
             DisplayManager::class.java
         )
         mDisplayManager.registerDisplayListener(this, getMainThreadHandler())
-        return mDelegate!!.onBind(intent)
+        return mDelegate.onBind(intent)
     }
 
     override fun onUnbind(intent: Intent): Boolean {
@@ -109,16 +109,16 @@ class MultiClientInputMethod : Service(), DisplayManager.DisplayListener {
             Log.v(TAG, "onUnbind intent=$intent")
         }
         if (mDisplayManager != null) {
-            mDisplayManager!!.unregisterDisplayListener(this)
+            mDisplayManager.unregisterDisplayListener(this)
         }
-        return mDelegate!!.onUnbind(intent)
+        return mDelegate.onUnbind(intent)
     }
 
     override fun onDestroy() {
         if (DEBUG) {
             Log.v(TAG, "onDestroy")
         }
-        mDelegate!!.onDestroy()
+        mDelegate.onDestroy()
     }
 
     private fun buildInputDisplayToImeDisplay(): SparseIntArray {

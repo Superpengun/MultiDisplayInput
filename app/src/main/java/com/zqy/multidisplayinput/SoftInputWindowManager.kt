@@ -46,7 +46,7 @@ internal class SoftInputWindowManager(
         return newWindow
     }
 
-    fun getSoftInputWindow(displayId: Int): SoftInputWindow {
+    fun getSoftInputWindow(displayId: Int): SoftInputWindow ?{
         return mSoftInputWindows[displayId]
     }
 }

@@ -150,7 +150,7 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
         if (isQwertyKeyboard && isShifted) {
             primaryCode = Character.toUpperCase(primaryCode)
         }
-        inputConnection!!.commitText((primaryCode as Char).toString(), 1)
+        inputConnection!!.commitText(primaryCode.toChar().toString(), 1)
     }
 
     companion object {

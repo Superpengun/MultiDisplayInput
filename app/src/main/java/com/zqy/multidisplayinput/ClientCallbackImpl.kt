@@ -46,7 +46,7 @@ internal class ClientCallbackImpl(
     val dispatcherState: KeyEvent.DispatcherState
     val looper: Looper
     override fun onAppPrivateCommand(action: String, data: Bundle) {}
-    override fun onDisplayCompletions(completions: Array<CompletionInfo>) {}
+    override fun onDisplayCompletions(completions: Array<CompletionInfo>?) {}
     override fun onFinishSession() {
         if (DEBUG) {
             Log.v(TAG, "onFinishSession clientId=$mClientId")
@@ -59,7 +59,7 @@ internal class ClientCallbackImpl(
         }
     }
 
-    override fun onHideSoftInput(flags: Int, resultReceiver: ResultReceiver) {
+    override fun onHideSoftInput(flags: Int, resultReceiver: ResultReceiver?) {
         if (DEBUG) {
             Log.v(TAG, "onHideSoftInput clientId=$mClientId flags=$flags")
         }
@@ -70,15 +70,15 @@ internal class ClientCallbackImpl(
         window.hide()
     }
 
-    override fun onShowSoftInput(flags: Int, resultReceiver: ResultReceiver) {
+    override fun onShowSoftInput(flags: Int, resultReceiver: ResultReceiver?) {
         if (DEBUG) {
             Log.v(TAG, "onShowSoftInput clientId=$mClientId flags=$flags")
         }
         val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId)
-        if (mClientId != window.clientId) {
+        if (mClientId != window?.clientId) {
             Log.w(
                 TAG, "onShowSoftInput() from a background client is ignored."
-                        + " windowClientId=" + window.clientId
+                        + " windowClientId=" + window?.clientId
                         + " clientId=" + mClientId
             )
             return
@@ -87,7 +87,7 @@ internal class ClientCallbackImpl(
     }
 
     override fun onStartInputOrWindowGainedFocus(
-        inputConnection: InputConnection,
+        inputConnection: InputConnection?,
         editorInfo: EditorInfo, startInputFlags: Int, softInputMode: Int, targetWindowHandle: Int
     ) {
         if (DEBUG) {
@@ -201,7 +201,7 @@ internal class ClientCallbackImpl(
 
     companion object {
         private const val TAG = "ClientCallbackImpl"
-        private const val DEBUG = false
+        private const val DEBUG = true
     }
 
     init {
