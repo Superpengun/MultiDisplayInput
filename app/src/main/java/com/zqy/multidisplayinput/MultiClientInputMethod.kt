@@ -20,7 +20,9 @@ import android.content.Intent
 import android.hardware.display.DisplayManager
 import android.inputmethodservice.MultiClientInputMethodServiceDelegate
 import android.inputmethodservice.MultiClientInputMethodServiceDelegate.ServiceCallback
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
 import android.util.SparseIntArray
 import android.view.Display
@@ -100,7 +102,7 @@ class MultiClientInputMethod : Service(), DisplayManager.DisplayListener {
         mDisplayManager = applicationContext.getSystemService(
             DisplayManager::class.java
         )
-        mDisplayManager.registerDisplayListener(this, getMainThreadHandler())
+        mDisplayManager.registerDisplayListener(this, Handler(Looper.getMainLooper()))
         return mDelegate.onBind(intent)
     }
 
@@ -162,4 +164,8 @@ class MultiClientInputMethod : Service(), DisplayManager.DisplayListener {
             return Display.INVALID_DISPLAY
         }
     }
+}
+
+private fun Display.getUniqueId(): String {
+    return "";
 }
