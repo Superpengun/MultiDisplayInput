@@ -19,10 +19,7 @@ import android.app.Dialog
 import android.content.Context
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
-import com.zqy.multidisplayinput.MultiClientInputMethod
 import android.inputmethodservice.MultiClientInputMethodServiceDelegate
-import com.zqy.multidisplayinput.SoftInputWindowManager
-import android.inputmethodservice.MultiClientInputMethodServiceDelegate.ClientCallback
 import android.os.IBinder
 import android.util.Log
 import android.view.Gravity
@@ -31,9 +28,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputConnection
 import android.widget.LinearLayout
-import com.zqy.multidisplayinput.ClientCallbackImpl
-import com.android.internal.inputmethod.StartInputFlags
-import com.zqy.multidisplayinput.NoopKeyboardActionListener
 import java.util.*
 
 internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
@@ -155,7 +149,7 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
 
     companion object {
         private const val TAG = "SoftInputWindow"
-        private const val DEBUG = false
+        private const val DEBUG = true
         private val sNoopListener: KeyboardView.OnKeyboardActionListener =
             NoopKeyboardActionListener()
     }

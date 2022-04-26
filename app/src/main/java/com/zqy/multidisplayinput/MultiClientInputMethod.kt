@@ -71,7 +71,7 @@ class MultiClientInputMethod : Service(), DisplayManager.DisplayListener {
                                     + " imeDisplayId=" + imeDisplayId
                         )
                     }
-                    mDelegate!!.acceptClient(
+                    mDelegate.acceptClient(
                         clientId, callback, callback.dispatcherState,
                         callback.looper
                     )
@@ -110,9 +110,7 @@ class MultiClientInputMethod : Service(), DisplayManager.DisplayListener {
         if (DEBUG) {
             Log.v(TAG, "onUnbind intent=$intent")
         }
-        if (mDisplayManager != null) {
-            mDisplayManager.unregisterDisplayListener(this)
-        }
+        mDisplayManager.unregisterDisplayListener(this)
         return mDelegate.onUnbind(intent)
     }
 
@@ -149,7 +147,7 @@ class MultiClientInputMethod : Service(), DisplayManager.DisplayListener {
 
     companion object {
         private const val TAG = "MultiClientInputMethod"
-        private const val DEBUG = false
+        private const val DEBUG = true
         private fun findDisplayId(displays: Array<Display>, regexp: String): Int {
             for (display in displays) {
                 if (display.getUniqueId().matches(regexp.toRegex())) {

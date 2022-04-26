@@ -88,7 +88,7 @@ internal class ClientCallbackImpl(
 
     override fun onStartInputOrWindowGainedFocus(
         inputConnection: InputConnection?,
-        editorInfo: EditorInfo, startInputFlags: Int, softInputMode: Int, targetWindowHandle: Int
+        editorInfo: EditorInfo?, startInputFlags: Int, softInputMode: Int, targetWindowHandle: Int
     ) {
         if (DEBUG) {
             Log.v(
