@@ -2,3 +2,4 @@ rootProject.name = "MultiDisplayInput"
 include ':app'
 include ':hci'
 include ':common'
+include ':sdk'

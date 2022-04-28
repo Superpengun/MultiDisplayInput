@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_key">745d542d</string>
+    <string name="developer_key">a5f1de3b7c3562e8643cf4d86caeaa83</string>
+    <string name="log_path">/hcicloudinput/log/</string>
+    <string name="log_count">5</string>
+    <string name="log_file_size">1024</string>
+    <string name="log_level">5</string>
+    <string name="cloud_url">http://api.hcicloud.com:8888</string>
+</resources>

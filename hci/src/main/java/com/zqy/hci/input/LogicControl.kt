@@ -7,6 +7,9 @@ import com.zqy.hci.listener.HciCloudInputConnection
 import com.zqy.hci.listener.InputMethodListener
 import com.zqy.hci.listener.LogicControlListener
 import com.zqy.hci.utils.LanguageUtil
+import com.zqy.sdk.InputEngineInstance
+import com.zqy.sdk.SysSDKManager
+import com.zqy.sdk.tools.HciCloudUtils
 import kotlinx.coroutines.*
 
 /**

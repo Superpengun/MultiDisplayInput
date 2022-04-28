@@ -5,6 +5,9 @@ import android.view.KeyEvent
 import com.zqy.hci.listener.HciCloudInputConnection
 import com.zqy.hci.service.Settings
 import com.zqy.hci.utils.LanguageUtil
+import com.zqy.sdk.InputEngineInstance
+import com.zqy.sdk.keyboard.RecogResult
+import com.zqy.sdk.keyboard.RecogResultItem
 import java.lang.IndexOutOfBoundsException
 import java.util.*
 import kotlin.collections.ArrayList
