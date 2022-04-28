@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Themes xmlns:android="http://schemas.android.com/apk/res/android">
+    <Theme
+        nameResId="baseTheme"
+        iconsThemeRes="@style/BaseIconTheme"
+        themeRes="@style/BaseKeyboardTheme" />
+</Themes>

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/com.sinovoice.hciimevehicleintl"
+          android:horizontalGap="0.0px"
+          android:keyHeight="@dimen/keyboard_key_height"
+          android:keyWidth="20%p"
+          android:verticalGap="0.0px">
+
+    <Row>
+        <Key
+            android:horizontalGap="20%p"
+            android:keyLabel="1"
+            android:keyOutputText="1"/>
+        <Key
+            android:keyLabel="2"
+            android:keyOutputText="2"/>
+        <Key
+            android:keyLabel="3"
+            android:keyOutputText="3"/>
+        <Key
+            android:backgroundType="functional"
+            android:codes="-4"
+            android:isRepeatable="true"
+            android:keyIcon="@drawable/icon_delete"
+            android:keyWidth="20%p"/>
+    </Row>
+
+    <Row>
+        <Key
+            android:horizontalGap="20%p"
+            android:keyLabel="4"/>
+        <Key
+            android:keyLabel="5"/>
+        <Key
+            android:keyLabel="6"/>
+        <Key
+            android:backgroundType="functional"
+            android:keyLabel="\@"/>
+    </Row>
+
+    <Row>
+        <Key
+            android:horizontalGap="20%p"
+            android:keyLabel="7"/>
+        <Key
+            android:keyLabel="8"/>
+        <Key
+            android:keyLabel="9"/>
+        <Key
+            android:backgroundType="functional"
+            android:keyLabel="."/>
+
+    </Row>
+
+
+    <Row>
+        <Key
+            android:backgroundType="functional"
+            android:codes="-5"
+            android:keyEdgeFlags="left"
+            android:keyIcon="@drawable/icon_symbol"/>
+        <Key
+            android:backgroundType="functional"
+            android:codes="-21"
+            android:keyIcon="@drawable/symbol_back_icon"/>
+
+        <Key
+            android:keyLabel="0"
+            android:keyOutputText="0"/>
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-3"
+            android:keyIcon="@drawable/icon_space"/>
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-2"
+            android:keyEdgeFlags="right"
+            android:keyIcon="@drawable/icon_enter"/>
+    </Row>
+
+
+</Keyboard>

@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/com.sinovoice.hciimevehicleintl"
+    android:horizontalGap="@dimen/keyboard_key_horizontalGap"
+    android:keyHeight="@dimen/keyboard_key_height"
+    android:keyWidth="@dimen/keyboard_key_width_russian"
+    android:verticalGap="@dimen/keyboard_key_verticalGap">
+    <Row>
+        <Key
+            android:horizontalGap="@dimen/keyboard_edge_key_horizontal_gap"
+            android:keyEdgeFlags="left"
+            android:keyLabel="й"
+            android:keyOutputText="й" />
+        <Key
+            android:keyLabel="ц"
+            android:keyOutputText="ц" />
+        <Key
+            android:keyLabel="у"
+            android:keyOutputText="у" />
+        <Key
+            android:keyLabel="к"
+            android:keyOutputText="к" />
+        <Key
+            android:keyLabel="е"
+            android:keyOutputText="е"
+            android:popupCharacters="её" />
+        <Key
+            android:keyLabel="н"
+            android:keyOutputText="н" />
+        <Key
+            android:keyLabel="г"
+            android:keyOutputText="г" />
+        <Key
+            android:keyLabel="ш"
+            android:keyOutputText="ш" />
+        <Key
+            android:keyLabel="щ"
+            android:keyOutputText="щ" />
+        <Key
+            android:keyLabel="з"
+            android:keyOutputText="з" />
+        <Key
+            android:keyEdgeFlags="right"
+            android:keyLabel="х"
+            android:keyOutputText="х" />
+    </Row>
+    <Row>
+        <Key
+            android:horizontalGap="@dimen/keyboard_edge_key_horizontal_gap"
+            android:keyEdgeFlags="left"
+            android:keyLabel="ф"
+            android:keyOutputText="ф" />
+        <Key
+            android:keyLabel="ы"
+            android:keyOutputText="ы" />
+        <Key
+            android:keyLabel="в"
+            android:keyOutputText="в" />
+        <Key
+            android:keyLabel="а"
+            android:keyOutputText="а" />
+        <Key
+            android:keyLabel="п"
+            android:keyOutputText="п" />
+        <Key
+            android:keyLabel="р"
+            android:keyOutputText="р" />
+        <Key
+            android:keyLabel="о"
+            android:keyOutputText="о" />
+        <Key
+            android:keyLabel="л"
+            android:keyOutputText="л" />
+        <Key
+            android:keyLabel="д"
+            android:keyOutputText="д" />
+        <Key
+            android:keyLabel="ж"
+            android:keyOutputText="ж" />
+        <Key
+            android:keyEdgeFlags="right"
+            android:keyLabel="э"
+            android:keyOutputText="э" />
+    </Row>
+
+    <Row>
+        <Key
+            android:backgroundType="functional"
+            android:codes="-1,-100"
+            android:horizontalGap="@dimen/keyboard_edge_key_horizontal_gap"
+            android:isActive="true"
+            android:isModifier="true"
+            android:isSticky="true"
+            android:keyIcon="@drawable/shift"
+            android:keyWidth="@dimen/keyboard_key_width_russian" />
+        <Key
+            android:keyLabel="я"
+            android:keyOutputText="я"
+            android:keyWidth="@dimen/keyboard_key_width_russian" />
+        <Key
+            android:keyLabel="ч"
+            android:keyOutputText="ч"
+            android:keyWidth="@dimen/keyboard_key_width_russian" />
+        <Key
+            android:keyLabel="с"
+            android:keyOutputText="с"
+            android:keyWidth="@dimen/keyboard_key_width_russian" />
+        <Key
+            android:keyLabel="м"
+            android:keyOutputText="м"
+            android:keyWidth="@dimen/keyboard_key_width_russian" />
+        <Key
+            android:keyLabel="и"
+            android:keyOutputText="и"
+            android:keyWidth="@dimen/keyboard_key_width_russian" />
+        <Key
+            android:keyLabel="т"
+            android:keyOutputText="т"
+            android:keyWidth="@dimen/keyboard_key_width_russian" />
+        <Key
+            android:keyLabel="ь"
+            android:keyOutputText="ь"
+            android:keyWidth="@dimen/keyboard_key_width_russian"
+            android:popupCharacters="ьъ" />
+        <Key
+            android:keyLabel="б"
+            android:keyOutputText="б"
+            android:keyWidth="@dimen/keyboard_key_width_russian" />
+        <Key
+            android:keyLabel="ю"
+            android:keyOutputText="ю"
+            android:keyWidth="@dimen/keyboard_key_width_russian" />
+        <Key
+            android:backgroundType="functional"
+            android:codes="-4"
+            android:isRepeatable="true"
+            android:keyIcon="@drawable/icon_delete"
+            android:keyWidth="@dimen/keyboard_key_width_russian" />
+    </Row>
+
+
+    <Row>
+        <Key
+            android:backgroundType="functional"
+            android:codes="-70"
+            android:horizontalGap="@dimen/keyboard_edge_key_horizontal_gap"
+            android:keyLabel="123"
+            android:keyWidth="@dimen/keyboard_function_key_width" />
+
+        <Key
+            android:codes="-3"
+            android:keyIcon="@drawable/icon_space"
+            android:keyWidth="@dimen/keyboard_space_key_width" />
+        <Key
+            android:backgroundType="functional"
+            android:codes="-111"
+            android:keyIcon="@drawable/icon_lang"
+            android:keyWidth="@dimen/keyboard_function_key_width" />
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-2"
+            android:keyEdgeFlags="right"
+            android:keyIcon="@drawable/icon_enter"
+            android:keyWidth="@dimen/keyboard_function_back_key_width" />
+    </Row>
+</Keyboard>

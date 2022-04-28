@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="root_preference_screen"
+    android:title="@string/setting">
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="fuzzy_on"
+        android:persistent="true"
+        android:title="模糊音"/>
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="sound_on"
+        android:persistent="true"
+        android:title="按键音"/>
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="popup_on"
+        android:persistent="true"
+        android:title="26键按键气泡"/>
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="auto_caps"
+        android:persistent="true"
+        android:title="首字母大写"/>
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="auto_space"
+        android:persistent="true"
+        android:title="单词自动空格"/>
+
+
+</PreferenceScreen>

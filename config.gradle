@@ -1,0 +1,20 @@
+ext {
+    android = [
+            compileSdkVersion: 31,
+            buildToolsVersion: "29.0.3",
+            minSdkVersion    : 23,
+            targetSdkVersion : 22,
+            versionCode      : 1,
+            versionName      : "1.0"
+    ]
+    robolectricVersion = '4.6.1'
+    kotlinVersion = '1.5.31'
+    androidxCoreKtx = '1.7.0'
+    androidxAppCompat = '1.4.0'
+    androidxMaterial = '1.4.0'
+    recyclerview = '1.2.1'
+    flexbox = '3.0.0'
+    gson = '2.8.9'
+
+    loggerVersion = "2.2.0"
+}

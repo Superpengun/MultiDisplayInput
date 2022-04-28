@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/com.sinovoice.hciimevehicleintl"
+    android:horizontalGap="@dimen/keyboard_key_horizontalGap"
+    android:keyHeight="@dimen/keyboard_key_height"
+    android:keyWidth="@dimen/keyboard_key_width_russian"
+    android:verticalGap="@dimen/keyboard_key_verticalGap">
+    <Row>
+        <Key
+            android:keyEdgeFlags="left"
+            android:keyLabel="ض"
+            android:keyOutputText="ض" />
+        <Key
+            android:keyLabel="ص"
+            android:keyOutputText="ص" />
+        <Key
+            android:keyLabel="ث"
+            android:keyOutputText="ث" />
+        <Key
+            android:keyLabel="ق"
+            android:keyOutputText="ق" />
+        <Key
+            android:keyLabel="ف"
+            android:keyOutputText="ف"
+            android:popupCharacters="فڤ" />
+        <Key
+            android:keyLabel="غ"
+            android:keyOutputText="غ" />
+        <Key
+            android:keyLabel="ع"
+            android:keyOutputText="ع" />
+        <Key
+            android:keyLabel="ه"
+            android:keyOutputText="ه"
+            android:popupCharacters="هھ" />
+        <Key
+            android:keyLabel="خ"
+            android:keyOutputText="خ" />
+        <Key
+            android:keyLabel="ح"
+            android:keyOutputText="ح" />
+        <Key
+            android:keyEdgeFlags="right"
+            android:keyLabel="ج"
+            android:keyOutputText="ج"
+            android:popupCharacters="جچ" />
+    </Row>
+    <Row>
+        <Key
+            android:keyEdgeFlags="left"
+            android:keyLabel="ش"
+            android:keyOutputText="ش" />
+        <Key
+            android:keyLabel="س"
+            android:keyOutputText="س" />
+        <Key
+            android:keyLabel="ي"
+            android:keyOutputText="ي"
+            android:popupCharacters="يئ" />
+        <Key
+            android:keyLabel="ب"
+            android:keyOutputText="ب"
+            android:popupCharacters="بپ" />
+        <Key
+            android:keyLabel="ل"
+            android:keyOutputText="ل"
+            android:popupCharacters="لﻻ" />
+        <Key
+            android:keyLabel="ا"
+            android:keyOutputText="ا"
+            android:popupCharacters="اأإآ" />
+        <Key
+            android:keyLabel="ت"
+            android:keyOutputText="ت" />
+        <Key
+            android:keyLabel="ن"
+            android:keyOutputText="ن" />
+        <Key
+            android:keyLabel="م"
+            android:keyOutputText="م" />
+        <Key
+            android:keyLabel="ك"
+            android:keyOutputText="ك"
+            android:popupCharacters="كگ" />
+        <Key
+            android:keyEdgeFlags="right"
+            android:keyLabel="ة"
+            android:keyOutputText="ة" />
+    </Row>
+
+    <Row>
+        <Key
+            android:keyEdgeFlags="left"
+            android:keyLabel="ء"
+            android:keyOutputText="ء"
+            android:popupCharacters="ءأإئؤ" />
+        <Key
+            android:keyLabel="ظ"
+            android:keyOutputText="ظ" />
+        <Key
+            android:keyLabel="ط"
+            android:keyOutputText="ط" />
+        <Key
+            android:keyLabel="ذ"
+            android:keyOutputText="ذ" />
+        <Key
+            android:keyLabel="د"
+            android:keyOutputText="د" />
+        <Key
+            android:keyLabel="ز"
+            android:keyOutputText="ز"
+            android:popupCharacters="زژ" />
+        <Key
+            android:keyLabel="ر"
+            android:keyOutputText="ر" />
+        <Key
+            android:keyLabel="و"
+            android:keyOutputText="و"
+            android:popupCharacters="وؤ" />
+        <Key
+            android:keyLabel="ى"
+            android:keyOutputText="ى"
+            android:popupCharacters="ىئ" />
+        <Key
+            android:backgroundType="functional"
+            android:codes="-4"
+            android:isRepeatable="true"
+            android:keyIcon="@drawable/icon_delete_ae"
+            android:keyWidth="18.2%p" />
+
+    </Row>
+
+
+    <Row>
+        <Key
+            android:backgroundType="functional"
+            android:codes="-70"
+            android:keyLabel="١٢٣"
+            android:keyWidth="@dimen/keyboard_function_key_width" />
+        <Key
+            android:backgroundType="functional"
+            android:codes="-55"
+            android:keyIcon="@drawable/icon_note_ae"
+            android:keyWidth="@dimen/keyboard_function_key_width"
+            android:popupCharacters="ٰٓـًٌٍَُِّْ" />
+
+        <Key
+            android:codes="-3"
+            android:keyIcon="@drawable/icon_space"
+            android:keyLabel="لغة عربية"
+            android:keyWidth="40%p" />
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-111"
+            android:keyIcon="@drawable/icon_lang"
+            android:keyWidth="@dimen/keyboard_function_key_width" />
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-2"
+            android:keyEdgeFlags="right"
+            android:keyIcon="@drawable/icon_enter"
+            android:keyWidth="@dimen/keyboard_function_back_key_width" />
+    </Row>
+
+
+</Keyboard>

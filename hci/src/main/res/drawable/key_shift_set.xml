@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:ask="http://schemas.android.com/apk/res-auto">
+
+<!--    &lt;!&ndash; checked &ndash;&gt;-->
+<!--    <item android:state_checked="true" android:drawable="@drawable/sym_keyboard_shift_locked"/>-->
+
+<!--    &lt;!&ndash; pressed &ndash;&gt;-->
+<!--    <item android:state_pressed="true" android:drawable="@drawable/sym_keyboard_shift_on"/>-->
+
+<!--    &lt;!&ndash; Normal keys &ndash;&gt;-->
+<!--    <item android:drawable="@drawable/sym_keyboard_shift"/>-->
+</selector>

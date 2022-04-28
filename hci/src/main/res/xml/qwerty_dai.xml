@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/com.sinovoice.hciimevehicleintl"
+    android:horizontalGap="@dimen/keyboard_key_horizontalGap"
+    android:keyHeight="@dimen/keyboard_key_dai_height"
+    android:keyWidth="8.32%p"
+    android:verticalGap="@dimen/keyboard_key_verticalGap">
+    <Row>
+        <Key
+            android:keyEdgeFlags="left"
+            android:keyLabel="ๅ"  android:keyLabel2="+"
+            android:keyOutputText="ๅ"
+            />
+        <Key
+            android:keyLabel="/"   android:keyLabel2="๑"
+            android:keyOutputText="/"
+            />
+        <Key
+            android:keyLabel="_"   android:keyLabel2="๒"
+            android:keyOutputText="_"
+            />
+        <Key
+            android:keyLabel="ภ"    android:keyLabel2="๓"
+            android:keyOutputText="ภ"
+            />
+        <Key
+            android:keyLabel="ถ" android:keyLabel2="๔"
+            android:keyOutputText="ถ"
+            />
+        <Key
+            android:keyLabel="ุ"    android:keyLabel2="ู"
+            android:keyOutputText="ุ"
+            />
+        <Key
+            android:keyLabel="ึ"    android:keyLabel2="฿"
+            android:keyOutputText="ึ"
+            />
+        <Key
+            android:keyLabel="ค"   android:keyLabel2="๕"
+            android:keyOutputText="ค"
+            android:popupCharacters="คฅ"
+            />
+        <Key
+            android:keyLabel="ต"   android:keyLabel2="๖"
+            android:keyOutputText="ต"
+            />
+        <Key
+            android:keyLabel="จ" android:keyLabel2="๗"
+            android:keyOutputText="จ"
+            />
+        <Key
+            android:keyLabel="ข"   android:keyLabel2="๘"
+            android:keyOutputText="ข"
+            />
+        <Key
+            android:keyEdgeFlags="right"
+            android:keyLabel="ช"  android:keyLabel2="๙"
+            android:keyWidth="8.48%p"
+            android:keyOutputText="ช"
+            />
+    </Row>
+    <Row>
+        <Key
+            android:keyEdgeFlags="left"
+            android:keyLabel="ๆ"  android:keyLabel2="๐"
+            android:keyOutputText="ๆ"
+            />
+        <Key
+            android:keyLabel="ไ"  android:keyLabel2="“"
+            android:keyOutputText="ไ"
+            />
+        <Key
+            android:keyLabel="ำ"   android:keyLabel2="ฎ"
+            android:keyOutputText="ำ"
+            />
+        <Key
+            android:keyLabel="พ"   android:keyLabel2="ฑ"
+            android:keyOutputText="พ"
+            />
+        <Key
+            android:keyLabel="ะ" android:keyLabel2="ธ"
+            android:keyOutputText="ะ"
+            />
+        <Key
+            android:keyLabel="ั" android:keyLabel2="ํ"
+            android:keyOutputText="ั"
+            />
+        <Key
+            android:keyLabel="ี"  android:keyLabel2="๊"
+            android:keyOutputText="ี"
+            />
+        <Key
+            android:keyLabel="ร"  android:keyLabel2="ณ"
+            android:keyOutputText="ร"
+            />
+        <Key
+            android:keyLabel="น"  android:keyLabel2="ฯ"
+            android:keyOutputText="น"
+            android:popupCharacters="ฯ๏"
+            />
+        <Key
+            android:keyLabel="ย" android:keyLabel2="ญ"
+            android:keyOutputText="ย"
+            />
+        <Key
+            android:keyLabel="บ"  android:keyLabel2="ฐ"
+            android:keyOutputText="บ"
+            />
+        <Key
+            android:keyEdgeFlags="right"
+            android:keyWidth="8.48%p"
+            android:keyLabel="ล" android:keyLabel2=","
+            android:keyOutputText="ล"
+            />
+    </Row>
+    <Row>
+        <Key
+            android:keyEdgeFlags="left"
+            android:keyLabel="ฟ" android:keyLabel2="ฤ"
+            android:keyOutputText="ฟ"
+            />
+        <Key
+            android:keyLabel="ห" android:keyLabel2="ฆ"
+            android:keyOutputText="ห"
+            />
+        <Key
+            android:keyLabel="ก"  android:keyLabel2="ฏ"
+            android:keyOutputText="ก"
+            />
+        <Key
+            android:keyLabel="ด" android:keyLabel2="โ"
+            android:keyOutputText="ด"
+            />
+        <Key
+            android:keyLabel="เ" android:keyLabel2="ฌ"
+            android:keyOutputText="เ"
+            />
+        <Key
+            android:keyLabel="้" android:keyLabel2="็"
+            android:keyOutputText="้"
+            />
+        <Key
+            android:keyLabel="่" android:keyLabel2="๋"
+            android:keyOutputText="่"
+            android:popupCharacters="ฺู๋๊็ํ่์"
+            />
+        <Key
+            android:keyLabel="า" android:keyLabel2="ษ"
+            android:keyOutputText="า"
+            />
+        <Key
+            android:keyLabel="ส"  android:keyLabel2="ศ"
+            android:keyOutputText="ส"
+            />
+        <Key
+            android:keyLabel="ว"  android:keyLabel2="ซ"
+            android:keyOutputText="ว"
+            />
+        <Key
+            android:keyLabel="ง"  android:keyLabel2="."
+            android:keyOutputText="ง"
+            />
+        <Key
+            android:keyEdgeFlags="right"
+            android:keyWidth="8.48%p"
+            android:keyLabel="ฃ"  android:keyLabel2="ฅ"
+            android:keyOutputText="ฃ"
+            />
+    </Row>
+    <Row>
+        <Key
+            android:codes="-1,-100"
+            android:backgroundType="functional"
+            android:keyEdgeFlags="left"
+            android:isModifier="true"
+            android:isSticky="true"
+            android:isActive="true"
+            android:keyIcon="@drawable/shift"/>
+
+        <Key
+            android:keyLabel="ผ" android:keyLabel2="("
+            android:keyOutputText="ผ"
+            />
+        <Key
+            android:keyLabel="ป"  android:keyLabel2=")"
+            android:keyOutputText="ป"
+            />
+        <Key
+            android:keyLabel="แ" android:keyLabel2="ฉ"
+            android:keyOutputText="แ"
+            />
+        <Key
+            android:keyLabel="อ"  android:keyLabel2="ฮ"
+            android:keyOutputText="อ"
+            />
+        <Key
+            android:keyLabel="ิ" android:keyLabel2="ฺ"
+            android:keyOutputText="ิ"
+            />
+        <Key
+            android:keyLabel="ื" android:keyLabel2="์"
+            android:keyOutputText="ื"
+            />
+        <Key
+            android:keyLabel="ท" android:keyLabel2="\?"
+            android:keyOutputText="ท"
+            />
+        <Key
+            android:keyLabel="ม"  android:keyLabel2="ฒ"
+            android:keyOutputText="ม"
+            />
+        <Key
+            android:keyLabel="ใ" android:keyLabel2="ฬ"
+            android:keyOutputText="ใ"
+            />
+        <Key
+            android:keyLabel="ฝ" android:keyLabel2="ฦ"
+            android:keyOutputText="ฝ"
+            />
+        <Key
+            android:backgroundType="functional"
+            android:keyEdgeFlags="right"
+            android:keyWidth="8.48%p"
+            android:codes="-4"
+            android:isRepeatable="true"
+            android:keyIcon="@drawable/icon_delete"
+            />
+    </Row>
+
+
+    <Row
+        android:keyHeight="@dimen/keyboard_key_dai_space_height">
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-70"
+            android:keyLabel="123"
+            android:keyWidth="15%p"/>
+
+
+        <Key
+            android:codes="-3"
+            android:keyIcon="@drawable/icon_space"
+            android:keyWidth="55%p"/>
+
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-111"
+            android:keyWidth="15%p"
+            android:keyIcon="@drawable/icon_lang"/>
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-2"
+            android:keyEdgeFlags="right"
+            android:keyWidth="15%p"
+            android:keyIcon="@drawable/icon_enter"
+            />
+    </Row>
+</Keyboard>

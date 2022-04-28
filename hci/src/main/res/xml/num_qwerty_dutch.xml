@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/com.sinovoice.hciimevehicleintl"
+    android:horizontalGap="@dimen/keyboard_key_horizontalGap"
+          android:keyHeight="@dimen/keyboard_key_height"
+          android:keyWidth="@dimen/keyboard_key_width"
+          android:verticalGap="@dimen/keyboard_key_verticalGap">
+
+    <Row>
+        <Key
+            android:keyEdgeFlags="left"
+            android:horizontalGap="@dimen/keyboard_edge_key_horizontal_gap"
+            android:keyLabel="1"/>
+        <Key
+            android:keyLabel="2"/>
+        <Key
+            android:keyLabel="3"/>
+        <Key
+            android:keyLabel="4"/>
+        <Key
+            android:keyLabel="5"/>
+        <Key
+            android:keyLabel="6"/>
+        <Key
+            android:keyLabel="7"/>
+        <Key
+            android:keyLabel="8"/>
+        <Key
+            android:keyLabel="9"/>
+        <Key
+            android:keyEdgeFlags="right"
+            android:keyLabel="0"/>
+    </Row>
+    <Row>
+        <Key
+            android:horizontalGap="@dimen/keyboard_edge_key_horizontal_gap"
+            android:keyLabel="-"/>
+        <Key
+            android:keyLabel="/"/>
+        <Key
+            android:keyLabel=":"/>
+        <Key
+            android:keyLabel=";"/>
+        <Key
+            android:keyLabel="("/>
+        <Key
+            android:keyLabel=")"/>
+        <Key
+            android:keyLabel="€"/>
+        <Key
+            android:keyLabel="&amp;"/>
+        <Key
+            android:keyLabel="\@"/>
+        <Key
+            android:keyEdgeFlags="right"
+            android:keyLabel='"'/>
+    </Row>
+
+
+    <Row>
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-71"
+            android:keyLabel="#+="
+            android:horizontalGap="@dimen/keyboard_edge_key_horizontal_gap"
+            android:keyWidth="@dimen/keyboard_num_function_key_width"/>
+        <Key
+            android:keyLabel="."/>
+        <Key
+            android:keyLabel=","/>
+        <Key
+            android:keyLabel="\?"/>
+        <Key
+            android:keyLabel="!"/>
+        <Key
+            android:keyLabel="'"/>
+        <Key
+            android:backgroundType="functional"
+            android:codes="-4"
+            android:isRepeatable="true"
+            android:keyIcon="@drawable/icon_delete"
+            android:keyWidth="@dimen/keyboard_num_function_key_width"/>
+    </Row>
+
+    <Row>
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-21"
+            android:keyEdgeFlags="left"
+            android:keyWidth="@dimen/keyboard_function_key_width"
+            android:keyLabel="ABC"
+            android:horizontalGap="@dimen/keyboard_edge_key_horizontal_gap"
+            />
+
+
+        <Key
+            android:codes="-3"
+            android:keyIcon="@drawable/icon_space"
+            android:keyWidth="@dimen/keyboard_space_key_width"/>
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-111"
+            android:keyIcon="@drawable/icon_lang"
+            android:keyWidth="@dimen/keyboard_function_key_width"/>
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-2"
+            android:keyEdgeFlags="right"
+            android:keyWidth="@dimen/keyboard_function_key_width"
+            android:keyIcon="@drawable/icon_enter"
+            />
+    </Row>
+
+
+
+</Keyboard>

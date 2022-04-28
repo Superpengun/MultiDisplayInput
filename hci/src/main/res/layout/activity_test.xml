@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.sinovoice.input.international.widget.CandidateView
+        android:id="@+id/candidate_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.sinovoice.input.international.widget.MoreCandidateView
+        android:id="@+id/more_candidate_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@color/black"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/candidate_view" />
+
+    <com.sinovoice.input.international.widget.KeyboardView
+        android:id="@+id/keyboard_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/tv_update"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp" />
+
+    <TextView
+        android:id="@+id/tv_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00aaaa"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="CandidateView"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_set_more_candidate"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_set_more_candidate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00aaaa"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="MoreCandidateView"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@id/tv_set_theme"
+        app:layout_constraintStart_toEndOf="@id/tv_update"
+        app:layout_constraintTop_toTopOf="@id/tv_update" />
+
+    <TextView
+        android:id="@+id/tv_set_theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00aaaa"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="设置主题"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_set_more_candidate"
+        app:layout_constraintTop_toTopOf="@id/tv_update" />
+</androidx.constraintlayout.widget.ConstraintLayout>

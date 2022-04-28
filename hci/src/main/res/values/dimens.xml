@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="baseCandidateTextSize">24dp</dimen>
+    <dimen name="baseCandidateDataXGap">48dp</dimen>
+    <dimen name="rtlCandidateDataXGap">60dp</dimen>
+    <dimen name="baseCandidateVerticalPadding">10dp</dimen>
+    <dimen name="moreCandidateHeight">220dp</dimen>
+    <dimen name="baseMoreCandidateTextSize">24dp</dimen>
+
+    <dimen name="key_text_size">21sp</dimen>
+    <dimen name="key_label_text_size">21sp</dimen>
+
+
+    <dimen name="key_top_inset">3dp</dimen>
+    <dimen name="key_bottom_inset">3dp</dimen>
+    <dimen name="key_right_inset">2.5dp</dimen>
+    <dimen name="key_left_inset">2.5dp</dimen>
+    <dimen name="key_corner_radius">3dp</dimen>
+
+    <!--    miniKeyboardView   -->
+    <dimen name="key_preview_font_size">60px</dimen>
+    <dimen name="key_pop_font_size">52px</dimen>
+    <dimen name="key_pop_margin">8px</dimen>
+    <dimen name="key_pop_width">88px</dimen>
+    <dimen name="key_pop_height">88px</dimen>
+
+    <dimen name="keyboard_key_height">104px</dimen>
+    <dimen name="keyboard_key_width">9.87%p</dimen>
+    <dimen name="keyboard_key_dai_height">83px</dimen>
+    <dimen name="keyboard_key_dai_space_height">84px</dimen>
+    <dimen name="key_preview_height">144px</dimen>
+    <dimen name="keyboard_key_verticalGap">2px</dimen>
+    <dimen name="keyboard_key_horizontalGap">0.1%p</dimen>
+    <dimen name="keyboard_second_row_horizontalGap">5%p</dimen>
+    <dimen name="keyboard_function_key_width">15%p</dimen>
+    <dimen name="keyboard_function_back_key_width">14.7%p</dimen>
+    <dimen name="keyboard_edge_key_horizontal_gap">0px</dimen>
+    <dimen name="keyboard_wide_symbol_key_width">94px</dimen>
+    <dimen name="keyboard_wide_symbol_key_width_smaller">93px</dimen>
+    <dimen name="keyboard_space_key_width">55%p</dimen>
+    <dimen name="keyboard_key_width_german">8.99%p</dimen>
+    <dimen name="keyboard_key_shift_width_german">18%p</dimen>
+    <dimen name="keyboard_space_key_width_2">491px</dimen>
+    <dimen name="keyboard_key_width_russian">9%p</dimen>
+    <dimen name="keyboard_margin">4px</dimen>
+    <dimen name="candidate_horizontal_padding">10dp</dimen>
+    <dimen name="keyboard_num_function_key_width">25%p</dimen>
+    <dimen name="keyboard_num_space_key_width">49.8%p</dimen>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="showPreview" format="reference|boolean"/>
+    <!-- Whether to auto capitalize. -->
+    <attr name="autoCap" format="reference|boolean" />
+
+    <declare-styleable name="keyType">
+        <attr name="key_type_function" format="boolean"/>
+        <attr name="key_type_action" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="keyActionType">
+        <attr name="action_done" format="boolean"/>
+        <attr name="action_search" format="boolean"/>
+        <attr name="action_go" format="boolean"/>
+        <attr name="action_send" format="boolean"/>
+        <attr name="action_previous" format="boolean"/>
+        <attr name="action_next" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="KeyboardViewPreviewState">
+        <attr name="state_long_pressable" format="boolean"/>
+    </declare-styleable>
+</resources>

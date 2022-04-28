@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/com.sinovoice.hciimevehicleintl"
+    android:horizontalGap="@dimen/keyboard_key_horizontalGap"
+          android:keyHeight="@dimen/keyboard_key_height"
+          android:keyWidth="@dimen/keyboard_key_width"
+          android:verticalGap="@dimen/keyboard_key_verticalGap">
+
+    <Row>
+        <Key
+            android:keyEdgeFlags="left"
+             android:popupCharacters="1۱"
+            android:keyLabel="۱"/>
+        <Key
+             android:popupCharacters="2۲"
+            android:keyLabel="۲"/>
+        <Key
+             android:popupCharacters="3۳"
+            android:keyLabel="۳"/>
+        <Key
+             android:popupCharacters="4۴"
+            android:keyLabel="۴"/>
+        <Key
+             android:popupCharacters="5۵"
+            android:keyLabel="۵"/>
+        <Key
+             android:popupCharacters="6۶"
+            android:keyLabel="۶"/>
+        <Key
+             android:popupCharacters="7۷"
+            android:keyLabel="۷"/>
+        <Key
+             android:popupCharacters="8۸"
+            android:keyLabel="۸"/>
+        <Key
+             android:popupCharacters="9۹"
+            android:keyLabel="۹"/>
+        <Key
+             android:popupCharacters="0۰"
+            android:keyEdgeFlags="right"
+            android:keyLabel="۰"/>
+    </Row>
+    <Row>
+        <Key
+            android:keyLabel="-"/>
+        <Key
+            android:keyLabel="/"/>
+        <Key
+            android:keyLabel=":"/>
+        <Key
+            android:keyLabel="؛"/>
+        <Key
+            android:keyOutputText=")"
+            android:keyLabel="("/>
+        <Key
+            android:keyOutputText="("
+            android:keyLabel=")"/>
+        <Key
+            android:keyLabel="﷼"/>
+        <Key
+            android:keyLabel="\@"/>
+        <Key
+            android:keyOutputText="»"
+            android:keyLabel="«"/>
+        <Key
+            android:keyOutputText="«"
+            android:keyEdgeFlags="right"
+            android:keyLabel="»"/>
+    </Row>
+
+
+    <Row>
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-71"
+            android:keyLabel="#+="
+            android:keyWidth="@dimen/keyboard_function_key_width"/>
+        <Key
+            android:keyWidth="14%p"
+            android:keyLabel="."/>
+        <Key
+            android:keyWidth="14%p"
+            android:keyLabel="،"/>
+        <Key
+            android:keyWidth="14%p"
+            android:keyLabel="؟"/>
+        <Key
+            android:keyWidth="14%p"
+            android:keyLabel="!"/>
+        <Key
+            android:keyWidth="14%p"
+            android:keyLabel="٫"/>
+        <Key
+            android:backgroundType="functional"
+            android:codes="-4"
+            android:isRepeatable="true"
+            android:keyIcon="@drawable/icon_delete_ae"
+            android:keyWidth="@dimen/keyboard_function_key_width"/>
+    </Row>
+
+    <Row>
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-21"
+            android:keyEdgeFlags="left"
+            android:keyWidth="@dimen/keyboard_function_key_width"
+            android:keyLabel="ا ب ج"
+            />
+        <Key
+            android:backgroundType="functional"
+            android:keyWidth="@dimen/keyboard_function_key_width"
+            android:codes="-55"
+            android:keyIcon="@drawable/icon_note_ae"
+            android:popupCharacters="ٰٓـًٌٍَُِّْ"
+            />
+
+        <Key
+            android:codes="-3"
+            android:keyIcon="@drawable/icon_space"
+            android:keyWidth="40%p"/>
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-111"
+            android:keyWidth="@dimen/keyboard_function_key_width"
+            android:keyIcon="@drawable/icon_lang"/>
+        <Key
+            android:backgroundType="functional"
+            android:codes="-2"
+            android:keyWidth="@dimen/keyboard_function_key_width"
+            android:keyEdgeFlags="right"
+            android:keyIcon="@drawable/icon_enter"/>
+    </Row>
+
+
+
+</Keyboard>

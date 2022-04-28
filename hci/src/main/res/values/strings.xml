@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">HciInternationalInputmethod</string>
+
+    <string-array name="inputItems">
+        <item>English(英语)</item>
+        <item>Русский язык（俄语）</item>
+        <item>Español（西班牙语）</item>
+        <item>Português（葡萄牙语）</item>
+        <item>العربية （阿拉伯语）</item>
+        <item>فارسی（波斯语）</item>
+        <item>Bahasa Melayu(马来语)</item>
+        <item>Bahasa Indonesia(印尼语)</item>
+        <item>ภาษาไทย(泰语)</item>
+        <item>Tiếng Việt(越南语)</item>
+        <item>Deutsch（德语）</item>
+        <item>Français（法语）</item>
+        <item>Italiano（意大利语）</item>
+        <item>Nederlands（荷兰语）</item>
+        <item>Svensk（瑞典语）</item>
+        <item>Čeština（捷克语）</item>
+        <item>Norsk（挪威语）</item>
+    </string-array>
+
+    <string name="go">前往</string>
+    <string name="search">搜索</string>
+    <string name="confirm">确认</string>
+    <string name="next">下一项</string>
+    <string name="last">上一项</string>
+
+    <string name="setting">灵云输入法国际版</string>
+
+    <string name="switch_kb">切换键盘</string>
+    <string name="cancel">取消</string>
+</resources>
