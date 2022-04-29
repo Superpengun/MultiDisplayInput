@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<Keyboard xmlns:android="http://schemas.android.com/apk/res/com.sinovoice.hciimevehicleintl"
+<Keyboard xmlns:android="http://schemas.android.com/apk/res-auto"
     android:horizontalGap="@dimen/keyboard_key_horizontalGap"
           android:keyHeight="@dimen/keyboard_key_height"
           android:keyWidth="@dimen/keyboard_key_width"

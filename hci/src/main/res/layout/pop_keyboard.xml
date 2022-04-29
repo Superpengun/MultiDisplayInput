@@ -4,7 +4,7 @@
               android:orientation="horizontal"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content">
-    <com.sinovoice.input.international.widget.MiniKeyboardView
+    <com.zqy.hci.widget.MiniKeyboardView
         android:id="@+id/popup_keyboard"
         android:orientation="horizontal"
         android:padding="@dimen/key_pop_margin"
@@ -12,6 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-    </com.sinovoice.input.international.widget.MiniKeyboardView>
+    </com.zqy.hci.widget.MiniKeyboardView>
 
 </LinearLayout>

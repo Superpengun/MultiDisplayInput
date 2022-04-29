@@ -32,6 +32,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
 import com.zqy.multidisplayinput.ClientCallbackImpl
 import com.android.internal.inputmethod.StartInputFlags
+import com.zqy.hci.ime.InputViewController
 import com.zqy.multidisplayinput.NoopKeyboardActionListener
 
 internal class ClientCallbackImpl(
@@ -128,6 +129,7 @@ internal class ClientCallbackImpl(
             }
         } else {
             window.onStartInput(mClientId, targetWindowHandle, inputConnection)
+            InputViewController.instance.handleEditorInfo(editorInfo)
         }
         when (state) {
             WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE -> if (forwardNavigation) {

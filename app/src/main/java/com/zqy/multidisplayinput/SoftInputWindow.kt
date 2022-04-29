@@ -22,12 +22,10 @@ import android.inputmethodservice.KeyboardView
 import android.inputmethodservice.MultiClientInputMethodServiceDelegate
 import android.os.IBinder
 import android.util.Log
-import android.view.Gravity
-import android.view.KeyEvent
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.view.inputmethod.InputConnection
 import android.widget.LinearLayout
+import com.zqy.hci.ime.InputViewController
 import java.util.*
 
 internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
@@ -48,6 +46,8 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
             val keyboard = mKeyboardView.keyboard
             return keyboard === mSymbolKeyboard || keyboard === mSymbolShiftKeyboard
         }
+
+    var mInputViewContainer: View? = null
 
     fun onFinishClient() {
         mKeyboardView.setOnKeyboardActionListener(sNoopListener)
@@ -180,9 +180,14 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
         mKeyboardView.keyboard = mQwertygKeyboard
         mKeyboardView.setOnKeyboardActionListener(sNoopListener)
 
+        context?.let { InputViewController.instance.init(it) }
+        mInputViewContainer = InputViewController.instance.createInputView(layoutInflater)
+        InputViewController.instance.loadTheme()
+
         // TODO(b/158663354): Disabling keyboard popped preview key since it is currently broken.
         mKeyboardView.isPreviewEnabled = false
-        layout.addView(mKeyboardView)
+//        layout.addView(mKeyboardView)
+        layout.addView(mInputViewContainer)
         setContentView(
             layout, ViewGroup.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT

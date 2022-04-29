@@ -4,6 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/test/MultiDisplayInput/app/src/main/res/layout/input.xml" value="0.13333333333333333" />
+        <entry key="..\:/test/MultiDisplayInput/hci/src/main/res/layout/activity_test.xml" value="0.15260416666666668" />
+        <entry key="..\:/test/MultiDisplayInput/hci/src/main/res/layout/key_pop.xml" value="0.15260416666666668" />
+        <entry key="..\:/test/MultiDisplayInput/hci/src/main/res/layout/key_preview.xml" value="0.15260416666666668" />
+        <entry key="..\:/test/MultiDisplayInput/hci/src/main/res/layout/layout_inputview.xml" value="0.15260416666666668" />
+        <entry key="..\:/test/MultiDisplayInput/hci/src/main/res/layout/layout_more_candidate.xml" value="0.15260416666666668" />
+        <entry key="..\:/test/MultiDisplayInput/hci/src/main/res/layout/pop_keyboard.xml" value="0.15260416666666668" />
       </map>
     </option>
   </component>

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/keyboard_background_color">
 
-    <com.sinovoice.input.international.widget.KeyboardView
+    <com.zqy.hci.widget.KeyboardView
         android:id="@+id/keyboard_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.sinovoice.input.international.widget.CandidateView
+    <com.zqy.hci.widget.CandidateView
         android:id="@+id/candidate_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.sinovoice.input.international.widget.MoreCandidateView
+    <com.zqy.hci.widget.MoreCandidateView
         android:id="@+id/more_candidate_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

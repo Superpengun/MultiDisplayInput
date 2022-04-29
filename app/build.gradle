@@ -89,6 +89,7 @@ gradle.projectsEvaluated {
 }
 
 dependencies {
+    implementation project(path: ':hci')
     compileOnly files('libs\\ZQYAndroidClass.jar')
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
