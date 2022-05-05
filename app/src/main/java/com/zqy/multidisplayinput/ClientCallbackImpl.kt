@@ -32,7 +32,11 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
 import com.zqy.multidisplayinput.ClientCallbackImpl
 import com.android.internal.inputmethod.StartInputFlags
+import com.zqy.hci.bean.FunctionKeyCode
 import com.zqy.hci.ime.InputViewController
+import com.zqy.hci.listener.OnCandidateActionListener
+import com.zqy.hci.listener.OnKeyboardActionListener
+import com.zqy.hci.service.AudioAndHapticFeedbackManager
 import com.zqy.multidisplayinput.NoopKeyboardActionListener
 
 internal class ClientCallbackImpl(
@@ -43,7 +47,7 @@ internal class ClientCallbackImpl(
     private val mUid: Int,
     private val mPid: Int,
     private val mSelfReportedDisplayId: Int
-) : ClientCallback {
+) : ClientCallback , OnKeyboardActionListener, OnCandidateActionListener {
     val dispatcherState: KeyEvent.DispatcherState
     val looper: Looper
     override fun onAppPrivateCommand(action: String, data: Bundle) {}
@@ -119,6 +123,7 @@ internal class ClientCallbackImpl(
             mDelegate.setActive(mClientId, true /* active */)
         }
         InputViewController.instance.handleEditorInfo(editorInfo)
+        InputViewController.instance.setUIListener(this,this)
         if (inputConnection == null || editorInfo == null) {
             // Placeholder InputConnection case.
             if (window.clientId == mClientId) {
@@ -213,5 +218,116 @@ internal class ClientCallbackImpl(
         // and introduce an appropriate synchronization mechanism instead of directly accessing
         // MultiClientInputMethod#mDisplayToLastClientId.
         looper = Looper.getMainLooper()
+    }
+
+    override fun onCandidateSelected(index: Int, word: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getMoreList() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMore() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClose() {
+        val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId)
+        if (window != null && window.isShowing) {
+            window.hide()
+        }
+    }
+
+    override fun onClear() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onBack() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPress(primaryCode: Int) {
+        AudioAndHapticFeedbackManager.getInstance().performAudioFeedback(primaryCode)
+    }
+
+    override fun onRelease(primaryCode: Int) {
+    }
+
+    override fun onKey(primaryCode: Int, keyCodes: IntArray?) {
+        when (primaryCode) {
+            FunctionKeyCode.KEY_SHIFT -> {
+                InputViewController.instance.setShifted()
+//                LogicControl.instance.setShiftState(InputViewController.instance.getShiftState())
+            }
+            FunctionKeyCode.KEY_SHIFT_LOCK -> {
+                InputViewController.instance.lockShift()
+//                LogicControl.instance.setShiftState(InputViewController.instance.getShiftState())
+            }
+            FunctionKeyCode.SELECT_LANGUAGE -> {
+                InputViewController.instance.showChooseLanOption()
+//                LogicControl.instance.clear()
+            }
+            FunctionKeyCode.KEY_BACK -> {
+                InputViewController.instance.switchKb()
+//                LogicControl.instance.clear()
+            }
+            FunctionKeyCode.KEY_MULTI_QWERTY_NUM -> {
+                InputViewController.instance.switchNumKb()
+//                LogicControl.instance.clear()
+            }
+            FunctionKeyCode.KEY_MUTTI_QWERTY_SYMBOL -> {
+                InputViewController.instance.switchSymbolKb()
+//                LogicControl.instance.clear()
+            }
+            FunctionKeyCode.KEY_DEL -> {
+//                LogicControl.instance.sendDelete()
+            }
+            FunctionKeyCode.KEY_SPACE -> {
+//                LogicControl.instance.sendSpace()
+            }
+            FunctionKeyCode.KEY_ENTER -> {
+//                LogicControl.instance.sendEnter()
+            }
+            FunctionKeyCode.KEY_ARAB_ALPHABET ->{
+//                LogicControl.instance.sendSymbol("ٓ")
+            }
+            FunctionKeyCode.KEY_NORAWAY_KR ->{
+//                LogicControl.instance.sendSymbol("Kr")
+            }
+            else -> {
+//                LogicControl.instance.sendSymbol(primaryCode)
+            }
+        }
+    }
+
+    override fun onText(text: CharSequence?) {
+        val isLockShift = InputViewController.instance.isLockShifted()
+        val isShift = InputViewController.instance.isShifted()
+        if (isShift && !isLockShift){
+            InputViewController.instance.setShifted()
+//            LogicControl.instance.setShiftState(InputViewController.instance.getShiftState())
+        }
+//        LogicControl.instance.query(text)
+    }
+
+    override fun swipeLeft() {
+        TODO("Not yet implemented")
+    }
+
+    override fun swipeRight() {
+        TODO("Not yet implemented")
+    }
+
+    override fun swipeDown() {
+        TODO("Not yet implemented")
+    }
+
+    override fun swipeUp() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLongPress(text: CharSequence?): Boolean {
+        TODO("Not yet implemented")
     }
 }
