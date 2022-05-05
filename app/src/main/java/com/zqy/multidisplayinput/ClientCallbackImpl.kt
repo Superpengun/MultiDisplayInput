@@ -118,6 +118,7 @@ internal class ClientCallbackImpl(
             mDelegate.setActive(lastClientId, false /* active */)
             mDelegate.setActive(mClientId, true /* active */)
         }
+        InputViewController.instance.handleEditorInfo(editorInfo)
         if (inputConnection == null || editorInfo == null) {
             // Placeholder InputConnection case.
             if (window.clientId == mClientId) {
@@ -129,7 +130,6 @@ internal class ClientCallbackImpl(
             }
         } else {
             window.onStartInput(mClientId, targetWindowHandle, inputConnection)
-            InputViewController.instance.handleEditorInfo(editorInfo)
         }
         when (state) {
             WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE -> if (forwardNavigation) {
