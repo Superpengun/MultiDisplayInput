@@ -38,7 +38,8 @@ class AudioAndHapticFeedbackManager private constructor() {
         if (mAudioManager == null) {
             return
         }
-        mSoundOn = Settings.instance.getCurrent()!!.isSoundOn()
+//        mSoundOn = Settings.instance.getCurrent()!!.isSoundOn()
+        mSoundOn = true
         if (!mSoundOn) {
             return
         }
