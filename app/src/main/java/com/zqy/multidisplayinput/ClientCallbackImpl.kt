@@ -15,9 +15,7 @@
  */
 package com.zqy.multidisplayinput
 
-import com.zqy.multidisplayinput.MultiClientInputMethod
 import android.inputmethodservice.MultiClientInputMethodServiceDelegate
-import com.zqy.multidisplayinput.SoftInputWindowManager
 import android.inputmethodservice.MultiClientInputMethodServiceDelegate.ClientCallback
 import android.os.Bundle
 import android.os.Looper
@@ -30,14 +28,14 @@ import android.view.inputmethod.CompletionInfo
 import android.view.inputmethod.CursorAnchorInfo
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
-import com.zqy.multidisplayinput.ClientCallbackImpl
-import com.android.internal.inputmethod.StartInputFlags
 import com.zqy.hci.bean.FunctionKeyCode
 import com.zqy.hci.ime.InputViewController
+import com.zqy.hci.input.LogicControl
+import com.zqy.hci.listener.HciCloudInputConnection
+import com.zqy.hci.listener.LogicControlListener
 import com.zqy.hci.listener.OnCandidateActionListener
 import com.zqy.hci.listener.OnKeyboardActionListener
 import com.zqy.hci.service.AudioAndHapticFeedbackManager
-import com.zqy.multidisplayinput.NoopKeyboardActionListener
 
 internal class ClientCallbackImpl(
     private val mInputMethod: MultiClientInputMethod,
@@ -47,9 +45,11 @@ internal class ClientCallbackImpl(
     private val mUid: Int,
     private val mPid: Int,
     private val mSelfReportedDisplayId: Int
-) : ClientCallback , OnKeyboardActionListener, OnCandidateActionListener {
+) : ClientCallback , OnKeyboardActionListener, OnCandidateActionListener, HciCloudInputConnection,
+    LogicControlListener {
     val dispatcherState: KeyEvent.DispatcherState
     val looper: Looper
+    var mCurrentInputConnection: InputConnection? = null
     override fun onAppPrivateCommand(action: String, data: Bundle) {}
     override fun onDisplayCompletions(completions: Array<CompletionInfo>?) {}
     override fun onFinishSession() {
@@ -124,6 +124,8 @@ internal class ClientCallbackImpl(
         }
         InputViewController.instance.handleEditorInfo(editorInfo)
         InputViewController.instance.setUIListener(this,this)
+        LogicControl.instance.setListener(this,this)
+        mCurrentInputConnection = inputConnection
         if (inputConnection == null || editorInfo == null) {
             // Placeholder InputConnection case.
             if (window.clientId == mClientId) {
@@ -206,6 +208,11 @@ internal class ClientCallbackImpl(
         return false
     }
 
+    fun getCurrentInputConnection(): InputConnection? {
+        val ic: InputConnection? = mCurrentInputConnection
+        return ic ?: mCurrentInputConnection
+    }
+
     companion object {
         private const val TAG = "ClientCallbackImpl"
         private const val DEBUG = true
@@ -258,45 +265,45 @@ internal class ClientCallbackImpl(
         when (primaryCode) {
             FunctionKeyCode.KEY_SHIFT -> {
                 InputViewController.instance.setShifted()
-//                LogicControl.instance.setShiftState(InputViewController.instance.getShiftState())
+                LogicControl.instance.setShiftState(InputViewController.instance.getShiftState())
             }
             FunctionKeyCode.KEY_SHIFT_LOCK -> {
                 InputViewController.instance.lockShift()
-//                LogicControl.instance.setShiftState(InputViewController.instance.getShiftState())
+                LogicControl.instance.setShiftState(InputViewController.instance.getShiftState())
             }
             FunctionKeyCode.SELECT_LANGUAGE -> {
                 InputViewController.instance.showChooseLanOption()
-//                LogicControl.instance.clear()
+                LogicControl.instance.clear()
             }
             FunctionKeyCode.KEY_BACK -> {
                 InputViewController.instance.switchKb()
-//                LogicControl.instance.clear()
+                LogicControl.instance.clear()
             }
             FunctionKeyCode.KEY_MULTI_QWERTY_NUM -> {
                 InputViewController.instance.switchNumKb()
-//                LogicControl.instance.clear()
+                LogicControl.instance.clear()
             }
             FunctionKeyCode.KEY_MUTTI_QWERTY_SYMBOL -> {
                 InputViewController.instance.switchSymbolKb()
-//                LogicControl.instance.clear()
+                LogicControl.instance.clear()
             }
             FunctionKeyCode.KEY_DEL -> {
-//                LogicControl.instance.sendDelete()
+                LogicControl.instance.sendDelete()
             }
             FunctionKeyCode.KEY_SPACE -> {
-//                LogicControl.instance.sendSpace()
+                LogicControl.instance.sendSpace()
             }
             FunctionKeyCode.KEY_ENTER -> {
-//                LogicControl.instance.sendEnter()
+                LogicControl.instance.sendEnter()
             }
             FunctionKeyCode.KEY_ARAB_ALPHABET ->{
-//                LogicControl.instance.sendSymbol("ٓ")
+                LogicControl.instance.sendSymbol("ٓ")
             }
             FunctionKeyCode.KEY_NORAWAY_KR ->{
-//                LogicControl.instance.sendSymbol("Kr")
+                LogicControl.instance.sendSymbol("Kr")
             }
             else -> {
-//                LogicControl.instance.sendSymbol(primaryCode)
+                LogicControl.instance.sendSymbol(primaryCode)
             }
         }
     }
@@ -306,9 +313,9 @@ internal class ClientCallbackImpl(
         val isShift = InputViewController.instance.isShifted()
         if (isShift && !isLockShift){
             InputViewController.instance.setShifted()
-//            LogicControl.instance.setShiftState(InputViewController.instance.getShiftState())
+            LogicControl.instance.setShiftState(InputViewController.instance.getShiftState())
         }
-//        LogicControl.instance.query(text)
+        LogicControl.instance.query(text)
     }
 
     override fun swipeLeft() {
@@ -329,5 +336,49 @@ internal class ClientCallbackImpl(
 
     override fun onLongPress(text: CharSequence?): Boolean {
         TODO("Not yet implemented")
+    }
+
+    override fun keyDownUp(keyEventCode: Int) {
+        val ic = getCurrentInputConnection()
+        if (ic != null) {
+            if (keyEventCode == KeyEvent.KEYCODE_SPACE) {
+                ic.commitText(" ", 1)
+            }
+//            else if (keyEventCode == KeyEvent.KEYCODE_ENTER) {
+//                sendKeyChar('\n')
+//            }
+            else {
+                ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, keyEventCode))
+                ic.sendKeyEvent(KeyEvent(KeyEvent.ACTION_UP, keyEventCode))
+            }
+        }
+    }
+
+    override fun commitString(str: String?, cursorPos: Int) {
+        val ic = getCurrentInputConnection()
+        if (ic != null) {
+            if (str != null && str.isNotEmpty()) // 如果没有内容，那就不提交了，不然会删除选中的内容。提交空字符串
+                ic.commitText(str, cursorPos)
+        }
+    }
+
+    override fun commitComposingStr(str: String?) {
+    }
+
+    override fun commitComposing(str: String?) {
+        val ic = getCurrentInputConnection()
+        ic?.setComposingText(str, 1)
+    }
+
+    override fun finishComposingText() {
+        val ic = getCurrentInputConnection()
+        ic?.finishComposingText()
+    }
+
+    override fun onUpdateComposingText(composingText: String) {
+    }
+
+    override fun onUpdateCandidateWordsList(upDateCandidateWordsList: List<String>) {
+        InputViewController.instance.setCandidateData(ArrayList(upDateCandidateWordsList))
     }
 }

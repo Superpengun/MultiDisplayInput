@@ -41,35 +41,38 @@ class LogicControl private constructor() : InputMethodListener {
     fun inputMethodChange(mode: Int) {
         Log.i(TAG, "onInputModeChange():mode=$mode")
         mCurrentInputMode = mode
-        when (mode) {
-            InputModeConst.INPUT_DEFAULT -> mCurrentInputMethod = mDefaultInputMethod
-            else -> {
-                mCurrentInputMethod = mMultiInputMethod
-                if (lastMode != mode) {
-                    mCurrentInputMethod?.changeLanRes(LanguageUtil.getRexPreFix(mode))
-                    Log.i(TAG, "changeLanRes()" + LanguageUtil.getRexPreFix(mode))
-                    lastMode = mode
-                }
-                mCurrentInputMethod?.setInputMethodListener(this)
-            }
-        }
+//        when (mode) {
+//            InputModeConst.INPUT_DEFAULT -> mCurrentInputMethod = mDefaultInputMethod
+//            else -> {
+//                mCurrentInputMethod = mMultiInputMethod
+//                if (lastMode != mode) {
+//                    mCurrentInputMethod?.changeLanRes(LanguageUtil.getRexPreFix(mode))
+//                    Log.i(TAG, "changeLanRes()" + LanguageUtil.getRexPreFix(mode))
+//                    lastMode = mode
+//                }
+//                mCurrentInputMethod?.setInputMethodListener(this)
+//            }
+//        }
+        mCurrentInputMethod = mDefaultInputMethod
     }
 
     ///////////////////////////////////////////////系统相关////////////////////////////////////////////////////////
     fun init(
-        context: Context,
-        hciCloudInputConnection: HciCloudInputConnection,
-        logicControlListener: LogicControlListener
+        context: Context
     ): Boolean {
-        mInitHciCloudSys = SysSDKManager.get().initHciCloudSys(context)
+//        mInitHciCloudSys = SysSDKManager.get().initHciCloudSys(context)
         if (!mInitHciCloudSys) return false
         mContext = context
         InputEngineInstance.get().init()
+        return true
+    }
+
+    fun setListener(hciCloudInputConnection: HciCloudInputConnection,
+                    logicControlListener: LogicControlListener){
         mHciCloudInputConnection = hciCloudInputConnection
         mLogicControlListener = logicControlListener
         mMultiInputMethod = MultiInputMethod(hciCloudInputConnection)
         mDefaultInputMethod = DefaultInputMethod(hciCloudInputConnection)
-        return true
     }
 
     fun release() {

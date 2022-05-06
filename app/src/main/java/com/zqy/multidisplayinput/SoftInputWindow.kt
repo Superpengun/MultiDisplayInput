@@ -26,6 +26,7 @@ import android.view.*
 import android.view.inputmethod.InputConnection
 import android.widget.LinearLayout
 import com.zqy.hci.ime.InputViewController
+import com.zqy.hci.input.LogicControl
 import com.zqy.hci.service.AudioAndHapticFeedbackManager
 import java.util.*
 
@@ -49,6 +50,7 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
         }
 
     var mInputViewContainer: View? = null
+    private var mLogicControlInit: Boolean = false
 
     fun onFinishClient() {
         mKeyboardView.setOnKeyboardActionListener(sNoopListener)
@@ -184,6 +186,9 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
         context?.let {
             InputViewController.instance.init(it)
             AudioAndHapticFeedbackManager.init(it)
+            if (!mLogicControlInit){
+                mLogicControlInit= LogicControl.instance.init(it)
+            }
         }
         mInputViewContainer = InputViewController.instance.createInputView(layoutInflater)
         InputViewController.instance.loadTheme()
