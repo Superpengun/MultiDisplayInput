@@ -25,9 +25,9 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputConnection
 import android.widget.LinearLayout
-import com.zqy.hci.ime.InputViewController
 import com.zqy.hci.input.LogicControl
 import com.zqy.hci.service.AudioAndHapticFeedbackManager
+import com.zqy.multidisplayinput.window.Switcher
 import java.util.*
 
 internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
@@ -37,6 +37,7 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
     private val mQwertygKeyboard: Keyboard
     private val mSymbolKeyboard: Keyboard
     private val mSymbolShiftKeyboard: Keyboard
+    lateinit var mSwitcher : Switcher
     var clientId = MultiClientInputMethodServiceDelegate.INVALID_CLIENT_ID
         private set
     var targetWindowHandle = MultiClientInputMethodServiceDelegate.INVALID_WINDOW_HANDLE
@@ -184,14 +185,14 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
         mKeyboardView.setOnKeyboardActionListener(sNoopListener)
 
         context?.let {
-            InputViewController.instance.init(it)
+            mSwitcher.init(it)
             AudioAndHapticFeedbackManager.init(it)
             if (!mLogicControlInit){
                 mLogicControlInit= LogicControl.instance.init(it)
             }
         }
-        mInputViewContainer = InputViewController.instance.createInputView(layoutInflater)
-        InputViewController.instance.loadTheme()
+        mInputViewContainer = mSwitcher.createInputView(layoutInflater)
+        mSwitcher.loadTheme()
 
         // TODO(b/158663354): Disabling keyboard popped preview key since it is currently broken.
         mKeyboardView.isPreviewEnabled = false

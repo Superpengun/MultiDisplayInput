@@ -122,8 +122,8 @@ internal class ClientCallbackImpl(
             mDelegate.setActive(lastClientId, false /* active */)
             mDelegate.setActive(mClientId, true /* active */)
         }
-        InputViewController.instance.handleEditorInfo(editorInfo)
-        InputViewController.instance.setUIListener(this,this)
+        window.mSwitcher.handleEditorInfo(editorInfo)
+        window.mSwitcher.setUIListener(this,this)
         LogicControl.instance.setListener(this,this)
         mCurrentInputConnection = inputConnection
         if (inputConnection == null || editorInfo == null) {
@@ -262,29 +262,30 @@ internal class ClientCallbackImpl(
     }
 
     override fun onKey(primaryCode: Int, keyCodes: IntArray?) {
+        val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId) ?: return
         when (primaryCode) {
             FunctionKeyCode.KEY_SHIFT -> {
-                InputViewController.instance.setShifted()
-                LogicControl.instance.setShiftState(InputViewController.instance.getShiftState())
+                window.mSwitcher.setShifted()
+                LogicControl.instance.setShiftState(window.mSwitcher.getShiftState())
             }
             FunctionKeyCode.KEY_SHIFT_LOCK -> {
-                InputViewController.instance.lockShift()
-                LogicControl.instance.setShiftState(InputViewController.instance.getShiftState())
+                window.mSwitcher.lockShift()
+                LogicControl.instance.setShiftState(window.mSwitcher.getShiftState())
             }
             FunctionKeyCode.SELECT_LANGUAGE -> {
-                InputViewController.instance.showChooseLanOption()
+                window.mSwitcher.showChooseLanOption()
                 LogicControl.instance.clear()
             }
             FunctionKeyCode.KEY_BACK -> {
-                InputViewController.instance.switchKb()
+                window.mSwitcher.switchKb()
                 LogicControl.instance.clear()
             }
             FunctionKeyCode.KEY_MULTI_QWERTY_NUM -> {
-                InputViewController.instance.switchNumKb()
+                window.mSwitcher.switchNumKb()
                 LogicControl.instance.clear()
             }
             FunctionKeyCode.KEY_MUTTI_QWERTY_SYMBOL -> {
-                InputViewController.instance.switchSymbolKb()
+                window.mSwitcher.switchSymbolKb()
                 LogicControl.instance.clear()
             }
             FunctionKeyCode.KEY_DEL -> {
@@ -309,11 +310,12 @@ internal class ClientCallbackImpl(
     }
 
     override fun onText(text: CharSequence?) {
-        val isLockShift = InputViewController.instance.isLockShifted()
-        val isShift = InputViewController.instance.isShifted()
+        val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId) ?: return
+        val isLockShift = window.mSwitcher.isLockShifted()
+        val isShift = window.mSwitcher.isShifted()
         if (isShift && !isLockShift){
-            InputViewController.instance.setShifted()
-            LogicControl.instance.setShiftState(InputViewController.instance.getShiftState())
+            window.mSwitcher.setShifted()
+            LogicControl.instance.setShiftState(window.mSwitcher.getShiftState())
         }
         LogicControl.instance.query(text)
     }
@@ -379,6 +381,7 @@ internal class ClientCallbackImpl(
     }
 
     override fun onUpdateCandidateWordsList(upDateCandidateWordsList: List<String>) {
-        InputViewController.instance.setCandidateData(ArrayList(upDateCandidateWordsList))
+        val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId) ?: return
+        window.mSwitcher.setCandidateData(ArrayList(upDateCandidateWordsList))
     }
 }
