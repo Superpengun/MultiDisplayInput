@@ -122,9 +122,9 @@ internal class ClientCallbackImpl(
             mDelegate.setActive(lastClientId, false /* active */)
             mDelegate.setActive(mClientId, true /* active */)
         }
+        LogicControl.instance.setListener(this,this)
         window.mSwitcher.handleEditorInfo(editorInfo)
         window.mSwitcher.setUIListener(this,this)
-        LogicControl.instance.setListener(this,this)
         mCurrentInputConnection = inputConnection
         if (inputConnection == null || editorInfo == null) {
             // Placeholder InputConnection case.

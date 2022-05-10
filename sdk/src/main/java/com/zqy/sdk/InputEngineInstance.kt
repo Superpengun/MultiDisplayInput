@@ -82,7 +82,8 @@ class InputEngineInstance {
      */
     private fun initKB() {
         val initParam = KbInitParam()
-        val dataPath: String = HciCloudUtils.dataPath
+//        val dataPath: String = HciCloudUtils.dataPath
+        val dataPath: String = "/data/data/com.zqy.multidisplayinput/lib/x86/"
         //String dataPath ="/system/lib";
         initParam.addParam(KbInitParam.PARAM_KEY_DATA_PATH, dataPath)
         initParam.addParam(
