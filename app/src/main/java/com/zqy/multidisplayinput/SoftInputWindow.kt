@@ -25,7 +25,6 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputConnection
 import android.widget.LinearLayout
-import android.widget.Switch
 import com.zqy.hci.input.LogicControl
 import com.zqy.hci.service.AudioAndHapticFeedbackManager
 import com.zqy.multidisplayinput.window.Switcher
@@ -52,7 +51,6 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
         }
 
     var mInputViewContainer: View? = null
-    private var mLogicControlInit: Boolean = false
 
     fun onFinishClient() {
         mKeyboardView.setOnKeyboardActionListener(sNoopListener)
@@ -189,8 +187,8 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
             mSwitcher = Switcher()
             mSwitcher.init(it)
             AudioAndHapticFeedbackManager.init(it)
-            if (!mLogicControlInit){
-                mLogicControlInit= LogicControl.instance.init(it)
+            if (!LogicControl.instance.mInitHciCloudSys){
+                LogicControl.instance.init(it)
             }
         }
         mInputViewContainer = mSwitcher.createInputView(layoutInflater)

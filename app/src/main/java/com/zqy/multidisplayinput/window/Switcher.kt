@@ -10,12 +10,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.zqy.hci.R
 import com.zqy.hci.bean.InputModeConst
 import com.zqy.hci.bean.KeyboardId
-import com.zqy.hci.input.LogicControl
 import com.zqy.hci.listener.OnCandidateActionListener
 import com.zqy.hci.listener.OnKeyboardActionListener
 import com.zqy.hci.theme.ThemeManager
 import com.zqy.hci.utils.LanguageUtil
 import com.zqy.hci.widget.*
+import com.zqy.multidisplayinput.editor.ImeEditor
 
 /**
  * @author:zhenqiyuan
@@ -40,6 +40,7 @@ class Switcher {
     //输入模式 如文本、数字、url、密码等
     private var mTextMode = Switcher.MODE_TEXT
     private var showSpaceIcon = false
+    lateinit var mImeEditor : ImeEditor
 
     companion object{
         const val MODE_TEXT = 1
@@ -55,6 +56,7 @@ class Switcher {
     }
 
     fun init(context: Context) {
+        mImeEditor = ImeEditor(context)
         mContext = context
         themeManager = ThemeManager(context)
     }
@@ -261,7 +263,7 @@ class Switcher {
     private fun loadKeyboardId() {
         mCurrentKbd = when (mTextMode) {
             Switcher.MODE_WEB, Switcher.MODE_URL, Switcher.MODE_PWD, Switcher.MODE_EMAIL -> {
-                LogicControl.instance.inputMethodChange(InputModeConst.INPUT_DEFAULT)
+                mImeEditor.inputMethodChange(InputModeConst.INPUT_DEFAULT)
                 KeyboardId(
                     "qwerty_en_psw",
                     "num_qwerty_en_psw",
@@ -270,7 +272,7 @@ class Switcher {
                 )
             }
             else -> {
-                LogicControl.instance.inputMethodChange(mCurrentSelectKB)
+                mImeEditor.inputMethodChange(mCurrentSelectKB)
                 val kbName = LanguageUtil.KbRes.KB_NAME[mCurrentSelectKB]
                 KeyboardId(
                     kbName,

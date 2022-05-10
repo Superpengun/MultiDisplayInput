@@ -29,8 +29,6 @@ import android.view.inputmethod.CursorAnchorInfo
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
 import com.zqy.hci.bean.FunctionKeyCode
-import com.zqy.hci.ime.InputViewController
-import com.zqy.hci.input.LogicControl
 import com.zqy.hci.listener.HciCloudInputConnection
 import com.zqy.hci.listener.LogicControlListener
 import com.zqy.hci.listener.OnCandidateActionListener
@@ -122,7 +120,7 @@ internal class ClientCallbackImpl(
             mDelegate.setActive(lastClientId, false /* active */)
             mDelegate.setActive(mClientId, true /* active */)
         }
-        LogicControl.instance.setListener(this,this)
+        window.mSwitcher.mImeEditor.setListener(this,this)
         window.mSwitcher.handleEditorInfo(editorInfo)
         window.mSwitcher.setUIListener(this,this)
         mCurrentInputConnection = inputConnection
@@ -228,15 +226,18 @@ internal class ClientCallbackImpl(
     }
 
     override fun onCandidateSelected(index: Int, word: String) {
-        TODO("Not yet implemented")
+        val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId)
+        window?.mSwitcher?.mImeEditor?.sendCandChoosed(index)
     }
 
     override fun getMoreList() {
-        TODO("Not yet implemented")
+        val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId)
+        window?.mSwitcher?.mImeEditor?.getNextPage()
     }
 
     override fun onMore() {
-        TODO("Not yet implemented")
+        val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId)
+        window?.mSwitcher?.showMoreCandidate(this)
     }
 
     override fun onClose() {
@@ -247,11 +248,12 @@ internal class ClientCallbackImpl(
     }
 
     override fun onClear() {
-        TODO("Not yet implemented")
+
     }
 
     override fun onBack() {
-        TODO("Not yet implemented")
+        val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId)
+        window?.mSwitcher?.handleOnBack()
     }
 
     override fun onPress(primaryCode: Int) {
@@ -266,45 +268,45 @@ internal class ClientCallbackImpl(
         when (primaryCode) {
             FunctionKeyCode.KEY_SHIFT -> {
                 window.mSwitcher.setShifted()
-                LogicControl.instance.setShiftState(window.mSwitcher.getShiftState())
+                window.mSwitcher.mImeEditor.setShiftState(window.mSwitcher.getShiftState())
             }
             FunctionKeyCode.KEY_SHIFT_LOCK -> {
                 window.mSwitcher.lockShift()
-                LogicControl.instance.setShiftState(window.mSwitcher.getShiftState())
+                window.mSwitcher.mImeEditor.setShiftState(window.mSwitcher.getShiftState())
             }
             FunctionKeyCode.SELECT_LANGUAGE -> {
                 window.mSwitcher.showChooseLanOption()
-                LogicControl.instance.clear()
+                window.mSwitcher.mImeEditor.clear()
             }
             FunctionKeyCode.KEY_BACK -> {
                 window.mSwitcher.switchKb()
-                LogicControl.instance.clear()
+                window.mSwitcher.mImeEditor.clear()
             }
             FunctionKeyCode.KEY_MULTI_QWERTY_NUM -> {
                 window.mSwitcher.switchNumKb()
-                LogicControl.instance.clear()
+                window.mSwitcher.mImeEditor.clear()
             }
             FunctionKeyCode.KEY_MUTTI_QWERTY_SYMBOL -> {
                 window.mSwitcher.switchSymbolKb()
-                LogicControl.instance.clear()
+                window.mSwitcher.mImeEditor.clear()
             }
             FunctionKeyCode.KEY_DEL -> {
-                LogicControl.instance.sendDelete()
+                window.mSwitcher.mImeEditor.sendDelete()
             }
             FunctionKeyCode.KEY_SPACE -> {
-                LogicControl.instance.sendSpace()
+                window.mSwitcher.mImeEditor.sendSpace()
             }
             FunctionKeyCode.KEY_ENTER -> {
-                LogicControl.instance.sendEnter()
+                window.mSwitcher.mImeEditor.sendEnter()
             }
             FunctionKeyCode.KEY_ARAB_ALPHABET ->{
-                LogicControl.instance.sendSymbol("ٓ")
+                window.mSwitcher.mImeEditor.sendSymbol("ٓ")
             }
             FunctionKeyCode.KEY_NORAWAY_KR ->{
-                LogicControl.instance.sendSymbol("Kr")
+                window.mSwitcher.mImeEditor.sendSymbol("Kr")
             }
             else -> {
-                LogicControl.instance.sendSymbol(primaryCode)
+                window.mSwitcher.mImeEditor.sendSymbol(primaryCode)
             }
         }
     }
@@ -315,9 +317,9 @@ internal class ClientCallbackImpl(
         val isShift = window.mSwitcher.isShifted()
         if (isShift && !isLockShift){
             window.mSwitcher.setShifted()
-            LogicControl.instance.setShiftState(window.mSwitcher.getShiftState())
+            window.mSwitcher.mImeEditor.setShiftState(window.mSwitcher.getShiftState())
         }
-        LogicControl.instance.query(text)
+        window.mSwitcher.mImeEditor.query(text)
     }
 
     override fun swipeLeft() {
