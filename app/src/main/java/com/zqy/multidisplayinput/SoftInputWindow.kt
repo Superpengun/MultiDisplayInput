@@ -33,27 +33,15 @@ import java.util.*
 internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
     context!!, android.R.style.Theme_DeviceDefault_InputMethod
 ) {
-    private val mKeyboardView: KeyboardView
-    private val mQwertygKeyboard: Keyboard
-    private val mSymbolKeyboard: Keyboard
-    private val mSymbolShiftKeyboard: Keyboard
     lateinit var mSwitcher : Switcher
     var clientId = MultiClientInputMethodServiceDelegate.INVALID_CLIENT_ID
         private set
     var targetWindowHandle = MultiClientInputMethodServiceDelegate.INVALID_WINDOW_HANDLE
         private set
-    val isQwertyKeyboard: Boolean
-        get() = mKeyboardView.keyboard === mQwertygKeyboard
-    val isSymbolKeyboard: Boolean
-        get() {
-            val keyboard = mKeyboardView.keyboard
-            return keyboard === mSymbolKeyboard || keyboard === mSymbolShiftKeyboard
-        }
 
     var mInputViewContainer: View? = null
 
     fun onFinishClient() {
-        mKeyboardView.setOnKeyboardActionListener(sNoopListener)
         clientId = MultiClientInputMethodServiceDelegate.INVALID_CLIENT_ID
         targetWindowHandle = MultiClientInputMethodServiceDelegate.INVALID_WINDOW_HANDLE
     }
@@ -65,7 +53,6 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
                         + " targetWindowHandle=" + targetWindowHandle
             )
         }
-        mKeyboardView.setOnKeyboardActionListener(sNoopListener)
         this.clientId = clientId
         this.targetWindowHandle = targetWindowHandle
     }
@@ -79,82 +66,11 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
         }
         this.clientId = clientId
         this.targetWindowHandle = targetWindowHandle
-        mKeyboardView.setOnKeyboardActionListener(object : NoopKeyboardActionListener() {
-            override fun onKey(primaryCode: Int, keyCodes: IntArray) {
-                if (DEBUG) {
-                    Log.v(
-                        TAG, "onKey clientId=" + clientId + " primaryCode=" + primaryCode
-                                + " keyCodes=" + Arrays.toString(keyCodes)
-                    )
-                }
-                val isShifted = isShifted // Store the current state before resetting it.
-                resetShift()
-                when (primaryCode) {
-                    Keyboard.KEYCODE_CANCEL -> hide()
-                    Keyboard.KEYCODE_DELETE -> {
-                        inputConnection!!.sendKeyEvent(
-                            KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL)
-                        )
-                        inputConnection.sendKeyEvent(
-                            KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DEL)
-                        )
-                    }
-                    Keyboard.KEYCODE_MODE_CHANGE -> handleSwitchKeyboard()
-                    Keyboard.KEYCODE_SHIFT -> handleShift(isShifted)
-                    else -> handleCharacter(inputConnection, primaryCode, isShifted)
-                }
-            }
-
-            override fun onText(text: CharSequence) {
-                if (DEBUG) {
-                    Log.v(TAG, "onText clientId=$clientId text=$text")
-                }
-                if (inputConnection == null) {
-                    return
-                }
-                inputConnection.commitText(text, 0)
-            }
-        })
-    }
-
-    fun handleSwitchKeyboard() {
-        if (isQwertyKeyboard) {
-            mKeyboardView.keyboard = mSymbolKeyboard
-        } else {
-            mKeyboardView.keyboard = mQwertygKeyboard
-        }
-    }
-
-    val isShifted: Boolean
-        get() = mKeyboardView.isShifted
-
-    fun resetShift() {
-        if (isSymbolKeyboard && isShifted) {
-            mKeyboardView.keyboard = mSymbolKeyboard
-        }
-        mKeyboardView.isShifted = false
-    }
-
-    fun handleShift(isShifted: Boolean) {
-        if (isSymbolKeyboard) {
-            mKeyboardView.keyboard = if (isShifted) mSymbolKeyboard else mSymbolShiftKeyboard
-        }
-        mKeyboardView.isShifted = !isShifted
-    }
-
-    fun handleCharacter(inputConnection: InputConnection?, primaryCode: Int, isShifted: Boolean) {
-        var primaryCode = primaryCode
-        if (isQwertyKeyboard && isShifted) {
-            primaryCode = Character.toUpperCase(primaryCode)
-        }
-        inputConnection!!.commitText(primaryCode.toChar().toString(), 1)
     }
 
     companion object {
         private const val TAG = "SoftInputWindow"
         private const val DEBUG = true
-        private val sNoopListener: KeyboardView.OnKeyboardActionListener =
-            NoopKeyboardActionListener()
     }
 
     init {
@@ -176,12 +92,6 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
         window!!.setFlags(windowSetFlags, windowModFlags)
         val layout = LinearLayout(context)
         layout.orientation = LinearLayout.VERTICAL
-        mKeyboardView = layoutInflater.inflate(R.layout.input, null) as KeyboardView
-        mQwertygKeyboard = Keyboard(context, R.xml.qwerty)
-        mSymbolKeyboard = Keyboard(context, R.xml.symbols)
-        mSymbolShiftKeyboard = Keyboard(context, R.xml.symbols_shift)
-        mKeyboardView.keyboard = mQwertygKeyboard
-        mKeyboardView.setOnKeyboardActionListener(sNoopListener)
 
         context?.let {
             mSwitcher = Switcher()
@@ -195,8 +105,6 @@ internal class SoftInputWindow(context: Context?, token: IBinder?) : Dialog(
         mSwitcher.loadTheme()
 
         // TODO(b/158663354): Disabling keyboard popped preview key since it is currently broken.
-        mKeyboardView.isPreviewEnabled = false
-//        layout.addView(mKeyboardView)
         layout.addView(mInputViewContainer)
         setContentView(
             layout, ViewGroup.LayoutParams(

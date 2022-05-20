@@ -24,7 +24,6 @@ import android.inputmethodservice.MultiClientInputMethodServiceDelegate.ClientCa
 import android.util.SparseArray
 import com.zqy.multidisplayinput.ClientCallbackImpl
 import com.android.internal.inputmethod.StartInputFlags
-import com.zqy.multidisplayinput.NoopKeyboardActionListener
 
 internal class SoftInputWindowManager(
     private val mContext: Context,

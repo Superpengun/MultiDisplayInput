@@ -22,7 +22,6 @@ import android.inputmethodservice.MultiClientInputMethodServiceDelegate.ClientCa
 import android.view.WindowManager
 import com.zqy.multidisplayinput.ClientCallbackImpl
 import com.android.internal.inputmethod.StartInputFlags
-import com.zqy.multidisplayinput.NoopKeyboardActionListener
 import java.util.*
 
 /**
