@@ -27,7 +27,7 @@ android {
         minSdk 29
         targetSdk 31
         versionCode 1
-        versionName "1.0"
+        versionName "1.0_"+releaseTime()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -39,7 +39,7 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -74,6 +74,21 @@ android {
 //    }
 //}
 
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                output ->
+                    def outputFile = output.outputFile
+                    if (outputFile.name.contains("release")) {
+                        def fileName = "zqy.multidisplayinput${variant.versionName}" + "_${variant.name}.apk"
+                        outputFileName = new File("../release/", fileName)
+                    } else if (outputFile.name.contains("debug")) {
+                        def fileName = "zqy.multidisplayinput${variant.versionName}" + "_${variant.name}.apk"
+                        outputFileName = new File("../debug/", fileName)
+                    }
+            }
+    }
+
 gradle.projectsEvaluated {
     tasks.withType(JavaCompile) {
         Set<File> fileSet = options.bootstrapClasspath.getFiles()
@@ -86,6 +101,10 @@ gradle.projectsEvaluated {
                 newFileList.toArray()
         )
     }
+}
+
+static def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+8"))
 }
 
 dependencies {
