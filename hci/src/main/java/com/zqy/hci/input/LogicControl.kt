@@ -1,16 +1,10 @@
 package com.zqy.hci.input
 
 import android.content.Context
-import android.util.Log
-import com.zqy.hci.bean.InputModeConst
-import com.zqy.hci.listener.HciCloudInputConnection
-import com.zqy.hci.listener.InputMethodListener
-import com.zqy.hci.listener.LogicControlListener
-import com.zqy.hci.utils.LanguageUtil
-import com.zqy.sdk.InputEngineInstance
+import com.zqy.sdk.HWInputEngineInstance
+import com.zqy.sdk.KBInputEngineInstance
 import com.zqy.sdk.SysSDKManager
 import com.zqy.sdk.tools.HciCloudUtils
-import kotlinx.coroutines.*
 
 /**
  * @author:zhenqiyuan
@@ -33,11 +27,13 @@ class LogicControl private constructor()  {
         mContext = context
         mInitHciCloudSys = SysSDKManager.get().initHciCloudSys(context)
         if (!mInitHciCloudSys) return
-        InputEngineInstance.get().init()
+        KBInputEngineInstance.get().init()
+        HWInputEngineInstance.get().init()
     }
 
     fun release() {
-        InputEngineInstance.get().release()
+        KBInputEngineInstance.get().release()
+        HWInputEngineInstance.get().release()
         SysSDKManager.get().releaseHciCloud()
         mInitHciCloudSys = false
     }

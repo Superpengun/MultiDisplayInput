@@ -256,6 +256,14 @@ internal class ClientCallbackImpl(
         window?.mSwitcher?.handleOnBack()
     }
 
+    override fun onHW() {
+        onKey(FunctionKeyCode.KEY_HW,null)
+    }
+
+    override fun onKeyboard() {
+        onKey(FunctionKeyCode.KEY_CN_QWERTY,null)
+    }
+
     override fun onPress(primaryCode: Int) {
         AudioAndHapticFeedbackManager.getInstance().performAudioFeedback(primaryCode)
     }
@@ -282,6 +290,10 @@ internal class ClientCallbackImpl(
                 window.mSwitcher.switchKb()
                 window.mSwitcher.mImeEditor.clear()
             }
+            FunctionKeyCode.KEY_HW -> {
+                window.mSwitcher.showChooseLanOption()
+                window.mSwitcher.mImeEditor.clear()
+            }
             FunctionKeyCode.KEY_MULTI_QWERTY_NUM -> {
                 window.mSwitcher.switchNumKb()
                 window.mSwitcher.mImeEditor.clear()
@@ -304,6 +316,10 @@ internal class ClientCallbackImpl(
             }
             FunctionKeyCode.KEY_NORAWAY_KR ->{
                 window.mSwitcher.mImeEditor.sendSymbol("Kr")
+            }
+            FunctionKeyCode.KEY_CN_QWERTY ->{
+                window.mSwitcher.showChooseLanOption()
+                window.mSwitcher.mImeEditor.clear()
             }
             else -> {
                 window.mSwitcher.mImeEditor.sendSymbol(primaryCode)

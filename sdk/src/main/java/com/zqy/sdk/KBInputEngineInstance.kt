@@ -1,40 +1,36 @@
 package com.zqy.sdk
 
-/**
- * @author:zhenqiyuan
- * @data:2022/1/14
- * @描述：KB引擎单例
- * @package:
- */
-
+import android.util.Log
 import com.sinovoice.hcicloudsdk.api.kb.HciCloudKb
 import com.sinovoice.hcicloudsdk.common.kb.KbInitParam
-import com.sinovoice.jtandroiddevutil.log.JTLog
-import com.zqy.sdk.keyboard.InputSDKWrapper
-import com.zqy.sdk.keyboard.MultiSDKWrapper
-import com.zqy.sdk.keyboard.RecogResult
+import com.zqy.sdk.keyboard.*
 import com.zqy.sdk.tools.HciCloudUtils
 
-
-class InputEngineInstance {
-    private val TAG = InputEngineInstance::class.java.simpleName
+/**
+ * @author:zhenqiyuan
+ * @data:2022/9/21
+ * @描述：
+ * @package:com.zqy.sdk
+ */
+class KBInputEngineInstance {
+    private val TAG = KBInputEngineInstance::class.java.simpleName
 
     companion object {
-        private var instance: InputEngineInstance? = null
+        private var instanceKB: KBInputEngineInstance? = null
             get() {
                 if (field == null) {
-                    field = InputEngineInstance()
+                    field = KBInputEngineInstance()
                 }
                 return field
             }
 
         @Synchronized
-        fun get(): InputEngineInstance {
-            return instance!!
+        fun get(): KBInputEngineInstance {
+            return instanceKB!!
         }
     }
 
-    private val mMainSDKWrapper: InputSDKWrapper = MultiSDKWrapper()
+    private var mMainSDKWrapper: InputSDKWrapper = MultiSDKWrapper()
     private var mInitSession = false
 
     /**
@@ -48,9 +44,15 @@ class InputEngineInstance {
      * 切换语种
      */
     fun changeLanguage(lan: String?) {
-        mMainSDKWrapper.setResPreFix(lan)
-        if (mInitSession) mMainSDKWrapper.release()
-        mInitSession = mMainSDKWrapper.init()
+        if (lan != null) {
+            if (lan == "_en_") {
+                mMainSDKWrapper = EnglishSDKWrapper()
+            } else if (lan == "_cn_") {
+                mMainSDKWrapper = ChineseSDKWrapper()
+            }
+            if (mInitSession) mMainSDKWrapper.release()
+            mInitSession = mMainSDKWrapper.init()
+        }
     }
 
     /**
@@ -68,6 +70,13 @@ class InputEngineInstance {
     }
 
     /**
+     * 获取更多结果
+     */
+    fun submitUDB(content: String, syllable: String) {
+        return mMainSDKWrapper.submitUDB(content, syllable)
+    }
+
+    /**
      * 引擎能力反初始化
      */
     fun release() {
@@ -82,8 +91,7 @@ class InputEngineInstance {
      */
     private fun initKB() {
         val initParam = KbInitParam()
-//        val dataPath: String = HciCloudUtils.dataPath
-        val dataPath: String = "/data/data/com.zqy.multidisplayinput/lib/x86/"
+        val dataPath: String = HciCloudUtils.dataPath
         //String dataPath ="/system/lib";
         initParam.addParam(KbInitParam.PARAM_KEY_DATA_PATH, dataPath)
         initParam.addParam(
@@ -95,7 +103,7 @@ class InputEngineInstance {
             Constants.KBConstant.KB_CAPKEY
         )
         val initResult: Int = HciCloudKb.hciKbInit(initParam.getStringConfig())
-        JTLog.i(TAG, "Kb init result: $initResult")
+        Log.i(TAG, "Kb init result: $initResult")
     }
 
 
@@ -106,6 +114,6 @@ class InputEngineInstance {
      */
     private fun releaseKb() {
         val errCode: Int = HciCloudKb.hciKbRelease()
-        JTLog.i(TAG, "hciKbrelease return: $errCode")
+        Log.i(TAG, "hciKbrelease return: $errCode")
     }
 }

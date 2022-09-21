@@ -54,11 +54,25 @@ abstract class InputMethod(
         mInputMethodListener = inputMethodListener
     }
 
+    fun checkComposingLength(): Boolean {
+        return mComposingData.composingText.isEmpty()
+    }
+
 
     /**
      * 键盘输入方式下的候选词查询增加一个字符
      */
     abstract fun appendRecognizeChar(inputChar: Char)
+
+    /**
+     * 键盘输入方式下的候选词查询增加一个字符
+     */
+    abstract fun appendRecognizePoints(points: ShortArray)
+
+    /**
+     * 语音传整句文本功能
+     */
+    abstract fun appendSentence(str: String?)
 
     /**
      * 获取下一页候选词汇

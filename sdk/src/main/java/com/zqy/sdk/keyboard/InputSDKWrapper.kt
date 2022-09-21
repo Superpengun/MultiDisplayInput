@@ -12,4 +12,5 @@ interface InputSDKWrapper {
     fun query(query: String?): RecogResult
     fun getMore(): RecogResult?
     fun setResPreFix(lan: String?)
+    fun submitUDB(content: String, syllable: String)
 }

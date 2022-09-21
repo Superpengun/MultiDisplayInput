@@ -1,26 +1,25 @@
 package com.zqy.sdk.keyboard
 
+import android.text.TextUtils
 import android.util.Log
-import com.sinovoice.hcicloudsdk.api.HciCloudSys
 import com.sinovoice.hcicloudsdk.api.kb.HciCloudKb
 import com.sinovoice.hcicloudsdk.common.HciErrorCode
 import com.sinovoice.hcicloudsdk.common.Session
 import com.sinovoice.hcicloudsdk.common.kb.*
-import com.zqy.sdk.Constants
 import com.sinovoice.jtandroiddevutil.log.JTLog
+import com.zqy.sdk.Constants
 import com.zqy.sdk.tools.HciCloudUtils
-import java.util.ArrayList
 
 /**
  * @author:zhenqiyuan
- * @data:2022/1/14
+ * @data:2022/9/21
  * @描述：
- * @package:keyboard
+ * @package:com.zqy.sdk.keyboard
  */
-class MultiSDKWrapper : InputSDKWrapper {
-    private val TAG = MultiSDKWrapper::class.java.simpleName
+class ChineseSDKWrapper : InputSDKWrapper {
+    private val TAG = ChineseSDKWrapper::class.java.simpleName
     private lateinit var mKbConfig: KbConfig
-    private var mKbSession: Session ?=null
+    private var mKbSession: Session?=null
     private lateinit var mCurrentKbResult: KbRecogResult
     private var resPreFix = ""
 
@@ -33,7 +32,7 @@ class MultiSDKWrapper : InputSDKWrapper {
             KbConfig.SessionConfig.PARAM_KEY_CAP_KEY,
             Constants.KBConstant.KB_CAPKEY
         )
-        mKbConfig.addParam(Constants.KBConstant.RES_PROFIX, resPreFix)
+        mKbConfig.addParam(Constants.KBConstant.RES_PROFIX, Constants.KBConstant.RES_PREFIX_CN)
 
         // 设置输出结果页大小
         mKbConfig.addParam(
@@ -42,7 +41,12 @@ class MultiSDKWrapper : InputSDKWrapper {
         )
         mKbConfig.addParam(
             KbConfig.InputConfig.PARAM_KEY_INPUT_MODE,
-            Constants.KBConstant.INPUT_MODE_LOWER
+            Constants.KBConstant.INPUT_MODE_PINYIN
+        )
+        mKbConfig.addParam(KbConfig.InputConfig.PARAM_KEY_KEYBOARD, "t9")
+        mKbConfig.addParam(
+            KbConfig.InputConfig.PARAM_KEY_FAULT_TOLERANT_LEVEL,
+            Constants.KBConstant.INPUT_TOLERANT_LEVEL_HIGH
         )
         val errCode = HciCloudKb.hciKbSessionStart(mKbConfig.stringConfig, mKbSession)
         JTLog.d(TAG, "multiSDKWrapper start session using [" + mKbConfig.stringConfig + "] return " + errCode
@@ -58,6 +62,18 @@ class MultiSDKWrapper : InputSDKWrapper {
     }
 
     override fun submitUDB(content: String, syllable: String) {
+        val recogItem = KbRecogResultItem()
+        recogItem.result = content
+        if (!TextUtils.isEmpty(content) && content.length == 1) {
+            recogItem.symbols = syllable
+        } else {
+            recogItem.symbols = ""
+        }
+
+        val udbItem = KbUdbItemInfo()
+        udbItem.recogResultItem = recogItem
+
+        val errorcode = HciCloudKb.hciKbUdbCommit(mKbSession, "inputMode=pinyin", udbItem)
     }
 
     override fun release(): Boolean {
@@ -76,49 +92,23 @@ class MultiSDKWrapper : InputSDKWrapper {
         resetKbRecogResult(mCurrentKbResult)
 
         // 构造查询信息
-        val enKbQueryInfo = KbQueryInfo()
-        enKbQueryInfo.query = query
+        val cnKbQueryInfo = KbQueryInfo()
+        cnKbQueryInfo.query = query
 
         // 查询
         val errCode = HciCloudKb.hciKbRecog(
             mKbSession,
             mKbConfig.stringConfig,
-            enKbQueryInfo,
+            cnKbQueryInfo,
             mCurrentKbResult
         )
 
-        // 对识别结果后处理
-        if (errCode == HciErrorCode.HCI_ERR_NONE) {
-            extendsKBRecogResult(mCurrentKbResult, enKbQueryInfo.query)
-        } else {
-            JTLog.e(TAG, "query [" + query + "] error : code =[" + errCode + "] msg = [" + HciCloudSys.hciGetErrorInfo(errCode) + "]")
-        }
         return HciCloudUtils.transForm(mCurrentKbResult)
     }
 
-    override fun getMore(): RecogResult? {
+    override fun getMore(): RecogResult {
         mCurrentKbResult = kbGetNextReg(mKbSession, mKbConfig, mCurrentKbResult)
         return HciCloudUtils.transForm(mCurrentKbResult)
-    }
-
-    // 英文模式下，按需要增加compoing string 为第一个候选词
-    private fun extendsKBRecogResult(recogResult: KbRecogResult?, queryContent: String) {
-        val item = KbRecogResultItem()
-        item.result = queryContent
-        val templist = ArrayList<KbRecogResultItem>()
-        if (recogResult!!.recogResultItemList != null) {
-            if (recogResult.recogResultItemList.size == 0 || !recogResult.recogResultItemList[0].result.equals(
-                    item.result,
-                    ignoreCase = true
-                )
-            ) {
-                templist.add(item)
-            }
-            for (item1 in recogResult.recogResultItemList) {
-                templist.add(item1)
-            }
-            recogResult.recogResultItemList = templist
-        }
     }
 
     /**

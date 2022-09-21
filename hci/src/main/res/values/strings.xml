@@ -19,6 +19,9 @@
         <item>Svensk（瑞典语）</item>
         <item>Čeština（捷克语）</item>
         <item>Norsk（挪威语）</item>
+        <item>Chinese（中文）</item>
+        <item>Chinese（中文手写）</item>
+        <item>Chinese（英文手写）</item>
     </string-array>
 
     <string name="go">前往</string>

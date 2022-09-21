@@ -18,4 +18,7 @@
 
     <color name="key_preview_text_color">#ffffffff</color>
     <color name="key_text_color">#ffffffff</color>
+
+    <color name="strokeColor">#FFFFFF</color>
+    <color name="strokeViewBg">#00FFFFFF</color>
 </resources>

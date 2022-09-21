@@ -38,4 +38,14 @@ interface OnCandidateActionListener {
      * 更多候选区返回
      */
     fun onBack()
+
+    /**
+     * 点击进入手写
+     */
+    fun onHW()
+
+    /**
+     * 点击进入键盘
+     */
+    fun onKeyboard()
 }

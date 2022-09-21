@@ -37,6 +37,9 @@ object InputModeConst {
     var INPUT_SWEDISH = 14 //瑞典语
     var INPUT_CZECH = 15 //捷克语
     var INPUT_NORWEGIAN = 16 //挪威语
+    var INPUT_CHINESE = 17 //汉语
+    var INPUT_HWR_CN = 18 //汉语手写
+    var INPUT_HWR_EN = 19 //英语手写
 
 
 

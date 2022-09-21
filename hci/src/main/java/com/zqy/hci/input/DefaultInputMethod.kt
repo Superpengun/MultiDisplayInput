@@ -30,6 +30,13 @@ class DefaultInputMethod(
         Log.i(TAG, "appendRecognizeChar() isWord==false commitString:   $inputChar")
     }
 
+    override fun appendRecognizePoints(points: ShortArray) {
+    }
+
+    override fun appendSentence(str: String?) {
+        //目前暂不考虑非候选键盘下进行语音输入
+    }
+
     /**
      * 默认模式下空实现该方法
      */
@@ -75,6 +82,7 @@ class DefaultInputMethod(
     override fun setShiftState(shiftState: Int) {}
 
     override fun finishInput() {
+        mHciCloudInputConnection.finishComposingText()
         onReset()
     }
 }

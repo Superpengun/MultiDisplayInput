@@ -6,21 +6,21 @@ import com.sinovoice.hcicloudsdk.api.kb.HciCloudKb
 import com.sinovoice.hcicloudsdk.common.HciErrorCode
 import com.sinovoice.hcicloudsdk.common.Session
 import com.sinovoice.hcicloudsdk.common.kb.*
-import com.zqy.sdk.Constants
 import com.sinovoice.jtandroiddevutil.log.JTLog
+import com.zqy.sdk.Constants
 import com.zqy.sdk.tools.HciCloudUtils
 import java.util.ArrayList
 
 /**
  * @author:zhenqiyuan
- * @data:2022/1/14
+ * @data:2022/9/21
  * @描述：
- * @package:keyboard
+ * @package:com.zqy.sdk.keyboard
  */
-class MultiSDKWrapper : InputSDKWrapper {
-    private val TAG = MultiSDKWrapper::class.java.simpleName
+class EnglishSDKWrapper : InputSDKWrapper {
+    private val TAG = EnglishSDKWrapper::class.java.simpleName
     private lateinit var mKbConfig: KbConfig
-    private var mKbSession: Session ?=null
+    private var mKbSession: Session?=null
     private lateinit var mCurrentKbResult: KbRecogResult
     private var resPreFix = ""
 
@@ -33,7 +33,7 @@ class MultiSDKWrapper : InputSDKWrapper {
             KbConfig.SessionConfig.PARAM_KEY_CAP_KEY,
             Constants.KBConstant.KB_CAPKEY
         )
-        mKbConfig.addParam(Constants.KBConstant.RES_PROFIX, resPreFix)
+        mKbConfig.addParam(Constants.KBConstant.RES_PROFIX, Constants.KBConstant.RES_PREFIX_EN)
 
         // 设置输出结果页大小
         mKbConfig.addParam(
@@ -96,7 +96,7 @@ class MultiSDKWrapper : InputSDKWrapper {
         return HciCloudUtils.transForm(mCurrentKbResult)
     }
 
-    override fun getMore(): RecogResult? {
+    override fun getMore(): RecogResult {
         mCurrentKbResult = kbGetNextReg(mKbSession, mKbConfig, mCurrentKbResult)
         return HciCloudUtils.transForm(mCurrentKbResult)
     }

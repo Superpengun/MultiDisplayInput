@@ -3,32 +3,30 @@ package com.zqy.hci.input
 import android.util.Log
 import android.view.KeyEvent
 import com.zqy.hci.listener.HciCloudInputConnection
-import com.zqy.hci.service.Settings
-import com.zqy.hci.utils.LanguageUtil
+import com.zqy.sdk.HWInputEngineInstance
 import com.zqy.sdk.KBInputEngineInstance
 import com.zqy.sdk.keyboard.RecogResult
 import com.zqy.sdk.keyboard.RecogResultItem
-import java.lang.IndexOutOfBoundsException
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashSet
+import java.util.ArrayList
+import java.util.HashSet
 
 /**
  * @author:zhenqiyuan
- * @data:2022/1/18
+ * @data:2022/9/21
  * @描述：
- * @package:input
+ * @package:com.zqy.hci.input
  */
-class MultiInputMethod(
+class PinYinInputMethod(
     hciCloudInputConnection: HciCloudInputConnection?
 ) :
     InputMethod(hciCloudInputConnection!!) {
-
+    private val mCompoing: PinyinComposingInterface = PinYinProcesser()
     private var shiftModeTobeChangeTo = 0
     private var mLanResPreFix = ""
+    private val NUMBER_EN_TABLE = charArrayOf('a', 'd', 'g', 'j', 'm', 'p', 't', 'w')
 
     companion object {
-        protected val TAG = MultiInputMethod::class.java.simpleName
+        val TAG = PinYinInputMethod::class.java.simpleName
     }
 
     /**
@@ -37,6 +35,8 @@ class MultiInputMethod(
      */
     private var isWord = true
 
+    private var mRecogResult: RecogResult = RecogResult()
+
     /**
      * 语种信息传递
      */
@@ -44,6 +44,7 @@ class MultiInputMethod(
         mLanResPreFix = lan
         Log.d(TAG, "changeLanRes: $lan")
         KBInputEngineInstance.get().changeLanguage(lan)
+        HWInputEngineInstance.get().changeLanguage(lan)
     }
 
     /**
@@ -58,9 +59,15 @@ class MultiInputMethod(
         } catch (e: ArrayIndexOutOfBoundsException) {
             e.printStackTrace()
         }
-        mHciCloudInputConnection.commitComposing(mComposingData.composingText.toString())
-        notifyComposingChange()
+        if (mCompoing.getLastCharOfCompoingToQuery() == '\'' && inputChar == '\'') {
+            return
+        }
+        if (inputChar == '\'' && mCompoing.getCompoingToQuery()?.length == 0) {
+            return
+        }
+        mCompoing.appendLetter(inputChar)
         queryAndUpdateCandidate(mComposingData.composingText.toString())
+        mHciCloudInputConnection.commitComposing(mCompoing.getComposingToCommiting())
         notifyCandidateChange()
     }
 
@@ -89,15 +96,19 @@ class MultiInputMethod(
         }
         when (mComposingData.composingState) {
             ComposingData.ComposingState.INCOMPOSING -> {
+                mCompoing.del()
+                mCompoing.getCompoingToQuery()?.let { queryAndUpdateCandidate(it) }
                 try {
                     mComposingData.composingText.deleteCharAt(mComposingData.composingText.length - 1)
                 } catch (e: StringIndexOutOfBoundsException) {
                     e.printStackTrace()
                 }
-                mHciCloudInputConnection.commitComposing(mComposingData.composingText.toString())
-                clearCandidateWordsList()
+                mHciCloudInputConnection.commitComposing(mCompoing.getComposingToCommiting())
+                if (mCompoing.getComposingToCommiting()?.isEmpty() == true) {
+                    clearCandidateWordsList()
+                    clearComposing()
+                }
                 notifyComposingChange()
-                queryAndUpdateCandidate(mComposingData.composingText.toString())
             }
             ComposingData.ComposingState.FINSHCOMPOSING -> {
                 clearCandidateWordsList()
@@ -172,10 +183,51 @@ class MultiInputMethod(
         val candidateCount = mCandidateWordsList.size
         if (index < candidateCount) {
             val chosenWord = mCandidateWordsList[index]
-            if (Settings.instance.getCurrent()?.isAutoSpace() == true) {
-                mHciCloudInputConnection.commitString("$chosenWord ", 1)
+            if (mRecogResult.getRecogResultItems()?.size == 0) {
+                sendEnter()
+                return
             } else {
-                mHciCloudInputConnection.commitString(chosenWord, 1)
+                val word: String? = mRecogResult.getRecogResultItems()?.get(index)?.getResult()
+                val symbols: String? =
+                    mRecogResult.getRecogResultItems()?.get(index)?.getSymbols()
+                if (word != null) {
+                    if (symbols != null) {
+                        mCompoing.appendSelectedItem(word, symbols)
+                    }
+                }
+            }
+            if (mCompoing.isMatchComplete()) {   //匹配结束
+                //获取用户输入的完整结果
+                val userData = mCompoing.getCurrentOutput()
+                if (userData!!.isNotEmpty()) {
+                    mRecogResult.getRecogResultItems()?.get(index)?.getSymbols()?.let {
+                        KBInputEngineInstance.get().submitUDB(
+                            userData,
+                            it
+                        )
+                    }
+
+                    //联想词提前
+                    HWInputEngineInstance.get().raisePriority(userData)
+                    //上屏
+                    mHciCloudInputConnection.commitString(userData, 1)
+                    Log.i(TAG, "handleCandidateChosen()  commitString:  $userData")
+                } else {
+                    //直接上屏
+                    mHciCloudInputConnection.commitString(chosenWord, 1)
+                    Log.i(
+                        TAG,
+                        "handleCandidateChosen()  commitString:  " + mCandidateWordsList[index]
+                    )
+                }
+                mCompoing.clear()
+                //根据选择的候选区获取联想词
+                associateAndUpdateCandidate(chosenWord)
+                notifyCandidateChange()
+            } else {     //匹配未结束
+                clearCandidateWordsList()
+                queryAndUpdateCandidate(mCompoing.getCompoingToQuery()!!)
+                notifyCandidateChange()
             }
             when (mComposingData.composingState) {
                 ComposingData.ComposingState.INCOMPOSING -> {
@@ -185,10 +237,6 @@ class MultiInputMethod(
                     // TODO: 目前不处理二次选择时的composing
                 }
             }
-            clearComposing()
-            notifyComposingChange()
-            clearCandidateWordsList()
-            notifyCandidateChange()
         } else {
             Log.e(TAG, "handleCandidateChosen index error")
         }
@@ -237,13 +285,18 @@ class MultiInputMethod(
      */
     override fun getNextPage() {
         if (checkComposingLength()) return
+        val composing = mCompoing.getComposingToCommiting()
         val recogResult: RecogResult? = KBInputEngineInstance.get().multiGetMore()
         val items: ArrayList<RecogResultItem>? = recogResult?.getRecogResultItems()
-        mCandidateWordsList.clear()
-        for (item in items!!) {
-            mCandidateWordsList.add(item.getResult())
+        if (composing != null && composing.isNotEmpty()) {
+            if (items!!.isNotEmpty()) {
+                mCandidateWordsList.clear()
+            }
+
+            for (item in items) {
+                mCandidateWordsList.add(item.getResult())
+            }
         }
-        processCandidateData(shiftModeTobeChangeTo)
         notifyCandidateChange()
 
     }
@@ -262,15 +315,31 @@ class MultiInputMethod(
 
     private fun queryAndUpdateCandidate(query: String) {
         if (query.isEmpty()) return
-        val recogResult: RecogResult = KBInputEngineInstance.get().multiQuery(query)
-        val items: ArrayList<RecogResultItem>? = recogResult.getRecogResultItems()
+        mRecogResult = KBInputEngineInstance.get().multiQuery(query)
+        val items: ArrayList<RecogResultItem>? = mRecogResult.getRecogResultItems()
         mCandidateWordsList.clear()
+        if (items!!.isEmpty()) {
+            mCandidateWordsList.add(query)
+        } else {
+            mCompoing.updateFirstCandidate(items[0].getResult(), items[0].getSymbols())
+        }
         synchronized(this) {
-            for (item in items!!) {
+            for (item in items) {
                 mCandidateWordsList.add(item.getResult())
             }
-            if (mCandidateWordsList.size == 0) mCandidateWordsList.add(mComposingData.composingText.toString())
-            processCandidateData(shiftModeTobeChangeTo)
+        }
+    }
+
+    private fun associateAndUpdateCandidate(query: String) {
+        if (query.isEmpty()) return
+        val associateList = HWInputEngineInstance.get().associateQuery(query)
+        mCandidateWordsList.clear()
+        synchronized(this) {
+            if (associateList != null) {
+                for (item in associateList) {
+                    mCandidateWordsList.addAll(associateList)
+                }
+            }
         }
     }
 
@@ -280,6 +349,7 @@ class MultiInputMethod(
 
     private fun clearComposing() {
         mComposingData.onComposingStop()
+        mCompoing.clear()
         try {
             mComposingData.composingText.delete(0, mComposingData.composingText.length)
         } catch (e: StringIndexOutOfBoundsException) {
@@ -301,47 +371,5 @@ class MultiInputMethod(
 
     private val setSum: MutableSet<Int> = HashSet()
     private val resultString: ArrayList<String?> = ArrayList()
-    private fun rMList(al: List<String>?): ArrayList<String?> {
-        setSum.clear()
-        resultString.clear()
-        if (al != null) {
-            val iter: Iterator<*> = al.iterator()
-            while (iter.hasNext()) {
-                val element = iter.next() as String
-                if (setSum.add(element.hashCode())) resultString.add(element)
-            }
-        }
-        return resultString
-    }
 
-    private fun processCandidateData(shiftMode: Int) {
-        if (checkComposingLength()) return
-        //阿拉伯语和波斯语不用大小写检查
-        if (LanguageUtil.notNeedCheckUpper(mLanResPreFix)) return
-        //波斯语去重操作
-        if (LanguageUtil.needRemoveRepeat(mLanResPreFix)) {
-            mCandidateWordsList = rMList(mCandidateWordsList)
-        }
-        var item: String
-        var subPart2: String
-        Log.d(TAG, "shiftMode:$shiftMode")
-        try {
-            for (i in 0 until mCandidateWordsList.size) {
-                item = mCandidateWordsList[i]
-                if (item.length >= mComposingData.composingText.length) {
-                    subPart2 = item.substring(mComposingData.composingText.length)
-                    when (shiftMode) {
-                        2 -> mCandidateWordsList[i] =
-                            mComposingData.composingText.toString() + subPart2.uppercase(Locale.getDefault())
-                        1 -> mCandidateWordsList[i] =
-                            mComposingData.composingText.toString() + subPart2
-                        else -> mCandidateWordsList[i] =
-                            mComposingData.composingText.toString() + subPart2.lowercase(Locale.getDefault())
-                    }
-                }
-            }
-        } catch (e: IndexOutOfBoundsException) {
-            e.printStackTrace()
-        }
-    }
 }

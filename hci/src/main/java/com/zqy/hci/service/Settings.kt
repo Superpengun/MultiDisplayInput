@@ -24,6 +24,10 @@ class Settings private constructor() : OnSharedPreferenceChangeListener {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context)
     }
 
+    private fun onDestroy(){
+        mContext = null
+    }
+
     override fun onSharedPreferenceChanged(prefs: SharedPreferences?, key: String) {
         Log.d(TAG, "onSharedPreferenceChanged: $key")
         mSettingsValuesLock.lock()
@@ -31,16 +35,16 @@ class Settings private constructor() : OnSharedPreferenceChangeListener {
             if (mSettingsValues == null) {
                 return
             }
-            loadSettings(mContext)
+            loadSettings(mContext!!)
         } finally {
             mSettingsValuesLock.unlock()
         }
     }
 
-    fun loadSettings(context: Context?) {
+    fun loadSettings(context: Context) {
         mSettingsValuesLock.lock()
         mContext = context
-        mRes = context!!.resources
+        mRes = context.resources
         mSettingsValues = SettingsValues(context, mPrefs, mRes)
         mSettingsValuesLock.unlock()
         Log.d(TAG, "loadSettings: currentsettings=" + mSettingsValues.toString())
@@ -70,6 +74,10 @@ class Settings private constructor() : OnSharedPreferenceChangeListener {
 
         fun init(context: Context) {
             instance.onCreate(context)
+        }
+
+        fun destroy(){
+            instance.onDestroy()
         }
     }
 }

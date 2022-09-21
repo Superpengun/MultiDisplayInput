@@ -27,6 +27,7 @@ import android.util.Log
 import android.util.SparseIntArray
 import android.view.Display
 import com.zqy.hci.input.LogicControl
+import com.zqy.hci.service.Settings
 
 /**
  * A [Service] that implements multi-client IME protocol.
@@ -42,11 +43,13 @@ class MultiClientInputMethod : Service(), DisplayManager.DisplayListener {
     internal lateinit var mSoftInputWindowManager: SoftInputWindowManager
     lateinit var mDelegate: MultiClientInputMethodServiceDelegate
     private lateinit var mDisplayManager: DisplayManager
+    private var mSettings:Settings? = null
     override fun onCreate() {
         if (DEBUG) {
             Log.v(TAG, "onCreate")
         }
-        LogicControl.instance.init(applicationContext)
+        loadSettings()
+        LogicControl.instance.init(this)
         mInputDisplayToImeDisplay = buildInputDisplayToImeDisplay()
         mDelegate = MultiClientInputMethodServiceDelegate.create(this,
             object : ServiceCallback {
@@ -120,6 +123,7 @@ class MultiClientInputMethod : Service(), DisplayManager.DisplayListener {
         if (DEBUG) {
             Log.v(TAG, "onDestroy")
         }
+        Settings.destroy()
         LogicControl.instance.release()
         mDelegate.onDestroy()
     }
@@ -146,6 +150,12 @@ class MultiClientInputMethod : Service(), DisplayManager.DisplayListener {
             }
         }
         return inputDisplayToImeDisplay
+    }
+
+    private fun loadSettings(){
+        mSettings = Settings.instance
+        Settings.init(this)
+        mSettings?.loadSettings(this)
     }
 
     companion object {

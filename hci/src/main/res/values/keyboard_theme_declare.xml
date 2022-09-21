@@ -81,6 +81,11 @@
         <attr name="candidateDataXGap" format="reference|dimension" />
         <attr name="candidateVerticalTextPadding" format="reference|dimension" />
         <attr name="moreCandidateFontSize" format="reference|dimension" />
+
+        <!--   StrokeView     -->
+        <attr name="paintWidth" format="reference|float" />
+        <attr name="strokeColor" format="reference|color" />
+        <attr name="strokeViewBg" format="reference|color" />
     </declare-styleable>
 
     <declare-styleable name="HciKeyboardFunctionIconTheme">
@@ -105,6 +110,8 @@
         <attr name="candidateMoreLeftIcon" format="reference" />
         <attr name="candidateCloseIcon" format="reference" />
         <attr name="candidateClearIcon" format="reference" />
+        <attr name="candidateHWIcon" format="reference" />
+        <attr name="candidateKeyboardIcon" format="reference" />
         <attr name="moreCandidatePrePageIcon" format="reference" />
         <attr name="moreCandidateNextPageIcon" format="reference" />
         <attr name="moreCandidateBackIcon" format="reference" />

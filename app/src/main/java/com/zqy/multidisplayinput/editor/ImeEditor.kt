@@ -3,10 +3,7 @@ package com.zqy.multidisplayinput.editor
 import android.content.Context
 import android.util.Log
 import com.zqy.hci.bean.InputModeConst
-import com.zqy.hci.input.DefaultInputMethod
-import com.zqy.hci.input.InputMethod
-import com.zqy.hci.input.LogicControl
-import com.zqy.hci.input.MultiInputMethod
+import com.zqy.hci.input.*
 import com.zqy.hci.listener.HciCloudInputConnection
 import com.zqy.hci.listener.InputMethodListener
 import com.zqy.hci.listener.LogicControlListener
@@ -27,6 +24,8 @@ class ImeEditor (context: Context): InputMethodListener {
     private var mDefaultInputMethod: InputMethod? = null
     private var mMultiInputMethod: InputMethod? = null
     private var mCurrentInputMethod: InputMethod? = null
+    private var mPinYinInputMethod: InputMethod? = null
+    private var mHWInputMethod :InputMethod? = null
     private var mCurrentInputMode = 0
     private var mContext = context
     private lateinit var mHciCloudInputConnection: HciCloudInputConnection
@@ -43,11 +42,35 @@ class ImeEditor (context: Context): InputMethodListener {
     fun inputMethodChange(mode: Int) {
         Log.i(TAG, "onInputModeChange():mode=$mode")
         mCurrentInputMode = mode
-        if(!LogicControl.instance.mInitHciCloudSys){
-            mCurrentInputMode = InputModeConst.INPUT_DEFAULT
-        }
         when (mCurrentInputMode) {
             InputModeConst.INPUT_DEFAULT -> mCurrentInputMethod = mDefaultInputMethod
+            InputModeConst.INPUT_CHINESE -> {
+                mCurrentInputMethod = mPinYinInputMethod
+                if (lastMode != mode) {
+                    mCurrentInputMethod?.changeLanRes("_cn_")
+                    Log.i(TAG, "changeLanRes()" + "_cn_")
+                    lastMode = mode
+                }
+                mCurrentInputMethod?.setInputMethodListener(this)
+            }
+            InputModeConst.INPUT_HWR_CN ->{
+                mCurrentInputMethod = mHWInputMethod
+                if (lastMode != mode) {
+                    mCurrentInputMethod?.changeLanRes("_cn_")
+                    Log.i(TAG, "changeLanRes()" + "_cn_")
+                    lastMode = mode
+                }
+                mCurrentInputMethod?.setInputMethodListener(this)
+            }
+            InputModeConst.INPUT_HWR_EN ->{
+                mCurrentInputMethod = mHWInputMethod
+                if (lastMode != mode) {
+                    mCurrentInputMethod?.changeLanRes("_en_")
+                    Log.i(TAG, "changeLanRes()" + "_en_")
+                    lastMode = mode
+                }
+                mCurrentInputMethod?.setInputMethodListener(this)
+            }
             else -> {
                 mCurrentInputMethod = mMultiInputMethod
                 if (lastMode != mode) {
@@ -69,6 +92,8 @@ class ImeEditor (context: Context): InputMethodListener {
         mLogicControlListener = logicControlListener
         mMultiInputMethod = MultiInputMethod(hciCloudInputConnection)
         mDefaultInputMethod = DefaultInputMethod(hciCloudInputConnection)
+        mPinYinInputMethod = PinYinInputMethod(hciCloudInputConnection)
+        mHWInputMethod = HWInputMethod(hciCloudInputConnection)
     }
 
     ///////////////////////////////////////////////功能相关////////////////////////////////////////////////////////
@@ -102,6 +127,19 @@ class ImeEditor (context: Context): InputMethodListener {
             val inputChar = text?.get(0)
             if (mCurrentInputMethod != null) {
                 mCurrentInputMethod!!.appendRecognizeChar(inputChar!!)
+            } else {
+                Log.i(TAG, "getInputMethod() return null")
+            }
+        }
+    }
+
+    /**
+     * 手写笔迹处理
+     */
+    fun recog(points: ShortArray) {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (mCurrentInputMethod != null) {
+                mCurrentInputMethod!!.appendRecognizePoints(points)
             } else {
                 Log.i(TAG, "getInputMethod() return null")
             }
@@ -146,6 +184,15 @@ class ImeEditor (context: Context): InputMethodListener {
             } else {
                 Log.i(TAG, "getInputMethod() return null")
             }
+        }
+    }
+
+    /**
+     * 语音传整句文本功能
+     */
+    fun sendSentence(sentence: String?) {
+        CoroutineScope(Dispatchers.IO).launch {
+            mCurrentInputMethod!!.appendSentence(sentence)
         }
     }
 

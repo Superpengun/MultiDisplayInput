@@ -90,6 +90,15 @@ object LanguageUtil {
         //挪威语
         var QWERTY_NORWAY = "qwerty_norway"
 
+        //中文全键
+        var QWERTY_CHINESE = "qwerty_cn"
+
+        //中文手写
+        var QWERTY_HWR_CN = "qwerty_hwr_cn"
+
+        //英文手写
+        var QWERTY_HWR_EN = "qwerty_hwr_en"
+
 
         var KB_NAME = arrayOf(
             QWERTY_EN,
@@ -108,7 +117,10 @@ object LanguageUtil {
             QWERTY_DUTCH,
             QWERTY_SWEDISH,
             QWERTY_CZECH,
-            QWERTY_NORWAY
+            QWERTY_NORWAY,
+            QWERTY_CHINESE,
+            QWERTY_HWR_CN,
+            QWERTY_HWR_EN
         )
 
 
@@ -129,7 +141,10 @@ object LanguageUtil {
             arrayOf("Nederlands", "Nederlands"),
             arrayOf("Svensk", "Svensk"),
             arrayOf("Čeština", "Čeština"),
-            arrayOf("Norsk", "Norsk")
+            arrayOf("Norsk", "Norsk"),
+            arrayOf("Chinese", "选择"),
+            arrayOf("Chinese", "选择"),
+            arrayOf("English", "Selected"),
         )
     }
 

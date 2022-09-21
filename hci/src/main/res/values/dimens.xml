@@ -46,4 +46,5 @@
     <dimen name="candidate_horizontal_padding">10dp</dimen>
     <dimen name="keyboard_num_function_key_width">25%p</dimen>
     <dimen name="keyboard_num_space_key_width">49.8%p</dimen>
+    <dimen name="keyboard_edge_right_key_horizontal_gap">80%p</dimen>
 </resources>

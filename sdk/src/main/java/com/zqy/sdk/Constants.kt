@@ -98,7 +98,7 @@ class Constants {
         /**
          * Kb中文资源前缀
          */
-        const val RES_PREFIX_CH = "_cn_"
+        const val RES_PREFIX_CN = "_cn_"
 
         /**
          * Kb英文资源前缀
@@ -241,5 +241,106 @@ class Constants {
          * 显示toast通知
          */
         const val SHOW_TOAST = 456
+    }
+
+    /**
+     * 手写相关常量
+     */
+    object HWRConstant {
+        /**
+         * HWR能力
+         */
+        const val HWR_CN_CAPKEY = "hwr.local.freestylus"
+        const val HWR_EN_CAPKEY = "hwr.local.freestylus.english"
+
+        /**
+         * HWR联想能力
+         */
+        const val HWR_ASSOCIATE_CAPKEY = "hwr.local.associateword"
+
+        /**
+         * HWR中文资源前缀
+         */
+        const val RES_PREFIX_CH = "cn."
+
+        /**
+         * HWR英文资源前缀
+         */
+        const val RES_PREFIX_EN = "en."
+
+        /**
+         * 联想模式
+         */
+        const val ASSOCIATE_MODEL = "multi"
+
+        /**
+         * HWR文件标示
+         */
+        const val FILE_FLAG = "android_so"
+
+        /**
+         * 手写书写模式
+         * overlap: 叠字识别
+         */
+        const val HWR_SPLIT_MODE_OVERLAP = "overlap"
+        const val HWR_SPLIT_MODE_LINE = "line"
+
+        /**
+         * 单词模式
+         */
+        const val WORD_MODE = "mixed"
+
+        /**
+         * 是否启动实时识别
+         */
+        const val IS_REALTIME = "yes"
+
+        /**
+         * 候选词个数
+         */
+        const val CAND_NUM = "10"
+
+        /**
+         * 繁简转换
+         */
+        const val DISP_CODE = "nochange"
+        const val TO_SIMPLE = "tosimplified"
+        const val TO_TRAND = "totraditional"
+
+        /**
+         * 手写中文识别范围GB
+         */
+        const val RECOG_RANGE_GB = "gb"
+
+        /**
+         * 手写中文识别范围GBK
+         */
+        const val RECOG_RANGE_GBK = "gbk"
+
+        /**
+         * 手写英文识别范围
+         */
+        const val RECOG_RANGE_EN = "alphabet"
+
+        /**
+         * 手写中文识别模式
+         */
+        const val HWR_RECOG_MODE_CN = 0
+
+        /**
+         * 手写英文识别模式
+         */
+        const val HWR_RECOG_MODE_EN = 1
+        const val HWR_RECOG_MODE_NULL = -1
+
+        /**
+         * 联想中文模式
+         */
+        const val HWR_ASSOCIATE_MODE_CN = 0
+
+        /**
+         * 联想英文模式
+         */
+        const val HWR_ASSOCIATE_MODE_EN = 1
     }
 }

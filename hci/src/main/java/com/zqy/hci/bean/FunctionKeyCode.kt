@@ -19,6 +19,8 @@ object FunctionKeyCode {
 
     var KEY_NUM_CN = -6 //切换至中文符号
 
+    var KEY_VOICE = -11 //开启语音
+
 
     var KEY_NUM_T9 = -61 //切换至九键符号
 
@@ -30,6 +32,8 @@ object FunctionKeyCode {
 
     var KEY_CN_QWERTY = -8 //切换至中文全键
 
+
+    var KEY_HW = -12 //切换至手写键盘
 
     var SELECT_LANGUAGE = -111 //切换键盘
 
