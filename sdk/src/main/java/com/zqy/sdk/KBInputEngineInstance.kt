@@ -49,6 +49,9 @@ class KBInputEngineInstance {
                 mMainSDKWrapper = EnglishSDKWrapper()
             } else if (lan == "_cn_") {
                 mMainSDKWrapper = ChineseSDKWrapper()
+            } else{
+                mMainSDKWrapper = MultiSDKWrapper()
+                mMainSDKWrapper.setResPreFix(lan)
             }
             if (mInitSession) mMainSDKWrapper.release()
             mInitSession = mMainSDKWrapper.init()
