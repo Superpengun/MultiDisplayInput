@@ -29,6 +29,7 @@ import android.view.inputmethod.CursorAnchorInfo
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputConnection
 import com.zqy.hci.bean.FunctionKeyCode
+import com.zqy.hci.handwrite.OnStrokeActionListener
 import com.zqy.hci.listener.HciCloudInputConnection
 import com.zqy.hci.listener.LogicControlListener
 import com.zqy.hci.listener.OnCandidateActionListener
@@ -43,7 +44,8 @@ internal class ClientCallbackImpl(
     private val mUid: Int,
     private val mPid: Int,
     private val mSelfReportedDisplayId: Int
-) : ClientCallback , OnKeyboardActionListener, OnCandidateActionListener, HciCloudInputConnection,
+) : ClientCallback, OnKeyboardActionListener, OnCandidateActionListener, HciCloudInputConnection,
+    OnStrokeActionListener,
     LogicControlListener {
     val dispatcherState: KeyEvent.DispatcherState
     val looper: Looper
@@ -120,9 +122,9 @@ internal class ClientCallbackImpl(
             mDelegate.setActive(lastClientId, false /* active */)
             mDelegate.setActive(mClientId, true /* active */)
         }
-        window.mSwitcher.mImeEditor.setListener(this,this)
+        window.mSwitcher.mImeEditor.setListener(this, this)
         window.mSwitcher.handleEditorInfo(editorInfo)
-        window.mSwitcher.setUIListener(this,this)
+        window.mSwitcher.setUIListener(this, this, this)
         mCurrentInputConnection = inputConnection
         if (inputConnection == null || editorInfo == null) {
             // Placeholder InputConnection case.
@@ -257,11 +259,11 @@ internal class ClientCallbackImpl(
     }
 
     override fun onHW() {
-        onKey(FunctionKeyCode.KEY_HW,null)
+        onKey(FunctionKeyCode.KEY_HW, null)
     }
 
     override fun onKeyboard() {
-        onKey(FunctionKeyCode.KEY_CN_QWERTY,null)
+        onKey(FunctionKeyCode.KEY_CN_QWERTY, null)
     }
 
     override fun onPress(primaryCode: Int) {
@@ -311,13 +313,13 @@ internal class ClientCallbackImpl(
             FunctionKeyCode.KEY_ENTER -> {
                 window.mSwitcher.mImeEditor.sendEnter()
             }
-            FunctionKeyCode.KEY_ARAB_ALPHABET ->{
+            FunctionKeyCode.KEY_ARAB_ALPHABET -> {
                 window.mSwitcher.mImeEditor.sendSymbol("ٓ")
             }
-            FunctionKeyCode.KEY_NORAWAY_KR ->{
+            FunctionKeyCode.KEY_NORAWAY_KR -> {
                 window.mSwitcher.mImeEditor.sendSymbol("Kr")
             }
-            FunctionKeyCode.KEY_CN_QWERTY ->{
+            FunctionKeyCode.KEY_CN_QWERTY -> {
                 window.mSwitcher.showChooseLanOption()
                 window.mSwitcher.mImeEditor.clear()
             }
@@ -331,7 +333,7 @@ internal class ClientCallbackImpl(
         val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId) ?: return
         val isLockShift = window.mSwitcher.isLockShifted()
         val isShift = window.mSwitcher.isShifted()
-        if (isShift && !isLockShift){
+        if (isShift && !isLockShift) {
             window.mSwitcher.setShifted()
             window.mSwitcher.mImeEditor.setShiftState(window.mSwitcher.getShiftState())
         }
@@ -401,5 +403,13 @@ internal class ClientCallbackImpl(
     override fun onUpdateCandidateWordsList(upDateCandidateWordsList: List<String>) {
         val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId) ?: return
         window.mSwitcher.setCandidateData(ArrayList(upDateCandidateWordsList))
+    }
+
+    override fun onWriteEnd(stroke: ShortArray) {
+        val window = mSoftInputWindowManager.getSoftInputWindow(mSelfReportedDisplayId) ?: return
+        window.mSwitcher.mImeEditor.recog(stroke)
+    }
+
+    override fun onPointTouch() {
     }
 }

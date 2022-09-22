@@ -10,10 +10,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.zqy.hci.R
 import com.zqy.hci.bean.InputModeConst
 import com.zqy.hci.bean.KeyboardId
+import com.zqy.hci.handwrite.OnStrokeActionListener
 import com.zqy.hci.listener.OnCandidateActionListener
 import com.zqy.hci.listener.OnKeyboardActionListener
 import com.zqy.hci.theme.ThemeManager
 import com.zqy.hci.utils.LanguageUtil
+import com.zqy.hci.utils.LanguageUtil.KbRes.QWERTY_HWR_CN
+import com.zqy.hci.utils.LanguageUtil.KbRes.QWERTY_HWR_EN
 import com.zqy.hci.widget.*
 import com.zqy.multidisplayinput.editor.ImeEditor
 
@@ -32,6 +35,7 @@ class Switcher {
     private var mMoreCandidateView: MoreCandidateView? = null
     private var mKeyboardView: KeyboardView? = null
     private var mCurrentKbd: KeyboardId? = null
+    private var mStrokeView: StrokeView? = null
 
     private var mSelectDialog: Dialog? = null
     private var mCurrentSelectKB = 0
@@ -40,9 +44,9 @@ class Switcher {
     //输入模式 如文本、数字、url、密码等
     private var mTextMode = Switcher.MODE_TEXT
     private var showSpaceIcon = false
-    lateinit var mImeEditor : ImeEditor
+    lateinit var mImeEditor: ImeEditor
 
-    companion object{
+    companion object {
         const val MODE_TEXT = 1
         const val MODE_NUMBER = 3
         const val MODE_URL = 4
@@ -70,9 +74,14 @@ class Switcher {
         return currentInputView!!
     }
 
-    fun setUIListener(l: OnCandidateActionListener, listener: OnKeyboardActionListener) {
+    fun setUIListener(
+        l: OnCandidateActionListener,
+        listener: OnKeyboardActionListener,
+        ll: OnStrokeActionListener
+    ) {
         mKeyboardView?.setOnKeyboardActionListener(listener)
         mCandidateView?.setOnCandidateActionListener(l)
+        mStrokeView?.setOnStrokeActionListener(ll)
     }
 
     /**
@@ -86,9 +95,11 @@ class Switcher {
         mCandidateView = currentInputView?.findViewById(R.id.candidate_view)
         mKeyboardView = currentInputView?.findViewById(R.id.keyboard_view)
         mMoreCandidateView = currentInputView?.findViewById(R.id.more_candidate_view)
+        mStrokeView = currentInputView?.findViewById(R.id.stroke_view)
         themeManager.addThemeAbleView(mKeyboardView!!)
         themeManager.addThemeAbleView(mCandidateView!!)
         themeManager.addThemeAbleView(mMoreCandidateView!!)
+        themeManager.addThemeAbleView(mStrokeView!!)
         return inputContainer
     }
 
@@ -150,23 +161,28 @@ class Switcher {
             mCurrentKbd!!.kbName
         }
         val keyboard: Keyboard = getKeyboard(kbName, mCurrentKbd!!.keyboardMode)
+        showStrokeView()
         setKeyboard(keyboard)
     }
 
 
     fun switchKb() {
+        hideStrokeView()
         mKbLayout = 0
         val keyboard: Keyboard = getKeyboard(mCurrentKbd!!.kbName, mCurrentKbd!!.keyboardMode)
+        showStrokeView()
         setKeyboard(keyboard)
     }
 
     fun switchNumKb() {
+        hideStrokeView()
         mKbLayout = 1
         val keyboard: Keyboard = getKeyboard(mCurrentKbd!!.numKbName, mCurrentKbd!!.keyboardMode)
         setKeyboard(keyboard)
     }
 
     fun switchSymbolKb() {
+        hideStrokeView()
         mKbLayout = 2
         val keyboard: Keyboard = getKeyboard(mCurrentKbd!!.symbolKbName, mCurrentKbd!!.keyboardMode)
         setKeyboard(keyboard)
@@ -178,6 +194,7 @@ class Switcher {
      * @param listener OnCandidateActionListener
      */
     fun showMoreCandidate(listener: OnCandidateActionListener) {
+        hideStrokeView()
         mMoreCandidateView?.show(listener)
         mMoreCandidateView?.setCandidateData(
             mCandidateView!!.getData(),
@@ -187,6 +204,7 @@ class Switcher {
 
 
     fun onFinishInputView() {
+        hideStrokeView()
         checkAndHideDialog()
         if (mMoreCandidateView != null && mMoreCandidateView?.visibility == View.VISIBLE) {
             mMoreCandidateView?.hideAndScroll2Top()
@@ -222,7 +240,7 @@ class Switcher {
     fun isLockShifted() = mKeyboardView!!.isLockShift()
 
     fun setCandidateData(data: ArrayList<String>) {
-        Log.d(TAG,"setCandidateData,$data")
+        Log.d(TAG, "setCandidateData,$data")
         mCandidateView?.setCandidateData(data)
         updateMoreCandidateViewData()
         if (!data.isNullOrEmpty()) {
@@ -236,7 +254,10 @@ class Switcher {
      * 处理更多候选区返回动作
      */
     fun handleOnBack() {
-        mMoreCandidateView?.hideAndScroll2Top()
+        if (mMoreCandidateView != null && mMoreCandidateView?.visibility == View.VISIBLE) {
+            mMoreCandidateView?.hideAndScroll2Top()
+            showStrokeView()
+        }
     }
 
 
@@ -317,10 +338,28 @@ class Switcher {
         return keyboard
     }
 
-    private fun updateMoreCandidateViewData(){
+    private fun updateMoreCandidateViewData() {
         mMoreCandidateView?.setCandidateData(
             mCandidateView!!.getData(),
             mCandidateView!!.isRTLMode()
         )
+    }
+
+    /**
+     * 展示手写板
+     */
+    private fun showStrokeView() {
+        if (mCurrentKbd!!.kbName == QWERTY_HWR_CN || mCurrentKbd!!.kbName == QWERTY_HWR_EN) {
+            mStrokeView?.initView(mKeyboardView!!)
+            mStrokeView?.visibility = View.VISIBLE
+        }
+    }
+
+    /**
+     * 收起手写板
+     */
+    private fun hideStrokeView() {
+        mStrokeView?.destroyView()
+        mStrokeView?.visibility = View.GONE
     }
 }
