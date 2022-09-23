@@ -125,7 +125,6 @@ internal class ClientCallbackImpl(
         window.mSwitcher.mImeEditor.setListener(this, this)
         window.mSwitcher.handleEditorInfo(editorInfo)
         window.mSwitcher.setUIListener(this, this, this)
-        mCurrentInputConnection = inputConnection
         if (inputConnection == null || editorInfo == null) {
             // Placeholder InputConnection case.
             if (window.clientId == mClientId) {
@@ -136,6 +135,7 @@ internal class ClientCallbackImpl(
                 window.onDummyStartInput(mClientId, targetWindowHandle)
             }
         } else {
+            mCurrentInputConnection = inputConnection
             window.onStartInput(mClientId, targetWindowHandle, inputConnection)
         }
         when (state) {
