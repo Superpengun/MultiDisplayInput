@@ -1,8 +1,9 @@
-package com.zqy.sdk
+package com.zqy.sdk.manager
 
 import android.util.Log
 import com.sinovoice.hcicloudsdk.api.kb.HciCloudKb
 import com.sinovoice.hcicloudsdk.common.kb.KbInitParam
+import com.zqy.sdk.Constants
 import com.zqy.sdk.keyboard.*
 import com.zqy.sdk.tools.HciCloudUtils
 
@@ -41,49 +42,9 @@ class KBInputEngineInstance {
     }
 
     /**
-     * 切换语种
-     */
-    fun changeLanguage(lan: String?) {
-        if (lan != null) {
-            if (lan == "_en_") {
-                mMainSDKWrapper = EnglishSDKWrapper()
-            } else if (lan == "_cn_") {
-                mMainSDKWrapper = ChineseSDKWrapper()
-            } else{
-                mMainSDKWrapper = MultiSDKWrapper()
-                mMainSDKWrapper.setResPreFix(lan)
-            }
-            if (mInitSession) mMainSDKWrapper.release()
-            mInitSession = mMainSDKWrapper.init()
-        }
-    }
-
-    /**
-     * 查询
-     */
-    fun multiQuery(query: String?): RecogResult {
-        return mMainSDKWrapper.query(query)
-    }
-
-    /**
-     * 获取更多结果
-     */
-    fun multiGetMore(): RecogResult? {
-        return mMainSDKWrapper.getMore()
-    }
-
-    /**
-     * 获取更多结果
-     */
-    fun submitUDB(content: String, syllable: String) {
-        return mMainSDKWrapper.submitUDB(content, syllable)
-    }
-
-    /**
      * 引擎能力反初始化
      */
     fun release() {
-        mMainSDKWrapper.release()
         releaseKb()
     }
 

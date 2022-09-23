@@ -5,9 +5,9 @@ import android.view.KeyEvent
 import com.zqy.hci.listener.HciCloudInputConnection
 import com.zqy.hci.service.Settings
 import com.zqy.hci.utils.LanguageUtil
-import com.zqy.sdk.KBInputEngineInstance
 import com.zqy.sdk.keyboard.RecogResult
 import com.zqy.sdk.keyboard.RecogResultItem
+import com.zqy.sdk.manager.KBSDKWrapperManager
 import java.lang.IndexOutOfBoundsException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -26,6 +26,7 @@ class MultiInputMethod(
 
     private var shiftModeTobeChangeTo = 0
     private var mLanResPreFix = ""
+    private lateinit var mKBManager : KBSDKWrapperManager
 
     companion object {
         protected val TAG = MultiInputMethod::class.java.simpleName
@@ -43,7 +44,7 @@ class MultiInputMethod(
     override fun changeLanRes(lan: String) {
         mLanResPreFix = lan
         Log.d(TAG, "changeLanRes: $lan")
-        KBInputEngineInstance.get().changeLanguage(lan)
+        mKBManager.changeLanguage(lan)
     }
 
     /**
@@ -237,7 +238,7 @@ class MultiInputMethod(
      */
     override fun getNextPage() {
         if (checkComposingLength()) return
-        val recogResult: RecogResult? = KBInputEngineInstance.get().multiGetMore()
+        val recogResult: RecogResult? = mKBManager.multiGetMore()
         val items: ArrayList<RecogResultItem>? = recogResult?.getRecogResultItems()
         mCandidateWordsList.clear()
         for (item in items!!) {
@@ -260,9 +261,13 @@ class MultiInputMethod(
         super.notifyCandidateChange()
     }
 
+    fun getKBSDKWrapperManager(m: KBSDKWrapperManager) {
+        mKBManager = m
+    }
+
     private fun queryAndUpdateCandidate(query: String) {
         if (query.isEmpty()) return
-        val recogResult: RecogResult = KBInputEngineInstance.get().multiQuery(query)
+        val recogResult: RecogResult = mKBManager.multiQuery(query)
         val items: ArrayList<RecogResultItem>? = recogResult.getRecogResultItems()
         mCandidateWordsList.clear()
         synchronized(this) {

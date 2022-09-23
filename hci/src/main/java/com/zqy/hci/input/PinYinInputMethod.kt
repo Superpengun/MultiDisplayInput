@@ -3,10 +3,10 @@ package com.zqy.hci.input
 import android.util.Log
 import android.view.KeyEvent
 import com.zqy.hci.listener.HciCloudInputConnection
-import com.zqy.sdk.HWInputEngineInstance
-import com.zqy.sdk.KBInputEngineInstance
 import com.zqy.sdk.keyboard.RecogResult
 import com.zqy.sdk.keyboard.RecogResultItem
+import com.zqy.sdk.manager.HWSDKWrapperManager
+import com.zqy.sdk.manager.KBSDKWrapperManager
 import java.util.ArrayList
 import java.util.HashSet
 
@@ -24,6 +24,8 @@ class PinYinInputMethod(
     private var shiftModeTobeChangeTo = 0
     private var mLanResPreFix = ""
     private val NUMBER_EN_TABLE = charArrayOf('a', 'd', 'g', 'j', 'm', 'p', 't', 'w')
+    private lateinit var mHWManager : HWSDKWrapperManager
+    private lateinit var mKBManager : KBSDKWrapperManager
 
     companion object {
         val TAG = PinYinInputMethod::class.java.simpleName
@@ -43,8 +45,8 @@ class PinYinInputMethod(
     override fun changeLanRes(lan: String) {
         mLanResPreFix = lan
         Log.d(TAG, "changeLanRes: $lan")
-        KBInputEngineInstance.get().changeLanguage(lan)
-        HWInputEngineInstance.get().changeLanguage(lan)
+        mKBManager.changeLanguage(lan)
+        mHWManager.changeLanguage(lan)
     }
 
     /**
@@ -201,14 +203,14 @@ class PinYinInputMethod(
                 val userData = mCompoing.getCurrentOutput()
                 if (userData!!.isNotEmpty()) {
                     mRecogResult.getRecogResultItems()?.get(index)?.getSymbols()?.let {
-                        KBInputEngineInstance.get().submitUDB(
+                        mKBManager.submitUDB(
                             userData,
                             it
                         )
                     }
 
                     //联想词提前
-                    HWInputEngineInstance.get().raisePriority(userData)
+                    mHWManager.raisePriority(userData)
                     //上屏
                     mHciCloudInputConnection.commitString(userData, 1)
                     Log.i(TAG, "handleCandidateChosen()  commitString:  $userData")
@@ -280,13 +282,21 @@ class PinYinInputMethod(
         onReset()
     }
 
+    fun getHWSDKWrapperManager(m: HWSDKWrapperManager) {
+        mHWManager = m
+    }
+
+    fun getKBSDKWrapperManager(m: KBSDKWrapperManager) {
+        mKBManager = m
+    }
+
     /**
      * 获取下一页候选词汇
      */
     override fun getNextPage() {
         if (checkComposingLength()) return
         val composing = mCompoing.getComposingToCommiting()
-        val recogResult: RecogResult? = KBInputEngineInstance.get().multiGetMore()
+        val recogResult: RecogResult? = mKBManager.multiGetMore()
         val items: ArrayList<RecogResultItem>? = recogResult?.getRecogResultItems()
         if (composing != null && composing.isNotEmpty()) {
             if (items!!.isNotEmpty()) {
@@ -315,7 +325,7 @@ class PinYinInputMethod(
 
     private fun queryAndUpdateCandidate(query: String) {
         if (query.isEmpty()) return
-        mRecogResult = KBInputEngineInstance.get().multiQuery(query)
+        mRecogResult = mKBManager.multiQuery(query)
         val items: ArrayList<RecogResultItem>? = mRecogResult.getRecogResultItems()
         mCandidateWordsList.clear()
         if (items!!.isEmpty()) {
@@ -332,7 +342,7 @@ class PinYinInputMethod(
 
     private fun associateAndUpdateCandidate(query: String) {
         if (query.isEmpty()) return
-        val associateList = HWInputEngineInstance.get().associateQuery(query)
+        val associateList = mHWManager.associateQuery(query)
         mCandidateWordsList.clear()
         synchronized(this) {
             if (associateList != null) {

@@ -4,10 +4,8 @@ import android.util.Log
 import android.view.KeyEvent
 import com.zqy.hci.listener.HciCloudInputConnection
 import com.zqy.hci.service.Settings
-import com.zqy.sdk.HWInputEngineInstance
-import com.zqy.sdk.KBInputEngineInstance
 import com.zqy.sdk.keyboard.RecogResult
-import com.zqy.sdk.keyboard.RecogResultItem
+import com.zqy.sdk.manager.HWSDKWrapperManager
 import java.util.ArrayList
 import java.util.HashSet
 
@@ -25,6 +23,7 @@ class HWInputMethod(
     private var shiftModeTobeChangeTo = 0
     private var mLanResPreFix = ""
     private val NUMBER_EN_TABLE = charArrayOf('a', 'd', 'g', 'j', 'm', 'p', 't', 'w')
+    private lateinit var mHWManager : HWSDKWrapperManager
 
     companion object {
         val TAG = HWInputMethod::class.java.simpleName
@@ -44,8 +43,7 @@ class HWInputMethod(
     override fun changeLanRes(lan: String) {
         mLanResPreFix = lan
         Log.d(TAG, "changeLanRes: $lan")
-        KBInputEngineInstance.get().changeLanguage(lan)
-        HWInputEngineInstance.get().changeLanguage(lan)
+        mHWManager.changeLanguage(lan)
     }
 
     /**
@@ -69,7 +67,7 @@ class HWInputMethod(
         }
         mComposingData.onComposingStart()
         clearCandidateWordsList()
-        val recogList = HWInputEngineInstance.get().recog(points)
+        val recogList = mHWManager.recog(points)
         try {
             if (recogList.size != 0) {
                 mComposingData.composingText.append(recogList[0])
@@ -114,7 +112,6 @@ class HWInputMethod(
                 mHciCloudInputConnection.commitComposing(mComposingData.composingText.toString())
                 clearCandidateWordsList()
                 notifyComposingChange()
-                queryAndUpdateCandidate(mComposingData.composingText.toString())
             }
             ComposingData.ComposingState.FINSHCOMPOSING -> {
                 clearCandidateWordsList()
@@ -252,19 +249,14 @@ class HWInputMethod(
         onReset()
     }
 
+    fun getHWSDKWrapperManager(m: HWSDKWrapperManager) {
+        mHWManager = m
+    }
+
     /**
      * 获取下一页候选词汇
      */
     override fun getNextPage() {
-        if (checkComposingLength()) return
-        val recogResult: RecogResult? = KBInputEngineInstance.get().multiGetMore()
-        val items: ArrayList<RecogResultItem>? = recogResult?.getRecogResultItems()
-        mCandidateWordsList.clear()
-        for (item in items!!) {
-            mCandidateWordsList.add(item.getResult())
-        }
-        notifyCandidateChange()
-
     }
 
     /**
@@ -279,22 +271,9 @@ class HWInputMethod(
         super.notifyCandidateChange()
     }
 
-    private fun queryAndUpdateCandidate(query: String) {
-        if (query.isEmpty()) return
-        val recogResult: RecogResult = KBInputEngineInstance.get().multiQuery(query)
-        val items: ArrayList<RecogResultItem>? = recogResult.getRecogResultItems()
-        mCandidateWordsList.clear()
-        synchronized(this) {
-            for (item in items!!) {
-                mCandidateWordsList.add(item.getResult())
-            }
-            if (mCandidateWordsList.size == 0) mCandidateWordsList.add(mComposingData.composingText.toString())
-        }
-    }
-
     private fun associateAndUpdateCandidate(query: String) {
         if (query.isEmpty()) return
-        val associateList = HWInputEngineInstance.get().associateQuery(query)
+        val associateList = mHWManager.associateQuery(query)
         mCandidateWordsList.clear()
         synchronized(this) {
             if (associateList != null) {

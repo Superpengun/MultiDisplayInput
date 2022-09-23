@@ -1,8 +1,8 @@
 package com.zqy.hci.input
 
 import android.content.Context
-import com.zqy.sdk.HWInputEngineInstance
-import com.zqy.sdk.KBInputEngineInstance
+import com.zqy.sdk.manager.HWInputEngineInstance
+import com.zqy.sdk.manager.KBInputEngineInstance
 import com.zqy.sdk.SysSDKManager
 import com.zqy.sdk.tools.HciCloudUtils
 

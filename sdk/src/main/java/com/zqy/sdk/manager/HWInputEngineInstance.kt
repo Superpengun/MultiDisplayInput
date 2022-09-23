@@ -1,9 +1,9 @@
-package com.zqy.sdk
+package com.zqy.sdk.manager
 
 import android.util.Log
 import com.sinovoice.hcicloudsdk.api.hwr.HciCloudHwr
 import com.sinovoice.hcicloudsdk.common.hwr.HwrInitParam
-import com.zqy.sdk.handwrite.*
+import com.zqy.sdk.Constants
 import com.zqy.sdk.tools.HciCloudUtils
 
 /**
@@ -30,11 +30,6 @@ class HWInputEngineInstance {
         }
     }
 
-    private var mMainHWSDKWrapper: HandWriteSDKWrapper = EnglishHwSDKWrapper()
-    private var mMainAssociateSDKWrapper: AssociateSDKWrapper = EnglishAssociateSDKWrapper()
-    private var mInitHWSession = false
-    private var mInitAssociateSession = false
-
     /**
      * 引擎能力初始化
      */
@@ -43,54 +38,9 @@ class HWInputEngineInstance {
     }
 
     /**
-     * 切换语种
-     */
-    fun changeLanguage(lan: String?) {
-        if (lan != null) {
-            if (lan == "_en_") {
-                mMainHWSDKWrapper = EnglishHwSDKWrapper()
-                mMainAssociateSDKWrapper = EnglishAssociateSDKWrapper()
-            } else if (lan == "_cn_") {
-                mMainHWSDKWrapper = ChineseHwSDKWrapper()
-                mMainAssociateSDKWrapper = ChineseAssociateSDKWrapper()
-            }
-        }
-        if (mInitHWSession) {
-            mMainHWSDKWrapper.release()
-        }
-        mInitHWSession = mMainHWSDKWrapper.init()
-        if (mInitAssociateSession) {
-            mMainAssociateSDKWrapper.release()
-        }
-        mInitAssociateSession = mMainAssociateSDKWrapper.init()
-    }
-
-    /**
-     * 手写查询
-     */
-    fun recog(points: ShortArray?): ArrayList<String?> {
-        return mMainHWSDKWrapper.recog(points)
-    }
-
-    /**
-     * 联想查询
-     */
-    fun associateQuery(word: String?): ArrayList<String?>? {
-        return mMainAssociateSDKWrapper.associate(word)
-    }
-
-    /**
-     * 更新联想词频
-     */
-    fun raisePriority(word: String) {
-        mMainAssociateSDKWrapper.raisePriority(word)
-    }
-
-    /**
      * 引擎能力反初始化
      */
     fun release() {
-        mMainHWSDKWrapper.release()
         releaseHWR()
     }
 

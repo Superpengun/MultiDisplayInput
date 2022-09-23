@@ -8,6 +8,8 @@ import com.zqy.hci.listener.HciCloudInputConnection
 import com.zqy.hci.listener.InputMethodListener
 import com.zqy.hci.listener.LogicControlListener
 import com.zqy.hci.utils.LanguageUtil
+import com.zqy.sdk.manager.HWSDKWrapperManager
+import com.zqy.sdk.manager.KBSDKWrapperManager
 import com.zqy.sdk.tools.HciCloudUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +34,8 @@ class ImeEditor (context: Context): InputMethodListener {
     private lateinit var mLogicControlListener: LogicControlListener
     private var mInitHciCloudSys = false
     private var lastMode = -1
+    private var mHWSDKWrapperManager : HWSDKWrapperManager = HWSDKWrapperManager()
+    private var mKBSDKWrapperManager : KBSDKWrapperManager = KBSDKWrapperManager()
 
     companion object {
         private val TAG = ImeEditor::class.java.canonicalName
@@ -91,9 +95,13 @@ class ImeEditor (context: Context): InputMethodListener {
         mHciCloudInputConnection = hciCloudInputConnection
         mLogicControlListener = logicControlListener
         mMultiInputMethod = MultiInputMethod(hciCloudInputConnection)
+        (mMultiInputMethod as MultiInputMethod).getKBSDKWrapperManager(mKBSDKWrapperManager)
         mDefaultInputMethod = DefaultInputMethod(hciCloudInputConnection)
         mPinYinInputMethod = PinYinInputMethod(hciCloudInputConnection)
+       ( mPinYinInputMethod as PinYinInputMethod).getHWSDKWrapperManager(mHWSDKWrapperManager)
+       ( mPinYinInputMethod as PinYinInputMethod).getKBSDKWrapperManager(mKBSDKWrapperManager)
         mHWInputMethod = HWInputMethod(hciCloudInputConnection)
+        (mHWInputMethod as HWInputMethod).getHWSDKWrapperManager(mHWSDKWrapperManager)
     }
 
     ///////////////////////////////////////////////功能相关////////////////////////////////////////////////////////
