@@ -247,6 +247,7 @@ class HWInputMethod(
 
     override fun finishInput() {
         onReset()
+        mHWManager.release()
     }
 
     fun getHWSDKWrapperManager(m: HWSDKWrapperManager) {

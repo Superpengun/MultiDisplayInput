@@ -280,6 +280,8 @@ class PinYinInputMethod(
 
     override fun finishInput() {
         onReset()
+        mKBManager.release()
+        mHWManager.release()
     }
 
     fun getHWSDKWrapperManager(m: HWSDKWrapperManager) {

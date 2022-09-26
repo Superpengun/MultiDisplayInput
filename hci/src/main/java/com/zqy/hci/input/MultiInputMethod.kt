@@ -231,6 +231,7 @@ class MultiInputMethod(
 
     override fun finishInput() {
         onReset()
+        mKBManager.release()
     }
 
     /**

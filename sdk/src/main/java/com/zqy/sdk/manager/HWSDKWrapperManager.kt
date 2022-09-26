@@ -19,6 +19,12 @@ class HWSDKWrapperManager {
      * 切换语种
      */
     fun changeLanguage(lan: String?) {
+        if (mInitHWSession) {
+            mMainHWSDKWrapper.release()
+        }
+        if (mInitAssociateSession) {
+            mMainAssociateSDKWrapper.release()
+        }
         if (lan != null) {
             if (lan == "_en_") {
                 mMainHWSDKWrapper = EnglishHwSDKWrapper()
@@ -28,13 +34,7 @@ class HWSDKWrapperManager {
                 mMainAssociateSDKWrapper = ChineseAssociateSDKWrapper()
             }
         }
-        if (mInitHWSession) {
-            mMainHWSDKWrapper.release()
-        }
         mInitHWSession = mMainHWSDKWrapper.init()
-        if (mInitAssociateSession) {
-            mMainAssociateSDKWrapper.release()
-        }
         mInitAssociateSession = mMainAssociateSDKWrapper.init()
     }
 
@@ -62,5 +62,7 @@ class HWSDKWrapperManager {
     fun release(){
         mMainHWSDKWrapper.release()
         mMainAssociateSDKWrapper.release()
+        mInitHWSession = false
+        mInitAssociateSession = false
     }
 }

@@ -17,6 +17,7 @@ class KBSDKWrapperManager {
      * 切换语种
      */
     fun changeLanguage(lan: String?) {
+        if (mInitSession) mMainSDKWrapper.release()
         if (lan != null) {
             if (lan == "_en_") {
                 mMainSDKWrapper = EnglishSDKWrapper()
@@ -26,7 +27,6 @@ class KBSDKWrapperManager {
                 mMainSDKWrapper = MultiSDKWrapper()
                 mMainSDKWrapper.setResPreFix(lan)
             }
-            if (mInitSession) mMainSDKWrapper.release()
             mInitSession = mMainSDKWrapper.init()
         }
     }
@@ -57,5 +57,6 @@ class KBSDKWrapperManager {
      */
     fun release() {
         mMainSDKWrapper.release()
+        mInitSession = false
     }
 }

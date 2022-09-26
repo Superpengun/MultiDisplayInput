@@ -236,6 +236,7 @@ class ImeEditor (context: Context): InputMethodListener {
         CoroutineScope(Dispatchers.IO).launch {
             if (mCurrentInputMethod != null) {
                 mCurrentInputMethod?.onReset()
+                mCurrentInputMethod?.finishInput()
             } else {
                 Log.i(TAG, "getInputMethod() return null")
             }
