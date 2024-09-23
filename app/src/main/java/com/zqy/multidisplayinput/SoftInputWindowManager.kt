@@ -13,49 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.zqy.multidisplayinput
 
-package com.zqy.multidisplayinput;
+import android.content.Context
+import android.hardware.display.DisplayManager
+import android.inputmethodservice.MultiClientInputMethodServiceDelegate
+import android.util.SparseArray
 
-import android.content.Context;
-import android.hardware.display.DisplayManager;
-import android.inputmethodservice.MultiClientInputMethodServiceDelegate;
-import android.os.IBinder;
-import android.util.SparseArray;
-import android.view.Display;
-
-final class SoftInputWindowManager {
-    private final Context mContext;
-    private final MultiClientInputMethodServiceDelegate mDelegate;
-    private final SparseArray<SoftInputWindow> mSoftInputWindows = new SparseArray<>();
-
-    SoftInputWindowManager(Context context, MultiClientInputMethodServiceDelegate delegate) {
-        mContext = context;
-        mDelegate = delegate;
-    }
-
-    SoftInputWindow getOrCreateSoftInputWindow(int displayId) {
-        final SoftInputWindow existingWindow = mSoftInputWindows.get(displayId);
+internal class SoftInputWindowManager(
+    private val mContext: Context,
+    private val mDelegate: MultiClientInputMethodServiceDelegate
+) {
+    private val mSoftInputWindows = SparseArray<SoftInputWindow>()
+    fun getOrCreateSoftInputWindow(displayId: Int): SoftInputWindow? {
+        val existingWindow = mSoftInputWindows[displayId]
         if (existingWindow != null) {
-            return existingWindow;
+            return existingWindow
         }
-
-        final Display display =
-                mContext.getSystemService(DisplayManager.class).getDisplay(displayId);
-        if (display == null) {
-            return null;
-        }
-        final IBinder windowToken = mDelegate.createInputMethodWindowToken(displayId);
-        if (windowToken == null) {
-            return null;
-        }
-
-        final Context displayContext = mContext.createDisplayContext(display);
-        final SoftInputWindow newWindow = new SoftInputWindow(displayContext, windowToken);
-        mSoftInputWindows.put(displayId, newWindow);
-        return newWindow;
+        val display = mContext.getSystemService(
+            DisplayManager::class.java
+        ).getDisplay(displayId) ?: return null
+        val windowToken = mDelegate.createInputMethodWindowToken(displayId) ?: return null
+        val displayContext = mContext.createDisplayContext(display)
+        val newWindow = SoftInputWindow(displayContext, windowToken)
+        mSoftInputWindows.put(displayId, newWindow)
+        return newWindow
     }
 
-    SoftInputWindow getSoftInputWindow(int displayId) {
-        return mSoftInputWindows.get(displayId);
+    fun getSoftInputWindow(displayId: Int): SoftInputWindow ?{
+        return mSoftInputWindows[displayId]
     }
 }

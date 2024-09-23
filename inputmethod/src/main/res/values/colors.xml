@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="key_bg">#29FFFFFF</color>
+    <color name="key_fun_bg">#19FFFFFF</color>
+    <color name="key_pop_ext_bg">#3E3E3E</color>
+
+
+    <color name="baseCandidateBg">#17181A</color>
+    <color name="baseCandidateText">#ffffffff</color>
+    <color name="baseCandidateSelectedText">#0069dd</color>
+
+    <color name="symbol_bottom_bg">#1AFFFFFF</color>
+    <color name="symbol_title_item_bg">#00FFFFFF</color>
+    <color name="emoji_bottom_bg">#C0BEBE</color>
+    <color name="btn_symbol_bottom">#ff0069de</color>
+    <color name="keyboard_background_color">#ff17181A</color>
+
+    <color name="key_preview_text_color">#ffffffff</color>
+    <color name="key_text_color">#ffffffff</color>
+
+    <color name="strokeColor">#FFFFFF</color>
+    <color name="strokeViewBg">#29FFFFFF</color>
+
+    <!--    符号界面相关-->
+    <color name="symbol_title_color">#ffffffff</color>
+    <color name="syllable_item_color">#404143</color>
+    <color name="symbolListViewBg">#29FFFFFF</color>
+
+
+    <!--    白色主题相关-->
+    <color name="white_key_bg">#FFFFFF</color>
+    <color name="white_bg">#CFD3D7</color>
+    <color name="white_baseCandidateBg">#CFD3D7</color>
+    <color name="white_baseCandidateText">#222222</color>
+    <color name="white_baseCandidateSelectedText">#0B7BFF</color>
+    <color name="white_symbol_bottom_bg">@color/white_key_bg</color>
+    <color name="white_strokeViewBg">@color/white_key_bg</color>
+    <color name="white_strokeColor">@color/white_baseCandidateText</color>
+
+    <color name="whitetextcolor">#222222</color>
+    <color name="whitebg">#FFFFFF</color>
+    <color name="defaultcolor">#FFFFFF</color>
+    <color name="whitecolor">#222222</color>
+
+    <!--    composing相关-->
+    <color name="composing_bg">#404143</color>
+    <color name="composing_text_color">#FFFFFF</color>
+</resources>

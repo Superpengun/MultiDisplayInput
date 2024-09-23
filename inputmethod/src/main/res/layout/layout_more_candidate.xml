@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:splitMotionEvents="false">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/morecandidate_marginleft"
+        >
+
+        <ImageButton
+            android:id="@+id/more_candidate_uptoTop"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:layout_marginBottom="@dimen/morecandidate_margin"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/more_candidate_up"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:layout_marginBottom="@dimen/morecandidate_margin"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/more_candidate_down"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:layout_marginBottom="@dimen/morecandidate_margin"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/more_candidate_back"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:background="@drawable/btn_symbol_bottom" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/more_candidate_rv"
+        android:layout_width="@dimen/morecandidate_view_width"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/symbol_itemlist_marginbottom"
+        android:layout_marginLeft="@dimen/morecandidate_margin"
+        android:background="@color/baseCandidateBg"
+        android:overScrollMode="never"
+        android:splitMotionEvents="false"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/morecandidate_margin"
+        android:splitMotionEvents="false"
+        >
+
+        <ImageButton
+            android:id="@+id/more_candidate_space"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:layout_marginBottom="@dimen/morecandidate_margin"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/more_candidate_switch"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:layout_marginBottom="@dimen/morecandidate_margin"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/more_candidate_clear"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:layout_marginBottom="@dimen/morecandidate_margin"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/more_candidate_delete"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:layout_marginBottom="@dimen/morecandidate_margin"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/more_candidate_enter"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:background="@drawable/keyboard_function_enter_key" />
+    </LinearLayout>
+</LinearLayout>

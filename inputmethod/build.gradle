@@ -1,0 +1,59 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
+
+def androidConfig = rootProject.ext.android
+
+android {
+    compileSdk androidConfig.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion androidConfig.minSdkVersion
+        targetSdkVersion androidConfig.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    namespace 'com.zqy.hci'
+    lint {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    implementation "androidx.core:core-ktx:$androidxCoreKtx"
+    implementation "androidx.appcompat:appcompat:$androidxAppCompat"
+    implementation "com.google.android.material:material:$androidxMaterial"
+    implementation project(':common')
+    implementation project(path: ':inputengine')
+    implementation project(path: ':airecorder')
+    implementation project(path: ':voiceinputview')
+    implementation project(path: ':parkingkeyboard')
+    implementation project(path: ':ZQYEmoji')
+    implementation project(':localRepo:input')
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation "com.google.android.flexbox:flexbox:$flexbox"
+    implementation "com.google.code.gson:gson:$gson"
+
+
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.6.4")
+}

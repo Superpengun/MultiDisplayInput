@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/defaultbg"
+    android:orientation="vertical">
+
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:background="@color/translucent_40" />-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_popup_asr_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="0dp"
+            android:gravity="center_horizontal|bottom"
+            android:maxLines="2"
+            android:textColor="@color/defaulttextcolor"
+            android:textSize="27sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.zqy.sdk.voiceview.RecognitionProgressView
+            android:id="@+id/vw_popup"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginBottom="0dp"
+            android:background="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--    <View-->
+<!--        android:id="@+id/v_trans_bottom"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="112dp"-->
+<!--        android:background="@android:color/transparent" />-->
+<!--    <View-->
+<!--        android:id="@+id/v_trans_bottom"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:background="@android:color/transparent" />-->
+</LinearLayout>

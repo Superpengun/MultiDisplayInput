@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res-auto"
+    android:horizontalGap="@dimen/keyboard_key_horizontalGap"
+    android:keyHeight="@dimen/keyboard_key_height"
+    android:keyWidth="@dimen/keyboard_key_width"
+    android:verticalGap="@dimen/keyboard_key_verticalGap">
+    <Row>
+        <Key
+            android:horizontalGap="@dimen/keyboard_edge_key_horizontal_gap"
+            android:codes="113"
+            android:keyEdgeFlags="left"
+            android:keyLabel="Q"
+            android:keyOutputText="q" />
+        <Key
+            android:codes="119"
+            android:keyLabel="W"
+            android:keyOutputText="w" />
+        <Key
+            android:codes="101"
+            android:keyLabel="E"
+            android:keyOutputText="e" />
+        <Key
+            android:codes="114"
+            android:keyLabel="R"
+            android:keyOutputText="r" />
+        <Key
+            android:codes="116"
+            android:keyLabel="T"
+            android:keyOutputText="t" />
+        <Key
+            android:codes="121"
+            android:keyLabel="Y"
+            android:keyOutputText="y" />
+        <Key
+            android:codes="117"
+            android:keyLabel="U"
+            android:keyOutputText="u" />
+        <Key
+            android:codes="105"
+            android:keyLabel="I"
+            android:keyOutputText="i" />
+        <Key
+            android:codes="111"
+            android:keyLabel="O"
+            android:keyOutputText="o" />
+        <Key
+            android:codes="112"
+            android:keyEdgeFlags="right"
+            android:keyLabel="P"
+            android:keyOutputText="p" />
+    </Row>
+    <Row>
+        <Key
+            android:codes="97"
+            android:horizontalGap="@dimen/keyboard_second_row_horizontalGap"
+            android:keyLabel="A"
+            android:keyOutputText="a" />
+        <Key
+            android:codes="115"
+            android:keyLabel="S"
+            android:keyOutputText="s" />
+        <Key
+            android:codes="100"
+            android:keyLabel="D"
+            android:keyOutputText="d" />
+        <Key
+            android:codes="102"
+            android:keyLabel="F"
+            android:keyOutputText="f" />
+        <Key
+            android:codes="103"
+            android:keyLabel="G"
+            android:keyOutputText="g" />
+        <Key
+            android:codes="104"
+            android:keyLabel="H"
+            android:keyOutputText="h" />
+        <Key
+            android:codes="106"
+            android:keyLabel="J"
+            android:keyOutputText="j" />
+        <Key
+            android:codes="107"
+            android:keyLabel="K"
+            android:keyOutputText="k" />
+        <Key
+            android:codes="108"
+            android:keyLabel="L"
+            android:keyOutputText="l" />
+    </Row>
+
+    <Row>
+        <Key
+            android:horizontalGap="@dimen/keyboard_edge_key_horizontal_gap"
+            android:backgroundType="functional"
+            android:keyLabel="分词"
+            android:keyOutputText="'"
+            android:keyWidth="@dimen/keyboard_function_key_width" />
+
+        <Key
+            android:codes="122"
+            android:keyLabel="Z"
+            android:keyOutputText="z" />
+        <Key
+            android:codes="120"
+            android:keyLabel="X"
+            android:keyOutputText="x" />
+        <Key
+            android:codes="99"
+            android:keyLabel="C"
+            android:keyOutputText="c" />
+        <Key
+            android:codes="118"
+            android:keyLabel="V"
+            android:keyOutputText="v" />
+        <Key
+            android:codes="98"
+            android:keyLabel="B"
+            android:keyOutputText="b" />
+        <Key
+            android:codes="110"
+            android:keyLabel="N"
+            android:keyOutputText="n" />
+        <Key
+            android:codes="109"
+            android:keyLabel="M"
+            android:keyOutputText="m" />
+        <Key
+            android:backgroundType="functional"
+            android:codes="-4"
+            android:isRepeatable="true"
+            android:keyIcon="@drawable/icon_delete"
+            android:keyWidth="@dimen/keyboard_function_key_width" />
+
+    </Row>
+
+    <Row android:keyboardMode="normal">
+
+        <Key
+            android:horizontalGap="@dimen/keyboard_edge_key_horizontal_gap"
+            android:backgroundType="functional"
+            android:codes="-71"
+            android:keyLabel="符号"
+            android:keyWidth="@dimen/keyboard_function_key_width" />
+        <Key
+            android:codes="-11"
+            android:keyIcon="@drawable/icon_mic"/>
+        <Key
+            android:keyLabel="，"/>
+        <Key
+            android:codes="-3"
+            android:keyIcon="@drawable/icon_space"
+            android:keyWidth="@dimen/keyboard_space_key_width" />
+        <Key
+            android:keyLabel="。"/>
+        <Key
+            android:backgroundType="functional"
+            android:codes="-9"
+            android:keyIcon="@drawable/icon_cn"
+             />
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-2"
+            android:keyEdgeFlags="right"
+            android:keyIcon="@drawable/icon_enter"
+            android:keyWidth="@dimen/keyboard_function_key_width" />
+    </Row>
+
+    <Row android:keyboardMode="custom">
+
+        <Key
+            android:backgroundType="functional"
+            android:codes="-70"
+            android:horizontalGap="@dimen/keyboard_edge_key_horizontal_gap"
+            android:keyLabel="123"
+            android:keyWidth="@dimen/keyboard_function_key_width" />
+
+        <Key
+            android:codes="-3"
+            android:keyIcon="@drawable/icon_space"
+            android:keyWidth="55%p" />
+        <Key
+            android:backgroundType="functional"
+            android:codes="-2"
+            android:keyEdgeFlags="right"
+            android:keyIcon="@drawable/icon_enter"
+            android:keyWidth="@dimen/keyboard_function_key_width" />
+    </Row>
+
+</Keyboard>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomStyle" >
+        <!-- The color for selected category icons -->
+        <item name="colorAccent">#F00101</item>
+        <!-- The color for unselected category icons -->
+        <item name="colorControlNormal">#FFD9C0</item>
+        <!-- The color for all text -->
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <!-- The text size for category text -->
+        <item name="android:textSize">16dp</item>
+        <!-- The color for variant popup background -->
+        <item name="colorButtonNormal">#FFEB3B</item>
+    </style>
+</resources>

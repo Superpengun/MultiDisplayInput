@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="environment">dev</string>
+    <string name="dataPath">sinovoice</string>
+
+    <!-- wakeup asr tts -->
+    <string name="appKey">cc5d548c</string>
+    <string name="secret">9406159c0a4005203db2e59c08429ded</string>
+    <string name="sysUrl">https://api.aicloud.com</string>
+    <string name="capUrl">https://api.aicloud.com</string>
+</resources>
+

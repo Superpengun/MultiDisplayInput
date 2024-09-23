@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/item_btn_symbol_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/symbol_key_height"
+        android:textSize="@dimen/symbol_text_size"
+        android:background="@color/symbol_title_item_bg"
+        android:gravity="center"
+        android:textColor="@drawable/bg_symbol_titletext" />
+</LinearLayout>

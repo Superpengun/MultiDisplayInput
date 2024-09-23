@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:splitMotionEvents="false">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/morecandidate_marginleft"
+        android:splitMotionEvents="false"
+        >
+
+        <ImageButton
+            android:id="@+id/plate_uptoTop"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:layout_marginBottom="@dimen/morecandidate_margin"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/plate_up"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:layout_marginBottom="@dimen/morecandidate_margin"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/plate_down"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:layout_marginBottom="@dimen/morecandidate_margin"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/plate_back"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:background="@drawable/btn_symbol_bottom" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/plate_rv"
+        android:layout_width="@dimen/morecandidate_view_width"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/symbol_itemlist_marginbottom"
+        android:layout_marginLeft="@dimen/morecandidate_margin"
+        android:background="@color/baseCandidateBg"
+        android:splitMotionEvents="false"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/morecandidate_margin"
+        android:splitMotionEvents="false"
+        >
+
+        <ImageButton
+            android:id="@+id/plate_switch"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:layout_marginBottom="@dimen/morecandidate_margin"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/plate_clear"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:layout_marginBottom="@dimen/morecandidate_margin"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/plate_delete"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:layout_marginBottom="@dimen/morecandidate_margin"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/plate_enter"
+            android:layout_width="@dimen/morecandidate_funkey_width"
+            android:layout_height="@dimen/morecandidate_funkey_height"
+            android:background="@drawable/keyboard_function_enter_key" />
+    </LinearLayout>
+</LinearLayout>

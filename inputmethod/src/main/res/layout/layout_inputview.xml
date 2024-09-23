@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/keyboard_background_color"
+    android:splitMotionEvents="false">
+
+    <com.zqy.hci.widget.KeyboardView
+        android:id="@+id/keyboard_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/keyboard_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.zqy.hci.widget.KeyboardView
+        android:id="@+id/num9_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/keyboard_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/keyboard_view" />
+
+    <com.zqy.hci.widget.CandidateView
+        android:id="@+id/candidate_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/candidate_horizontal_padding"
+        app:layout_constraintBottom_toTopOf="@id/keyboard_view"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.zqy.hci.widget.MoreCandidateView
+        android:id="@+id/more_candidate_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/offbottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/keyboard_view"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.zqy.hci.widget.PlateView
+        android:id="@+id/plate_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/offbottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/keyboard_view"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.zqy.hci.widget.StrokeView
+        android:id="@+id/stroke_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/keyboard_margin"
+        android:paddingBottom="@dimen/keyboard_margin"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/candidate_view" />
+
+    <com.zqy.hci.widget.SymbolView
+        android:id="@+id/symbol_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/offbottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/keyboard_view"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.zqy.hci.widget.SuperPenguinEmojiViewContainer
+        android:id="@+id/superpenguin_emojicontainer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/offbottom"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/keyboard_view"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

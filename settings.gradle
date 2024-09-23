@@ -1,2 +1,10 @@
 rootProject.name = "MultiDisplayInput"
 include ':app'
+include ':inputmethod'
+include ':common'
+include ':inputengine'
+include ':airecorder'
+include ':voiceinputview'
+include ':parkingkeyboard'
+include ':ZQYEmoji'
+include ':localRepo:input'

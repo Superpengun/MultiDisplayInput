@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="net_timeout">5000</integer>
+
+    <integer name="strokeWidth">5</integer>
+</resources>

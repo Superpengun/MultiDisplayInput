@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res-auto"
+          android:horizontalGap="@dimen/keyboard_num9_key_Gap"
+          android:keyHeight="@dimen/keyboard_num9_key_height"
+          android:keyWidth="@dimen/keyboard_num9_key_width"
+          android:verticalGap="@dimen/keyboard_num9_key_Gap">
+
+    <Row>
+        <Key
+            android:keyLabel="1"
+            android:keyOutputText="1"/>
+        <Key
+            android:keyLabel="2"
+            android:keyOutputText="2"/>
+        <Key
+            android:keyLabel="3"
+            android:keyOutputText="3"/>
+    </Row>
+
+    <Row>
+        <Key
+            android:keyLabel="4"
+            android:keyOutputText="4"/>
+        <Key
+            android:keyLabel="5"
+            android:keyOutputText="5"/>
+        <Key
+            android:keyLabel="6"
+            android:keyOutputText="6"/>
+    </Row>
+
+    <Row>
+        <Key
+            android:keyLabel="7"
+            android:keyOutputText="7"/>
+        <Key
+            android:keyLabel="8"
+            android:keyOutputText="8"/>
+        <Key
+            android:keyLabel="9"
+            android:keyOutputText="9"/>
+    </Row>
+
+
+    <Row >
+
+        <Key
+            android:horizontalGap="@dimen/keyboard_num0_key_Gap"
+            android:keyLabel="0"
+            android:keyOutputText="0"/>
+
+    </Row>
+
+
+</Keyboard>

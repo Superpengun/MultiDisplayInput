@@ -1,0 +1,36 @@
+package com.sinovoice.ai
+
+
+data class AIEvent(val eventType: AIEventType, val result: String)
+
+enum class AIEventType {
+    SDK_INIT_FAIL,
+    SDK_INIT,
+
+    RECORDER_START,
+    RECORDER_ERROR,
+    RECORDER_STOP,
+    RECORDER_RECOGNIZE_VOICE_DATA,
+
+    RECOGNIZE_ERROR,
+    RECOGNIZE_RELEASE,
+    RECOGNIZE_START,
+    RECOGNIZE_START_ERROR,
+    RECOGNIZE_STOP,
+    RECOGNIZE_VAD_HEAD,
+    RECOGNIZE_VAD_TAIL,
+    RECOGNIZE_RESULT,
+
+    TTS_INIT,
+    TTS_RELEASE,
+    TTS_ERROR,
+    TTS_START,
+    TTS_STOP,
+    TTS_CANCEL,
+    TTS_RESULT,
+
+    SERVICE_RESULT,
+    SERVICE_ERROR,
+
+    NLU_RESULT
+}

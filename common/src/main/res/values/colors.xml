@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_bg_voice" >#FAFAFA</color>
+    <color name="color_333333">#333333</color>
+    <color name="defaulttextcolor">#FFFFFF</color>
+
+    <color name="translucent_40">#66000000</color>
+
+    <color name="transparent">#00FFFFFF</color>
+    <color name="defaultbg">#5C5F62</color>
+
+
+
+</resources>

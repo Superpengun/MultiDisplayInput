@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/keyboard_background_color"
+    android:clipChildren="false"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <com.parking.keyboard.view.InputView
+        android:id="@+id/input_view"
+        style="@style/PWKInputViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_margin="6dp"
+        app:pwkInputTextSize="22sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_action"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="5dp"
+            android:text="@android:string/ok"
+            android:background="@drawable/bg_plate_button"
+            android:textSize="@dimen/button_text_size"
+            android:textColor="@color/key_text_color"/>
+
+        <Button
+            android:id="@+id/bt_vehicle_type"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/pwk_change_to_energy"
+            android:background="@drawable/bg_plate_button"
+            android:textSize="@dimen/button_text_size"
+            android:textColor="@color/key_text_color"/>
+
+        <Button
+            android:id="@+id/bt_vehicle_last"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="160dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="上次车牌:京A12345"
+            android:background="@drawable/bg_plate_button"
+            android:textSize="@dimen/button_text_size"
+            android:textColor="@color/key_text_color"/>
+    </LinearLayout>
+</LinearLayout>

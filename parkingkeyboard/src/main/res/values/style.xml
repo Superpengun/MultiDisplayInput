@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme">
+        <item name="pwkInputStyle">@style/PWKInputViewStyle</item>
+    </style>
+
+    <!--输入组件整体样式设置-->
+    <style name="PWKInputViewBaseStyle">
+        <item name="android:showDividers">middle</item>
+    </style>
+    <!--分离式组件样式-->
+    <style name="PWKInputViewStyle_DIVIDED" parent="PWKInputViewBaseStyle">
+        <item name="android:divider">@drawable/pk_input_divider_space</item>
+    </style>
+
+    <!--合并在一起的组件样式-->
+    <style name="PWKInputViewStyle_MIXED" parent="PWKInputViewBaseStyle">
+        <item name="android:background">@drawable/pk_input_item_border_gray</item>
+        <item name="android:divider">@drawable/pk_input_divider_line</item>
+        <item name="pwkSelectedDrawable">com.parking.keyboard.view.SelectedDrawable</item>
+    </style>
+
+    <!--==================-->
+
+    <!--输入框样式-->
+    <style name="PWKInputItemBaseStyle">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">@dimen/pwk_input_item_text_size</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!--填充样式-->
+    <style name="PWKInputItemStyle_FILLED_KEY" parent="PWKInputItemBaseStyle">
+        <item name="android:background">@drawable/pk_input_item_bg_highlight_filled</item>
+        <item name="android:textColor">@color/pk_input_item_text_filled</item>
+    </style>
+
+    <!--边框样式-->
+    <style name="PWKInputItemStyle_BORDER_KEY" parent="PWKInputItemBaseStyle">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/pk_text_color</item>
+        <item name="android:layout_margin">0px</item>
+    </style>
+
+    <!--==================-->
+
+    <!--可以通过覆盖这个样式的设置来修改不同的样式-->
+    <!--按键样式-->
+    <style name="PWKInputItemStyleKey" parent="PWKInputItemStyle_BORDER_KEY"/>
+    <!--输入框整体样式-->
+    <style name="PWKInputViewStyle" parent="PWKInputViewStyle_MIXED"/>
+
+</resources>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="baseCandidateTextSize">24dp</dimen>
+    <dimen name="baseCandidateDataXGap">36dp</dimen>
+    <dimen name="rtlCandidateDataXGap">60dp</dimen>
+    <dimen name="baseCandidateVerticalPadding">10dp</dimen>
+    <dimen name="moreCandidateHeight">220dp</dimen>
+    <dimen name="baseMoreCandidateTextSize">24dp</dimen>
+
+    <dimen name="key_text_size">30sp</dimen>
+    <dimen name="key_label_text_size">27sp</dimen>
+
+    <dimen name="key_top_inset">3dp</dimen>
+    <dimen name="key_bottom_inset">3dp</dimen>
+    <dimen name="key_right_inset">2.5dp</dimen>
+    <dimen name="key_left_inset">2.5dp</dimen>
+    <dimen name="key_corner_radius">3dp</dimen>
+
+    <!--    miniKeyboardView   -->
+    <dimen name="key_preview_font_size">40sp</dimen>
+    <dimen name="key_pop_font_size">52px</dimen>
+    <dimen name="key_pop_margin">8px</dimen>
+    <dimen name="key_pop_width">88px</dimen>
+    <dimen name="key_pop_height">88px</dimen>
+
+    <!--candidateView-->
+    <dimen name="candidate_icon_width">84px</dimen>
+    <dimen name="candidate_text_size">27sp</dimen>
+    <dimen name="keyboard_key_height">81px</dimen>
+    <dimen name="keyboard_key_width">122px</dimen>
+    <dimen name="keyboard_key_dai_height">83px</dimen>
+    <dimen name="keyboard_key_dai_space_height">84px</dimen>
+    <dimen name="key_preview_height">176px</dimen>
+    <dimen name="keyboard_key_verticalGap">10px</dimen>
+    <dimen name="keyboard_key_horizontalGap">10px</dimen>
+    <dimen name="keyboard_second_row_horizontalGap">67px</dimen>
+    <dimen name="keyboard_function_key_width">190px</dimen>
+    <dimen name="keyboard_function_back_key_width">14.7%p</dimen>
+    <dimen name="keyboard_edge_key_horizontal_gap">0px</dimen>
+    <dimen name="keyboard_wide_symbol_key_width">62px</dimen>
+    <dimen name="keyboard_space_key_width">388px</dimen>
+    <dimen name="keyboard_key_width_german">8.99%p</dimen>
+    <dimen name="keyboard_key_shift_width_german">18%p</dimen>
+    <dimen name="keyboard_space_key_width_2">328px</dimen>
+    <dimen name="keyboard_key_width_russian">9%p</dimen>
+    <dimen name="keyboard_margin">45px</dimen>
+    <dimen name="candidate_horizontal_padding">58px</dimen>
+    <dimen name="keyboard_num_function_key_width">25%p</dimen>
+    <dimen name="keyboard_num_space_key_width">49.8%p</dimen>
+    <dimen name="keyboard_edge_right_key_horizontal_gap">936px</dimen>
+    <dimen name="keyboard_stroke_horizontal_gap">388px</dimen>
+
+
+    <!--    9键小键盘-->
+    <dimen name="keyboard_num9_key_height">81px</dimen>
+    <dimen name="keyboard_num9_key_width">134px</dimen>
+    <dimen name="keyboard_num9_key_Gap">10px</dimen>
+    <dimen name="keyboard_num0_key_Gap">155px</dimen>
+
+    <!--    符号键盘相关-->
+    <dimen name="symbol_margin">10px</dimen>
+    <dimen name="symbol_margin_left">4px</dimen>
+    <dimen name="symbol_margin_right">4px</dimen>
+    <dimen name="symbol_key_height">88px</dimen>
+    <dimen name="symbol_text_size">@dimen/key_text_size</dimen>
+    <dimen name="symbol_view_height">376px</dimen>
+    <dimen name="symbol_view_list_width">925px</dimen>
+    <dimen name="symbol_funkey_width">@dimen/keyboard_function_key_width</dimen>
+    <dimen name="symbol_funkey_height">@dimen/keyboard_key_height</dimen>
+    <dimen name="symbol_titlelist_height">265px</dimen>
+    <dimen name="symbol_itemlist_marginbottom">18px</dimen>
+    <dimen name="symbol_titlelist_marginleft">58px</dimen>
+
+    <!--    更多候选-->
+    <dimen name="morecandidate_view_height">@dimen/symbol_view_height</dimen>
+    <dimen name="morecandidate_view_width">@dimen/symbol_view_list_width</dimen>
+    <dimen name="morecandidate_itemlist_marginbottom">@dimen/symbol_itemlist_marginbottom</dimen>
+    <dimen name="morecandidate_funkey_width">@dimen/keyboard_function_key_width</dimen>
+    <dimen name="morecandidate_funkey_height">@dimen/keyboard_key_height</dimen>
+    <dimen name="morecandidate_marginleft">58px</dimen>
+    <dimen name="morecandidate_margin">@dimen/symbol_margin</dimen>
+
+    <!--    语音键盘-->
+    <dimen name="voice_locateX">145px</dimen>
+    <dimen name="voice_locateY">90px</dimen>
+    <dimen name="voice_width">1103px</dimen>
+    <dimen name="voice_height">334px</dimen>
+    <dimen name="textmargin">70px</dimen>
+    <dimen name="voicemargin">114px</dimen>
+    <dimen name="textsize">27px</dimen>
+    <dimen name="spacedp">7px</dimen>
+    <dimen name="max">55px</dimen>
+    <dimen name="radius">5px</dimen>
+
+
+    <!--    布局长宽-->
+    <dimen name="candidateViewLayoutParamsheight">91px</dimen>
+    <dimen name="candidateViewLayoutParamswidth">1381px</dimen>
+    <dimen name="keyboardLayoutParamswidth">1381px</dimen>
+    <dimen name="keyboardLayoutParamsleftMargin">59px</dimen>
+    <dimen name="num9LayoutParamswidth">643px</dimen>
+    <dimen name="moreCandidateViewLayoutParamswidth">1381px</dimen>
+    <dimen name="strokeViewLayoutParamswidth">915px</dimen>
+    <dimen name="strokeViewLayoutParamsheight">356px</dimen>
+    <dimen name="strokeViewLayoutParamsleftMargin">259px</dimen>
+    <dimen name="strokeViewLayoutParamsbottomMargin">18px</dimen>
+    <dimen name="symbolViewLayoutParamswidth">1381px</dimen>
+    <dimen name="emojiPickerViewLayoutParamswidth">1420px</dimen>
+    <dimen name="superPenguinLEmojiContainerLayoutParamswidth">1420px</dimen>
+    <dimen name="superPenguinLEmojiContainerLayoutParamsheight">372px</dimen>
+
+    <dimen name="offbottom">27px</dimen>
+
+    <!--    Emoji界面-->
+    <dimen name="emoji_height">78px</dimen>
+    <dimen name="emoji_button_margin">80px</dimen>
+
+    <!--    composing界面-->
+    <dimen name="composing_height">65px</dimen>
+    <dimen name="composing_text_size">30sp</dimen>
+    <dimen name="composing_text_paddingbottom">5px</dimen>
+
+    <!--    车牌键盘-->
+    <dimen name="button_text_size">20dp</dimen>
+</resources>

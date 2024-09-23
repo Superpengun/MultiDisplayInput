@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:splitMotionEvents="false">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/symbol_titlelist_marginleft"
+        android:orientation="horizontal"
+        android:splitMotionEvents="false">
+
+        <LinearLayout
+            android:layout_width="@dimen/symbol_funkey_width"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/symbol_title"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/symbol_titlelist_height"
+                android:divider="@null"
+                android:splitMotionEvents="false">
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <ImageButton
+                android:id="@+id/btn_symbol_back"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/symbol_funkey_height"
+                android:layout_marginTop="@dimen/symbol_margin"
+                android:background="@drawable/btn_symbol_bottom" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/symbols_list_recycle"
+            android:layout_width="@dimen/symbol_view_list_width"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/symbol_margin"
+            android:layout_marginBottom="@dimen/symbol_itemlist_marginbottom"
+            android:divider="@null"
+            android:splitMotionEvents="false">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/symbol_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/symbol_margin"
+        android:orientation="vertical"
+        android:splitMotionEvents="false">
+
+        <ImageButton
+            android:id="@+id/btn_symbol_lock"
+            android:layout_width="@dimen/symbol_funkey_width"
+            android:layout_height="@dimen/symbol_funkey_height"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/btn_symbol_clear"
+            android:layout_marginTop="@dimen/symbol_margin"
+            android:layout_width="@dimen/symbol_funkey_width"
+            android:layout_height="@dimen/symbol_funkey_height"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/btn_symbol_pre_page"
+            android:layout_width="@dimen/symbol_funkey_width"
+            android:layout_height="@dimen/symbol_funkey_height"
+            android:visibility="gone"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/btn_symbol_next_page"
+            android:layout_width="@dimen/symbol_funkey_width"
+            android:layout_height="@dimen/symbol_funkey_height"
+            android:visibility="gone"
+            android:background="@drawable/btn_symbol_bottom" />
+
+        <ImageButton
+            android:id="@+id/btn_symbol_delete"
+            android:layout_marginTop="@dimen/symbol_margin"
+            android:layout_width="@dimen/symbol_funkey_width"
+            android:layout_height="@dimen/symbol_funkey_height"
+            android:background="@drawable/btn_symbol_bottom" />
+
+
+        <ImageButton
+            android:id="@+id/btn_symbol_action"
+            android:layout_marginTop="@dimen/symbol_margin"
+            android:layout_width="@dimen/symbol_funkey_width"
+            android:layout_height="@dimen/symbol_funkey_height"
+            android:background="@drawable/keyboard_function_enter_key" />
+
+    </LinearLayout>
+</LinearLayout>

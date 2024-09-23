@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:keyboard="http://schemas.android.com/apk/res-auto">
+
+    <!-- Action key -->
+    <item keyboard:key_type_action="true" android:state_pressed="true"
+          android:drawable="@drawable/btn_key_action_pressed"/>
+    <item keyboard:key_type_action="true"
+          android:drawable="@drawable/btn_key_action"/>
+
+    <!-- Functional keys. -->
+
+    <item keyboard:key_type_function="true" android:state_pressed="true"
+          android:drawable="@drawable/btn_key_function_pressed"/>
+    <item keyboard:key_type_function="true"
+          android:drawable="@drawable/btn_key_function"/>
+
+    <!-- Toggle keys. Use checkable/checked state. -->
+
+    <item android:state_checkable="true" android:state_checked="true" android:state_pressed="true"
+          android:drawable="@drawable/btn_key_function_pressed"/>
+    <item android:state_checkable="true" android:state_pressed="true"
+          android:drawable="@drawable/btn_key_function_pressed"/>
+    <item android:state_checkable="true" android:state_checked="true"
+          android:drawable="@drawable/btn_key_function"/>
+    <item android:state_checkable="true"
+          android:drawable="@drawable/btn_key_function"/>
+
+    <!-- Normal keys -->
+    <item android:state_pressed="true"
+          android:drawable="@drawable/btn_key_normal_pressed"/>
+    <item android:drawable="@drawable/btn_key_normal"/>
+</selector>

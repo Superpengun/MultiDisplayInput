@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">HciInternationalInputmethod</string>
+
+    <string-array name="inputItems">
+        <item>English(英语键盘)</item>
+        <item>Chinese（中文键盘）</item>
+        <item>Chinese（中文手写）</item>
+        <item>Chinese（英文手写）</item>
+    </string-array>
+
+    <string name="go">前往</string>
+    <string name="search">搜索</string>
+    <string name="confirm">完成</string>
+    <string name="next">下个</string>
+    <string name="last">上个</string>
+    <string name="composing">确定</string>
+
+    <string name="setting">灵云输入法国际版</string>
+
+    <string name="switch_kb">切换键盘</string>
+    <string name="cancel">取消</string>
+
+    <string name="sym_symbols_label">常用</string>
+    <string name="cn_symbols_label">中文</string>
+    <string name="en_symbols_label">英文</string>
+    <string name="face_symbols_label">表情</string>
+    <string name="net_symbols_label">网络</string>
+    <string name="greekletters_symbols_label">希腊</string>
+    <string name="hiragana_symbols_label">平假</string>
+    <string name="katakana_symbols_label">片假</string>
+    <string name="number_symbols_label">序号</string>
+    <string name="math_symbols_label">数学</string>
+    <string name="icon_symbols_label">其他</string>
+    <string name="syllable_symbols_label">注音</string>
+    <string name="radical_symbols_label">部首</string>
+
+    <string name="pwk_change_to_normal">变更为：普通车</string>
+    <string name="pwk_change_to_energy">变更为：新能源</string>
+    <string name="pwk_change_to_energy_disallow">当前车牌不符合新能源车牌规则\n请删除后再变更类型</string>
+</resources>
